@@ -7,13 +7,14 @@ import {
   Files,
   CurrencyDollar,
   StackOverflowLogo,
+  Toolbox,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 
 const Menu = () => {
   return (
-    <div className=" text-xs">
+    <div className=" text-xs fixed">
       <div className="flex">
         <div className="ml-4 mt-2 flex flex-row gap-2">
           <Image src="/assets/simdoks_logo.png" width={53} height={59.74} />
@@ -49,7 +50,7 @@ const Menu = () => {
           href="#"
           className=" flex flex-row gap-2 p-2 mr-2 hover:bg-blue-800 rounded-lg transition-all hover:text-white"
         >
-          <Tray size={20} weight="fill" />
+          <Toolbox size={20} weight="fill" />
           <p className="self-center">Barang</p>
         </Link>
 
