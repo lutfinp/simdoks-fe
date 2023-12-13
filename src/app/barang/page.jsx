@@ -1,9 +1,12 @@
+import SideBar from '@/components/SideBar'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
-    <div>barang page</div>
+    <>
+      <SideBar activePage="barang"/> 
+    </>
   )
 }
 
-export default page
+export default Page
