@@ -17,7 +17,7 @@ const Menu = ({ page }) => {
     <div className="text-xs fixed">
       <div className="flex">
         <div className="ml-1 mt-2 flex flex-row gap-2">
-          <Image src="/assets/Logo.png" width={220} height={100} />
+          <Image src="/assets/Logo.png" alt="logo" width={220} height={100} />
         </div>
       </div>
       <div className="ml-2 mt-4 flex flex-col gap-1">
@@ -132,7 +132,7 @@ const Menu = ({ page }) => {
         <div className="border-t-2 mr-2 border-gray-200 my-[32px]"></div>
 
         <Link
-          href="#"
+          href="/"
           className="p-2 mr-2 bg-red-600 text-white hover:bg-red-900 rounded-lg transition-all"
         >
           <p className="text-center">Logout</p>
