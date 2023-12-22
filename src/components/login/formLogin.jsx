@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const imagePathLogo = "/assets/simdoks_logodantulisan.png";
 const imagePathAsset = "/assets/asset_login.png";
@@ -18,12 +19,16 @@ const FormLogin = () => {
         {
           username,
           password,
+        },
+        {
+          withCredentials : true
         }
       );
 
       console.log("Login berhasil!", response.data);
+      // Set cookie dengan nama 'token' dan isi dari response.data.accessToken
+      Cookies.set("token", response.data.accessToken);
       window.location.href = "./dashboard";
-
     } catch (error) {
       if (
         error.response &&

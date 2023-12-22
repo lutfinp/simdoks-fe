@@ -1,11 +1,11 @@
-import Catdok from "./Catdok"
+import Catdok from "./Catdok";
 
-const Category = () => {
+const Category = ({ data }) => {
   return (
     <>
-        <Catdok/>
+      <Catdok data={data} />
     </>
-  )
-}
+  );
+};
 
-export default Category
+export default Category;

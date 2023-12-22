@@ -1,7 +1,7 @@
-import Hisdok from "./Hisdok";
+import Updok from "./Updok";
 import { Bell } from "@phosphor-icons/react/dist/ssr";
 
-const Histori = () => {
+const Update = ({ data }) => {
   return (
     <div className="ml-[32px] mr-[32px] my-4 flex flex-col">
       <div className="flex-row flex justify-between text-2xl font-bold text-gray-700">
@@ -13,10 +13,10 @@ const Histori = () => {
         </div>
       </div>
       <div>
-        <Hisdok />
+        <Updok data={data} />
       </div>
     </div>
   );
 };
 
-export default Histori;
+export default Update;
