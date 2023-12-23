@@ -31,7 +31,7 @@ const Page = () => {
         },
       }
     );
-    setHidat(history.data)
+    setHidat(history)
 
   };
 
@@ -41,7 +41,7 @@ const Page = () => {
         <SideBar activePage="histori" />
       </div>
       <div className="w-full bg-gray-50 divide-y-2">
-        <Update data={hisdat} />
+        <Update data={hisdat.data} />
         <Hapus />
       </div>
     </div>
