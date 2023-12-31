@@ -46,7 +46,7 @@ const Menu = ({ page }) => {
         </Link>
 
         <Link
-          href="#"
+          href="/akreditasi"
           className={`flex flex-row gap-2 p-2 mr-2 ${
             page === "akreditasi"
               ? "bg-blue-800 text-white"
