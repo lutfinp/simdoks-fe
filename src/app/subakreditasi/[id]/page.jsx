@@ -7,7 +7,7 @@ import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
 const Page = ({ params: { id } }) => {
-  let jwt, judul;
+  let jwt
   const [folsubakre, setFolsubakre] = useState("");
   const [folakre, setFolakre] = useState("");
 
