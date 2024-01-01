@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -6,9 +6,10 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
-const Page = () => {
+const Page = ({ params: { id } }) => {
   let jwt
-  const [folBarang, setFolBarang] = useState("")
+  const [folsubBarang, setFolsubBarang] = useState("");
+  const [folBarang, setFolBarang] = useState("");
 
   useEffect(() => {
     getToken();
@@ -24,15 +25,24 @@ const Page = () => {
     jwt = token.data.accessToken;
 
     const folderBarang = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationTypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFolBarang(folderBarang)
+    setFolBarang(folderBarang);
 
+    const folderSubBarang = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    setFolsubBarang(folderSubBarang);
   };
 
   return (
@@ -44,11 +54,11 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Barang"/>
+              <NavCategory judul={folBarang.data} />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folBarang.data}/>
+            <ListFolder data={folsubBarang.data} id={id} />
           </div>
         </div>
       </div>

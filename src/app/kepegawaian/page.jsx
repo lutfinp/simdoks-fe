@@ -8,7 +8,7 @@ import axios from "axios";
 
 const Page = () => {
   let jwt
-  const [folBarang, setFolBarang] = useState("")
+  const [folKepegawaian, setFolKepegawaian] = useState("")
 
   useEffect(() => {
     getToken();
@@ -23,7 +23,7 @@ const Page = () => {
     );
     jwt = token.data.accessToken;
 
-    const folderBarang = await axios.get(
+    const folderKepegawaian = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationTypes`,
       {
         headers: {
@@ -31,24 +31,24 @@ const Page = () => {
         },
       }
     );
-    setFolBarang(folderBarang)
+    setFolKepegawaian(folderKepegawaian)
 
   };
 
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="barang" />
+        <SideBar activePage="kepegawaian" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Barang"/>
+              <NavCategory judul="Kepegawaian"/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folBarang.data}/>
+            <ListFolder data={folKepegawaian.data}/>
           </div>
         </div>
       </div>

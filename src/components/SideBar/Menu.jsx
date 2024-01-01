@@ -70,7 +70,7 @@ const Menu = ({ page }) => {
         </Link>
 
         <Link
-          href="#"
+          href="/kepegawaian"
           className={`flex flex-row gap-2 p-2 mr-2 ${
             page === "kepegawaian"
               ? "bg-blue-800 text-white"
@@ -82,7 +82,7 @@ const Menu = ({ page }) => {
         </Link>
 
         <Link
-          href="#"
+          href="/program"
           className={`flex flex-row gap-2 p-2 mr-2 ${
             page === "program"
               ? "bg-blue-800 text-white"
@@ -94,19 +94,19 @@ const Menu = ({ page }) => {
         </Link>
 
         <Link
-          href="#"
+          href="/arsip"
           className={`flex flex-row gap-2 p-2 mr-2 ${
-            page === "surat"
+            page === "arsip"
               ? "bg-blue-800 text-white"
               : "hover:bg-blue-800 hover:text-white "
           } rounded-lg transition-all`}
         >
           <Files size={20} weight="fill" />
-          <p className="self-center">Surat</p>
+          <p className="self-center">Arsip</p>
         </Link>
 
         <Link
-          href="#"
+          href="/keuangan"
           className={`flex flex-row gap-2 p-2 mr-2 ${
             page === "keuangan"
               ? "bg-blue-800 text-white"
@@ -118,7 +118,7 @@ const Menu = ({ page }) => {
         </Link>
 
         <Link
-          href="#"
+          href="/tugas"
           className={`flex flex-row gap-2 p-2 mr-2 ${
             page === "tugas"
               ? "bg-blue-800 text-white"
