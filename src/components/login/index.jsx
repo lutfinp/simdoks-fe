@@ -1,11 +1,12 @@
 'use client';
 
 import React from "react";
-import formLogin from "./formLogin";
+import FormLogin from "./formLogin";
+;
 const Login = () => {
     return (
         <>
-            <formLogin/>
+            <FormLogin/>
         </>
     )
 }
