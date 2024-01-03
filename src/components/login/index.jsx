@@ -5,7 +5,7 @@ import FormLogin from "./FormLogin";
 const Login = () => {
     return (
         <>
-            <FormLogin/>
+            <formLogin/>
         </>
     )
 }
