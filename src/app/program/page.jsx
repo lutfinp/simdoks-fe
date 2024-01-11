@@ -24,7 +24,7 @@ const Page = () => {
     jwt = token.data.accessToken;
 
     const folderProgram = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationTypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/programTypes`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -48,7 +48,7 @@ const Page = () => {
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folProgram.data}/>
+            <ListFolder data={folProgram.data} sub="subprogram"/>
           </div>
         </div>
       </div>

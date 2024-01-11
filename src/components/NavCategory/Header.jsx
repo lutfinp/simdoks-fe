@@ -1,6 +1,22 @@
 import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
 const Header = ({ judul, add }) => {
+  const searchRef = useRef();
+  const router = useRouter();
+
+  const handleSearch = (event) => {
+    const keyword = searchRef.current.value;
+
+    if (!keyword || keyword.trim() == "") return;
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      router.push(`/search${judul}/${keyword}`);
+    }
+  };
+
   return (
     <div className="flex-row flex justify-between text-2xl  text-gray-700">
       <div className="self-center font-bold">
@@ -17,6 +33,8 @@ const Header = ({ judul, add }) => {
             placeholder="Search"
             type="text"
             name="search"
+            ref={searchRef}
+            onKeyDown={handleSearch}
           />
         </label>
         {add ? (

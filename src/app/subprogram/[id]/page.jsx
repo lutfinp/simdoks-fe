@@ -25,7 +25,7 @@ const Page = ({ params: { id } }) => {
     jwt = token.data.accessToken;
 
     const folderProgram = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/programType/${id}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -35,7 +35,7 @@ const Page = ({ params: { id } }) => {
     setFolProgram(folderProgram);
 
     const folderSubProgram = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/programSubtypes`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,

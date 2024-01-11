@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -6,10 +6,9 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
-const Page = ({ params: { id } }) => {
+const Page = ({ params: { keyword } }) => {
   let jwt
-  const [folsubKepegawaian, setFolsubKepegawaian] = useState("");
-  const [folKepegawaian, setFolKepegawaian] = useState("");
+  const [folKepegawaian, setFolKepegawaian] = useState("")
 
   useEffect(() => {
     getToken();
@@ -25,24 +24,15 @@ const Page = ({ params: { id } }) => {
     jwt = token.data.accessToken;
 
     const folderKepegawaian = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/staffTypes/search?search=${keyword}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFolKepegawaian(folderKepegawaian);
+    setFolKepegawaian(folderKepegawaian)
 
-    const folderSubKepegawaian = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFolsubKepegawaian(folderSubKepegawaian);
   };
 
   return (
@@ -54,11 +44,11 @@ const Page = ({ params: { id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folKepegawaian.data} />
+              <NavCategory judul="Kepegawaian"/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folsubKepegawaian.data} id={id} />
+            <ListFolder data={folKepegawaian.data}/>
           </div>
         </div>
       </div>
