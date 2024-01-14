@@ -2,9 +2,10 @@ import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
-const Header = ({ judul, add }) => {
+const Header = ({ judul, add, coba }) => {
   const searchRef = useRef();
   const router = useRouter();
+  let id = judul?.id
 
   const handleSearch = (event) => {
     const keyword = searchRef.current.value;
@@ -13,7 +14,11 @@ const Header = ({ judul, add }) => {
 
     if (event.key === "Enter") {
       event.preventDefault();
-      router.push(`/search${judul}/${keyword}`);
+      {
+        typeof judul === "string"
+          ? router.push(`/search${judul}/${keyword}`)
+          : router.push(`/searchSub${coba}/${id}/${keyword}`);
+      }
     }
   };
 

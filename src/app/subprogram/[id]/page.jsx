@@ -54,7 +54,7 @@ const Page = ({ params: { id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folProgram.data} />
+              <NavCategory judul={folProgram.data} vardumb="Program" />
             </div>
           </section>
           <div className="pt-2">

@@ -6,8 +6,9 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
-const Page = ({ params: { id } }) => {
-  let jwt
+const Page = ({ params: { id, keyword } }) => {
+  console.log(id, keyword);
+  let jwt;
   const [folsubakre, setFolsubakre] = useState("");
   const [folakre, setFolakre] = useState("");
 
@@ -35,7 +36,7 @@ const Page = ({ params: { id } }) => {
     setFolakre(folderAkre);
 
     const folderSubAkre = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes/search?typeId=${id}&search=${keyword}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -44,7 +45,6 @@ const Page = ({ params: { id } }) => {
     );
     setFolsubakre(folderSubAkre);
   };
-
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
