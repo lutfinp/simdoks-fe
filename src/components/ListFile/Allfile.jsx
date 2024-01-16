@@ -29,7 +29,7 @@ const Allfile = ({ data, id, subid }) => {
           if (akreditasi.typeId == id && akreditasi.subtypeId == subid) {
             return (
               <Link key={index} href="#" className="transition-all hover:cursor-pointer">
-                <div className="h-[217px] w-[240px] bg-white flex items-center justify-center">
+                <div className="h-[217px] w-[230px] bg-white flex items-center justify-center">
                   <div className="flex-col flex">
                     <Image
                       className="mt-4"
