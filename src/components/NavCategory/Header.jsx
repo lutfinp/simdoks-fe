@@ -1,6 +1,18 @@
 import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
+import NotificationPopup from "../Notification";
+import { useState } from "react";
 
 const Header = ({ judul, add }) => {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+
+  const handleNotificationClick = () => {
+    setShowNotifications(!showNotifications);
+  };
+
+  const handleCloseNotification = () => {
+    setShowNotifications(false);
+  };
   return (
     <div className="flex-row flex justify-between text-2xl  text-gray-700">
       <div className="self-center font-bold">
@@ -26,10 +38,21 @@ const Header = ({ judul, add }) => {
             </button>
           </div>
         ) : null}
-        <div className="hover:scale-105 self-center">
-          <button className="flex items-center">
-            <Bell size={30} weight="fill" />
+        <div>
+          <button
+            className="self-center hover:scale-105 mt-[6px]"
+            onClick={handleNotificationClick}
+          >
+            <Bell size={27} weight="fill" />
           </button>
+          <div className="h-0">
+            {showNotifications && (
+              <NotificationPopup
+                notifications={notifications}
+                onClose={handleCloseNotification}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
