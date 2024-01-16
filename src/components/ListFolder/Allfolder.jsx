@@ -6,14 +6,14 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-const Allfolder = ({ data, id }) => {
+const Allfolder = ({ data, id}) => {
   return (
     <div className="flex-row flex flex-wrap gap-3">
       {data?.map((akreditasi, index) => {
         if (id != null) {
           if (akreditasi.typeId == id) {
             return (
-              <Link key={index} href="#" className="transition-all hover:cursor-pointer">
+              <Link key={index} href={`/fileakreditasi/${akreditasi.id}/${id}`} className="transition-all hover:cursor-pointer">
                 <div className="h-[217px] w-[240px] bg-white flex items-center justify-center">
                   <div className="flex-col flex">
                     <Image
