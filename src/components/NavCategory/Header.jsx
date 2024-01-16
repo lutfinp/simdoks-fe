@@ -1,28 +1,6 @@
 import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
-import { useState } from "react";
-import TambahDokumen from "../Tambah/tambahDokumen";
 
-const Header = ({ judul, add, id, subid}) => {
-
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [showTambahDokumen, setShowTambahDokumen] = useState(false);
-  
-
-  const handleNotificationClick = () => {
-    setShowNotifications(!showNotifications);
-  };
-
-  const handleTambahDokumenClick = () => {
-    setShowTambahDokumen(!showTambahDokumen);
-  };
-
-  const handleCloseNotification = () => {
-    setShowNotifications(false);
-  };
-
-  const handleCloseTambahDokumen = () => {
-    setShowTambahDokumen(false);
-  };
+const Header = ({ judul, add }) => {
   return (
     <div className="flex-row flex justify-between text-2xl  text-gray-700">
       <div className="self-center font-bold">
@@ -49,9 +27,17 @@ const Header = ({ judul, add, id, subid}) => {
           </div>
         ) : null}
         <div className="hover:scale-105 self-center">
-          <button className="flex items-center" onClick={handleNotificationClick}>
+          <button className="flex items-center">
             <Bell size={30} weight="fill" />
           </button>
+          <div className="h-0">
+            {showNotifications && (
+              <NotificationPopup
+                notifications={notifications}
+                onClose={handleCloseNotification}
+              />
+            )}
+          </div>
         </div>
         {showTambahDokumen && (
           <TambahDokumen id={id} subid={subid} onClose={handleCloseTambahDokumen} />
