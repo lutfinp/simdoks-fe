@@ -34,7 +34,6 @@ const Page = ({ params: { subid, id } }) => {
       }
     );
     setFolakre(folderAkre);
-    console.log(folakre.data);
 
     const file = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
@@ -65,7 +64,7 @@ const Page = ({ params: { subid, id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid}/>
+              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="accreditation" direct="akreditasi"/>
             </div>
           </section>
           <div className="pt-2">

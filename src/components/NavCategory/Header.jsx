@@ -2,17 +2,36 @@ import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 import NotificationPopup from "../Notification";
 import { useState } from "react";
 import TambahDokumen from "../Tambah/TambahDokumen";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
-const Header = ({ judul, add, subid, id }) => {
+const Header = ({ judul, add, subid, id, coba, api, direct }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showTambahDokumen, setShowTambahDokumen] = useState(false);
-  
+  const searchRef = useRef();
+  const router = useRouter();
+  let cobaId = judul?.id
+
+  const handleSearch = (event) => {
+    const keyword = searchRef.current.value;
+
+    if (!keyword || keyword.trim() == "") return;
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      {
+        typeof judul === "string"
+          ? router.push(`/search${judul}/${keyword}`)
+          : router.push(`/searchSub${coba}/${cobaId}/${keyword}`);
+      }
+    }
+  };
 
   const handleNotificationClick = () => {
     setShowNotifications(!showNotifications);
   };
-  
+
   const handleTambahDokumenClick = () => {
     setShowTambahDokumen(!showTambahDokumen);
   };
@@ -27,7 +46,9 @@ const Header = ({ judul, add, subid, id }) => {
   return (
     <div className="flex-row flex justify-between text-2xl  text-gray-700">
       <div className="self-center font-bold">
-        {typeof judul === "string" ? judul : judul?.subtype_name || judul?.type_name}
+        {typeof judul === "string"
+          ? judul
+          : judul?.subtype_name || judul?.type_name}
       </div>
       <div className="flex-row flex gap-3">
         <label className="relative">
@@ -40,14 +61,19 @@ const Header = ({ judul, add, subid, id }) => {
             placeholder="Search"
             type="text"
             name="search"
+            ref={searchRef}
+            onKeyDown={handleSearch}
           />
         </label>
         {add ? (
           <div className="hover:scale-105 self-center text-blue-600">
-          <button className="flex items-center" onClick={handleTambahDokumenClick }>
-            <Plus size={35} weight="fill" />
-          </button>
-        </div>
+            <button
+              className="flex items-center"
+              onClick={handleTambahDokumenClick}
+            >
+              <Plus size={35} weight="fill" />
+            </button>
+          </div>
         ) : null}
         <div>
           <button
@@ -66,7 +92,13 @@ const Header = ({ judul, add, subid, id }) => {
           </div>
         </div>
         {showTambahDokumen && (
-          <TambahDokumen id={id} subid={subid} onClose={handleCloseTambahDokumen} />
+          <TambahDokumen
+            id={id}
+            subid={subid}
+            api={api}
+            direct={direct}
+            onClose={handleCloseTambahDokumen}
+          />
         )}
       </div>
     </div>

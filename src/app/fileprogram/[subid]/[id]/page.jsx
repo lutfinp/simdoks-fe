@@ -46,7 +46,7 @@ const Page = ({ params: { subid, id } }) => {
     setFile(file);
 
     const folderSubProgram = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtype/${subid}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/programSubtype/${subid}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -58,13 +58,13 @@ const Page = ({ params: { subid, id } }) => {
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="Program" />
+        <SideBar activePage="program" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubprogram.data} add="true" id={id} subid={subid}/>
+              <NavCategory judul={folsubprogram.data} add="true" id={id} subid={subid} api="program" direct="program"/>
             </div>
           </section>
           <div className="pt-2">

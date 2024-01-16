@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 
-const TambahDokumen = ({ onClose, id, subid }) => {
+const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
+  
   let jwt;
 
   const [nama, setNama] = useState("");
@@ -14,7 +15,6 @@ const TambahDokumen = ({ onClose, id, subid }) => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(subid, id);
     e.preventDefault();
     try {
       const response_token = await axios.get(
@@ -38,7 +38,7 @@ const TambahDokumen = ({ onClose, id, subid }) => {
       formData.append("file", file);
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditation`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}`,
         formData,
         {
           headers: {
@@ -48,9 +48,10 @@ const TambahDokumen = ({ onClose, id, subid }) => {
           withCredentials: true,
         }
       );
-
+      
+      console.log("link"+direct)
       console.log("Document added successfully:", response.data);
-      window.location.href = `/fileakreditasi/${subid}/${id}`;
+      window.location.href = `/file${direct}/${subid}/${id}`;
       onClose();
     } catch (error) {
       console.log("Error adding document:", error);

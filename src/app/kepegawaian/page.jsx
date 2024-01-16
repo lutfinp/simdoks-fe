@@ -24,7 +24,7 @@ const Page = () => {
     jwt = token.data.accessToken;
 
     const folderKepegawaian = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationTypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/staffTypes`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,

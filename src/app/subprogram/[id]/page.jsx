@@ -25,7 +25,7 @@ const Page = ({ params: { id } }) => {
     jwt = token.data.accessToken;
 
     const folderProgram = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/programType/${id}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -35,7 +35,7 @@ const Page = ({ params: { id } }) => {
     setFolProgram(folderProgram);
 
     const folderSubProgram = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/programSubtypes`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -54,11 +54,11 @@ const Page = ({ params: { id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folProgram.data} />
+              <NavCategory judul={folProgram.data} vardumb="Program" api="program" direct="program" />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folsubProgram.data} id={id} />
+            <ListFolder data={folsubProgram.data} id={id} file="program" />
           </div>
         </div>
       </div>

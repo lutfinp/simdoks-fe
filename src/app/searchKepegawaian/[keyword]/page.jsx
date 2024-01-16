@@ -6,9 +6,9 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
-const Page = () => {
+const Page = ({ params: { keyword } }) => {
   let jwt
-  const [folakre, setFolakre] = useState("")
+  const [folKepegawaian, setFolKepegawaian] = useState("")
 
   useEffect(() => {
     getToken();
@@ -23,32 +23,32 @@ const Page = () => {
     );
     jwt = token.data.accessToken;
 
-    const folderAkre = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationTypes`,
+    const folderKepegawaian = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/staffTypes/search?search=${keyword}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFolakre(folderAkre)
+    setFolKepegawaian(folderKepegawaian)
 
   };
 
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="akreditasi" />
+        <SideBar activePage="kepegawaian" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Akreditasi"/>
+              <NavCategory judul="Kepegawaian"/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folakre.data} sub="subakreditasi"/>
+            <ListFolder data={folKepegawaian.data}/>
           </div>
         </div>
       </div>

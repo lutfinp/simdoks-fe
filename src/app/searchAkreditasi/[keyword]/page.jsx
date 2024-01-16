@@ -6,7 +6,7 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
-const Page = () => {
+const Page = ({ params: { keyword } }) => {
   let jwt
   const [folakre, setFolakre] = useState("")
 
@@ -24,7 +24,7 @@ const Page = () => {
     jwt = token.data.accessToken;
 
     const folderAkre = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationTypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationTypes/search?search=${keyword}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
