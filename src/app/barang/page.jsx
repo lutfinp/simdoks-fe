@@ -24,7 +24,7 @@ const Page = () => {
     jwt = token.data.accessToken;
 
     const folderBarang = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationTypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemTypes`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -44,11 +44,11 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Barang"/>
+              <NavCategory judul="Barang" add={true} api="item" direct="barang"/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folBarang.data}/>
+            <ListFolder data={folBarang.data} sub="subbarang" />
           </div>
         </div>
       </div>

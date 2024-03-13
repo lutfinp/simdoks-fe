@@ -26,9 +26,9 @@ const Updok = ({ data }) => {
           />
         </label>
       </div>
-      <div className="flex items-center justify-center w-full h-[83px] bg-red-100 rounded-md text-center">
+      {/* <div className="flex items-center justify-center w-full h-[83px] bg-red-100 rounded-md text-center">
         search not found
-      </div>
+      </div> */}
       <table className="w-full outline outline-2 outline-gray-300 rounded-md">
         <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
           <tr>

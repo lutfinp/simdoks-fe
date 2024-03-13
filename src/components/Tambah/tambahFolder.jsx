@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
+const TambahFolder = ({ onClose, direct, api }) => {
   
   let jwt;
 
-  const [nama, setNama] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [file, setFile] = useState("");
+  const [typeName, settypeName] = useState("");
+
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -30,14 +29,10 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
       }
 
       const formData = new FormData();
-      formData.append("nama", nama);
-      formData.append("startDate", startDate);
-      formData.append("typeId", id);
-      formData.append("subtypeId", subid);
-      formData.append("file", file);
+      formData.append("typeName", typeName);
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}Type`,
         formData,
         {
           headers: {
@@ -48,9 +43,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
         }
       );
       
-      console.log("link"+direct)
-      console.log("Document added successfully:", response.data);
-      window.location.href = `/file${direct}/${subid}/${id}`;
+      window.location.href = `/${direct}`;
       onClose();
     } catch (error) {
       console.log("Error adding document:", error);
@@ -61,7 +54,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md">
       <div className="bg-white p-8 rounded-2xl shadow-md">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Tambah Dokumen</h1>
+          <h1 className="text-3xl font-bold">Tambah Folder</h1>
           <button onClick={onClose}>
             <img
               src="/assets/close.png"
@@ -72,30 +65,12 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
         </div>
         <form onSubmit={handleSubmit}>
           <label className="block mb-4 font-bold">
-            Nama Dokumen
+            Nama Folder
             <input
               className="border rounded w-full py-2 px-3"
               type="text"
-              name="nama"
-              onChange={(e) => setNama(e.target.value)}
-            />
-          </label>
-          <label className="block mb-4 font-bold">
-            Tambah Dokumen
-            <input
-              className="border rounded w-full py-2 px-3"
-              type="file"
-              name="file"
-              onChange={handleFileChange}
-            />
-          </label>
-          <label className="block mb-4">
-            Start Date:
-            <input
-              className="border rounded w-full py-2 px-3"
-              type="date"
-              name="startDate"
-              onChange={(e) => setStartDate(e.target.value)}
+              name="typeName"
+              onChange={(e) => settypeName(e.target.value)}
             />
           </label>
 
@@ -113,4 +88,4 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
   );
 };
 
-export default TambahDokumen;
+export default TambahFolder;

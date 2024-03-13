@@ -44,7 +44,7 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Tugas"/>
+              <NavCategory judul="Tugas" add={true} api="task" direct="tugas"/>
             </div>
           </section>
           <div className="pt-2">

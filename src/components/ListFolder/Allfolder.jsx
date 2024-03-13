@@ -13,7 +13,6 @@ const Allfolder = ({ data, id, file, sub }) => {
       }
       return title;
     };
-    console.log(file)
   return (
     <div className="flex-row flex flex-wrap gap-3">
       {data?.map((folder, index) => {

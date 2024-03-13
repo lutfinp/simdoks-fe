@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -6,10 +6,9 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
-const Page = ({ params: { id } }) => {
+const Page = ({ params: { keyword } }) => {
   let jwt
-  const [folsubKeuangan, setFolsubKeuangan] = useState("");
-  const [folKeuangan, setFolKeuangan] = useState("");
+  const [folBarang, setFolBarang] = useState("")
 
   useEffect(() => {
     getToken();
@@ -24,41 +23,32 @@ const Page = ({ params: { id } }) => {
     );
     jwt = token.data.accessToken;
 
-    const folderKeuangan = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
+    const folderBarang = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemTypes/search?search=${keyword}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFolKeuangan(folderKeuangan);
+    setFolBarang(folderBarang)
 
-    const folderSubKeuangan = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFolsubKeuangan(folderSubKeuangan);
   };
 
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="keuangan" />
+        <SideBar activePage="barang" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folKeuangan.data} />
+              <NavCategory judul="Barang" add={true} api="item" direct="barang"/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folsubKeuangan.data} id={id} />
+            <ListFolder data={folBarang.data} sub="subbarang"/>
           </div>
         </div>
       </div>

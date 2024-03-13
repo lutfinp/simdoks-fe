@@ -44,7 +44,7 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Akreditasi"/>
+              <NavCategory judul="Akreditasi" add={true} api="accreditation" direct="akreditasi"/>
             </div>
           </section>
           <div className="pt-2">

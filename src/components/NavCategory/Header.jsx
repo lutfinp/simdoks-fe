@@ -4,6 +4,8 @@ import { useState } from "react";
 import TambahDokumen from "../Tambah/TambahDokumen";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
+import TambahFolder from "../Tambah/tambahFolder";
+import TambahSubFolder from "../Tambah/tambahSubFolder";
 
 const Header = ({ judul, add, subid, id, coba, api, direct }) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -11,7 +13,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct }) => {
   const [showTambahDokumen, setShowTambahDokumen] = useState(false);
   const searchRef = useRef();
   const router = useRouter();
-  let cobaId = judul?.id
+  let cobaId = judul?.id;
 
   const handleSearch = (event) => {
     const keyword = searchRef.current.value;
@@ -43,6 +45,39 @@ const Header = ({ judul, add, subid, id, coba, api, direct }) => {
   const handleCloseNotification = () => {
     setShowNotifications(false);
   };
+
+  let contentToDisplay;
+  if (showTambahDokumen) {
+    if (id != null && subid != null) {
+      contentToDisplay = (
+        <TambahDokumen
+          id={id} //folder
+          subid={subid} //sub folder
+          api={api} //endpoint
+          direct={direct} //window
+          onClose={handleCloseTambahDokumen}
+        />
+      );
+    } else if (id == null) {
+      contentToDisplay = (
+        <TambahFolder
+          direct={direct}
+          api={api}
+          onClose={handleCloseTambahDokumen}
+        />
+      );
+    } else if (id != null) {
+      contentToDisplay = (
+        <TambahSubFolder
+          id={id}
+          direct={direct}
+          api={api}
+          onClose={handleCloseTambahDokumen}
+        />
+      );
+    }
+  }
+
   return (
     <div className="flex-row flex justify-between text-2xl  text-gray-700">
       <div className="self-center font-bold">
@@ -91,15 +126,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct }) => {
             )}
           </div>
         </div>
-        {showTambahDokumen && (
-          <TambahDokumen
-            id={id}
-            subid={subid}
-            api={api}
-            direct={direct}
-            onClose={handleCloseTambahDokumen}
-          />
-        )}
+        {contentToDisplay}
       </div>
     </div>
   );

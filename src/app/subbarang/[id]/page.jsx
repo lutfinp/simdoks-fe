@@ -25,7 +25,7 @@ const Page = ({ params: { id } }) => {
     jwt = token.data.accessToken;
 
     const folderBarang = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemType/${id}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -35,7 +35,7 @@ const Page = ({ params: { id } }) => {
     setFolBarang(folderBarang);
 
     const folderSubBarang = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemSubtypes`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -54,7 +54,7 @@ const Page = ({ params: { id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folBarang.data} />
+              <NavCategory judul={folBarang.data} id={id} vardumb="Barang" api="itemSub" direct="subbarang" add={true} />
             </div>
           </section>
           <div className="pt-2">

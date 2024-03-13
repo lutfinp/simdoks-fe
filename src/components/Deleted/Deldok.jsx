@@ -21,9 +21,9 @@ const Deldok = () => {
           />
         </label>
       </div>
-      <div className="flex items-center justify-center w-full h-[83px] bg-red-100 rounded-md text-center">
+      {/* <div className="flex items-center justify-center w-full h-[83px] bg-red-100 rounded-md text-center">
         search not found
-      </div>
+      </div> */}
       <table className="w-full outline outline-2 outline-gray-300 rounded-md">
         <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
           <tr>
@@ -108,7 +108,7 @@ const Deldok = () => {
           </tr>
         </tbody>
       </table>
-      <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
+      {/* <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
         <div>
           <Image
             className="mt-2"
@@ -118,7 +118,7 @@ const Deldok = () => {
             height={173}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
