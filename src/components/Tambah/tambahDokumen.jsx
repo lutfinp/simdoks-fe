@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
+import ConfirmationPopUp from "../ConfrimAdd/ConfirmationPopUp";
+import JsBarcode from "jsbarcode";
+import { generateDummyBarcodeUrl } from "../ConfrimAdd/Untils";
 
 const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
   
@@ -8,6 +11,10 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
   const [nama, setNama] = useState("");
   const [startDate, setStartDate] = useState("");
   const [file, setFile] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const barcodeRef = useRef(null);
+  const [dummyBarcodeUrl, setDummyBarcodeUrl] = useState("");
+  const [dummyBarcodeData, setDummyBarcodeData] = useState("");
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -15,49 +22,75 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response_token = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
-        {
-          withCredentials: true,
+    setShowConfirmation(true);
+    generateDummyBarcode();
+  };
+  const handleConfrimation = async () => {
+    if(confirm){
+      try {
+        const response_token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response_token.data && response_token.data.accessToken) {
+          jwt = response_token.data.accessToken;
+        } else {
+          console.error("Invalid response format:", response_token);
+          return;
         }
-      );
-      if (response_token.data && response_token.data.accessToken) {
-        jwt = response_token.data.accessToken;
-      } else {
-        console.error("Invalid response format:", response_token);
-        return;
+  
+        const formData = new FormData();
+        formData.append("nama", nama);
+        formData.append("startDate", startDate);
+        formData.append("typeId", id);
+        formData.append("subtypeId", subid);
+        formData.append("file", file);
+  
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
+        console.log(api)
+        console.log("link"+direct)
+        console.log("Document added successfully:", response.data);
+        window.location.href = `/file${direct}/${subid}/${id}`;
+        onClose();
+      } catch (error) {
+        console.log("Error adding document:", error);
       }
 
-      const formData = new FormData();
-      formData.append("nama", nama);
-      formData.append("startDate", startDate);
-      formData.append("typeId", id);
-      formData.append("subtypeId", subid);
-      formData.append("file", file);
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
-      
-      console.log("link"+direct)
-      console.log("Document added successfully:", response.data);
-      window.location.href = `/file${direct}/${subid}/${id}`;
-      onClose();
+    }
+  };
+   
+  const generateDummyBarcode = () => {
+    try {
+      setDummyBarcodeData("123456");
+      const dummyData =  generateDummyBarcodeUrl(dummyBarcodeData);
+      setDummyBarcodeUrl(dummyData);
+  
+      if (barcodeRef.current) {
+        JsBarcode(barcodeRef.current, dummyBarcodeUrl, {
+          format: "CODE128",
+          displayValue: false,
+        });
+      }
     } catch (error) {
-      console.log("Error adding document:", error);
+      console.error("Error generating dummy barcode:", error);
     }
   };
 
   return (
+    <div>
+    {!showConfirmation  && (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md">
       <div className="bg-white p-8 rounded-2xl shadow-md">
         <div className="flex justify-between items-center mb-8">
@@ -109,6 +142,16 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           </div>
         </form>
       </div>
+    </div>
+    )}
+    {showConfirmation && (
+      <ConfirmationPopUp
+        onConfirm={handleConfrimation}
+        onCancel={() => setShowConfirmation(false)}
+        dummyBarcodeUrl={dummyBarcodeUrl}
+        barcodeRef={barcodeRef}
+      />
+    )}
     </div>
   );
 };
