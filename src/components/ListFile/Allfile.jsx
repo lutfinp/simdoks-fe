@@ -5,23 +5,26 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
-import HapusFile from "@/components/DeleteFile/HapusFile";
+import HapusFile from "../Deleted/HapusFile";
+import EditFile from "../Edit/EditFIle";
+import DownloadBarcode from "../Barcode/DownloadBarcode";
 
 
 
-const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api, fileId }) => {
+const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [selectedFile, setSelectedFile] = useState("");
+  const [selectedFileId, setSelectedFileId] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showConfirmationEdit, setShowConfirmationEdit] = useState(false);
+  const [fileUrlBarcode, setFileUrlBarcode] = useState("");
   const dropdownRef = useRef(null);
-  const finalUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}`
-  const openFileInNewTab = (finalUrl) => {
-    window.open(finalUrl, "_blank");
-  };
+  const [showConfirmationDownloadBarcode, setShowConfirmationDownloadBarcode] = useState(false);
 
-  const handleDotsClick = (event, file) => {
+  const handleDotsClick = (event, file, fileId) => {
     event.preventDefault();
+    setSelectedFileId(fileId);
     const rect = event.target.getBoundingClientRect();
     setDropdownPosition({
       top: rect.top + window.scrollY + rect.height,
@@ -40,6 +43,15 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api, fileId }) => 
   const handleClickDelete = () => {
     setShowDropdown(false);
     setShowConfirmation(true);
+  };
+  const handleClickEdit = () => {
+    setShowDropdown(false);
+    setShowConfirmationEdit(true);
+  };
+  const handleClikcDownloadBarcode = () => {
+    setShowDropdown(false);
+    setFileUrlBarcode(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}`);
+    setShowConfirmationDownloadBarcode(true);
   };
 
   useEffect(() => {
@@ -68,10 +80,17 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api, fileId }) => 
         if (id != null) {
           if (file.typeId == id && file.subtypeId == subid) {
             const newUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}`
-            console.log(newUrl)
             return (
         
-                <div className="h-[217px] w-[230px] bg-white flex items-center justify-center">
+                <div className="h-[217px] w-[230px] bg-white flex items-center justify-center"  onClick={(e) => handleFileClick(e, file.id)}>
+                   <Link
+                      href={fileUrl && fileUrl !== "http://localhost:8000/" ? newUrl : "#"}
+                      className={`transition-all ${
+                        fileUrl && fileUrl !== "http://localhost:8000/"
+                          ? "hover:cursor-pointer"
+                          : ""
+                      }`}
+                    >
                   <div className="flex-col flex">
                     <Image
                       className="mt-4"
@@ -79,23 +98,20 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api, fileId }) => 
                       alt="logo"
                       width={120}
                       height={50}
-                      onClick={(e) => handleFileClick(e, file.id)}
                     />
-                    <Link key={index} href={newUrl} className="transition-all hover:cursor-pointer">
                     <div className="w-full mb-7 h-[30px] bg-gray-100 rounded-md">
                       <div className="flex flex-row p-1 text-sm font-semibold text-gray-700 justify-between">
                         <p>{truncateTitle(file.file_name)}</p>
-                        <p>{(file.id)}</p>
                         <DotsThreeOutlineVertical
                           className="hover:text-yellow-600 cursor-pointer"
                           size={20}
                           weight="fill"
-                          onClick={(e) => handleDotsClick(e, file)}
+                          onClick={(e) => handleDotsClick(e, file, file.id)}
                           />
                       </div>
                     </div>
-                    </Link>
                   </div>
+                  </Link>
                 </div>
             );
           }
@@ -112,21 +128,41 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api, fileId }) => 
           className="bg-white shadow-lg rounded-lg p-2"
         >
           <ul>
-            <li className="p-2 hover:bg-gray-100 cursor-pointer">Edit Dokumen</li>
+            <li className="p-2 hover:bg-gray-100 cursor-pointer"onClick={handleClickEdit} >Edit Dokumen</li>
             <li className="p-2 hover:bg-gray-100 cursor-pointer"onClick={handleClickDelete}>Hapus Dokumen</li>
-            <li className="p-2 hover:bg-gray-100 cursor-pointer">Download Barcode</li>
+            <li className="p-2 hover:bg-gray-100 cursor-pointer"onClick={handleClikcDownloadBarcode}>Download Barcode</li>
           </ul>
         </div>
       )}
       {showConfirmation && (
         <HapusFile
-        api={api}
-        fileId={fileId}
+          api={api}
+          selectedFileId={selectedFileId}
           onConfirm={() => {
             setShowConfirmation(false);
           }}
           onCancel={() => setShowConfirmation(false)}
-          />)}
+        />
+      )}
+      {showConfirmationEdit && (
+        <EditFile
+          id={id}
+          subid={subid}
+          api={api}
+          selectedFileId={selectedFileId}
+          onClose={() => {
+            setShowConfirmationEdit(false);
+          }}
+        />
+      )}
+      {showConfirmationDownloadBarcode && (
+        <DownloadBarcode
+          fileUrlBarcode={fileUrlBarcode}
+          onClose={() => {
+            setShowConfirmationDownloadBarcode(false);
+          }}
+          />
+      )}
     </div>
   );
 };

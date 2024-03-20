@@ -5,7 +5,7 @@ import axios from "axios";
 import Content from "./content";
 
 const NotificationPopup = () => {
-  const [history, setHistory] = useState("");
+  const [notification, setNotification] = useState([]);
   let jwt;
 
   useEffect(() => {
@@ -24,15 +24,15 @@ const NotificationPopup = () => {
   };
 
   const getHistory = async () => {
-    const dataHistory = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUpload`,
+    const dataNotification = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/notifications`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setHistory(dataHistory);
+    setNotification(dataNotification.data);
   };
 
   return (

@@ -65,8 +65,8 @@ const Page = ({ params: { subid, id } }) => {
     setFolsubakre(folderSubAkre);
     
 
-
-    const fileUrlResponse = await axios.get(
+    if(selectedFileId){    
+      const fileUrlResponse = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditation/${selectedFileId}`,
           {
             headers: {
@@ -77,6 +77,7 @@ const Page = ({ params: { subid, id } }) => {
           
     setFileUrl(fileUrlResponse.data.file_url);
   };
+  };
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
@@ -86,11 +87,11 @@ const Page = ({ params: { subid, id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="accreditation" direct="akreditasi"/>
+              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="accreditation" direct="akreditasi" />
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id} subid={subid} handleFileClick={handleFileClick} fileUrl={fileUrl} api="accreditation"fileID={selectedFileId}/>
+            <ListFile data={file.data} id={id} subid={subid} handleFileClick={handleFileClick} fileUrl={fileUrl} api="accreditation" fileID={selectedFileId}/>
           </div>
         </div>
       </div>
