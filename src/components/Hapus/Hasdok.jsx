@@ -1,11 +1,19 @@
 import React from "react";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 
-const Hasdok = () => {
+const Hasdok = ({ data }) => {
+  const formatDate = (dateString) => {
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "id-ID",
+      options
+    );
+    return formattedDate;
+  };
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row justify-between mt-4">
-        <p className=" text-xl font-bold text-blue-800 self-center">Hapus</p>
+        <p className=" text-xl font-bold text-blue-800 self-center">Upload</p>
         <label className="relative">
           <span className="sr-only">Search</span>
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -29,127 +37,31 @@ const Hasdok = () => {
             <th className="text-left p-3 border-r-2 border-gray-300">
               NAMA DOKUMEN
             </th>
-            <th className="p-3 border-r-2 border-gray-300">
-              TANGGAL PENGHAPUSAN
-            </th>
-            <th className="p-3 border-r-2 border-gray-300">
-              SISTEM PENGHAPUSAN
-            </th>
+            <th className="p-3 border-r-2 border-gray-300">BERLAKU MULAI</th>
+            <th className="p-3 border-r-2 border-gray-300">BERLAKU HINGGA</th>
+            <th className="p-3">TANGGAL UPLOAD</th>
           </tr>
         </thead>
         <tbody className="text-xs text-gray-700">
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">1</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">
-              <div className="flex items-center justify-center">
-                <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800">
-                  Otomatis
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">2</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">
-              <div className="flex items-center justify-center">
-                <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800">
-                  Otomatis
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">3</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">
-              <div className="flex items-center justify-center">
-                <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800">
-                  Otomatis
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">4</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">
-              <div className="flex items-center justify-center">
-                <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800">
-                  Otomatis
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">5</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">
-              <div className="flex items-center justify-center">
-                <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800">
-                  Manual
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">6</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">
-              <div className="flex items-center justify-center">
-                <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800">
-                  Manual
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">7</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">
-              <div className="flex items-center justify-center">
-                <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800">
-                  Manual
-                </div>
-              </div>
-            </td>
-          </tr>
+          {data?.map((upload, index) => {
+            return (
+              <tr key={index} className=" bg-gray-50 odd:bg-white">
+                <td className="text-center p-3 border-r-2 border-gray-300">
+                  {upload.id}
+                </td>
+                <td className="p-3 border-r-2 border-gray-300">
+                  {upload.file_name}
+                </td>
+                <td className="text-center p-3 border-r-2 border-gray-300">
+                  {formatDate(upload.start_date)}
+                </td>
+                <td className="text-center p-3 border-r-2 border-gray-300">
+                  {upload.expired_date == null ? "-" : `${upload.expired_date}`}
+                </td>
+                <td className="text-center p-3">{formatDate(upload.uploaded_at)}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

@@ -6,10 +6,10 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
-const Page = ({ params: { id } }) => {
+const Page = ({ params: { id,keyword } }) => {
   let jwt
-  const [folsubTugas, setFolsubTugas] = useState("");
-  const [folTugas, setFolTugas] = useState("");
+  const [folsubArsip, setFolsubArsip] = useState("");
+  const [folArsip, setFolArsip] = useState("");
 
   useEffect(() => {
     getToken();
@@ -24,41 +24,41 @@ const Page = ({ params: { id } }) => {
     );
     jwt = token.data.accessToken;
 
-    const folderTugas = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
+    const folderArsip = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveType/${id}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFolTugas(folderTugas);
+    setFolArsip(folderArsip);
 
-    const folderSubTugas = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes`,
+    const folderSubArsip = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveSubtypes/search?typeId=${id}&search=${keyword}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFolsubTugas(folderSubTugas);
+    setFolsubArsip(folderSubArsip);
   };
 
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="tugas" />
+        <SideBar activePage="arsip" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folTugas.data} />
+            <NavCategory judul={folArsip.data} id={id} add={true} vardumb="Arsip" api="archiveSub" direct="subarsip" />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folsubTugas.data} id={id} />
+            <ListFolder data={folsubArsip.data} id={id} />
           </div>
         </div>
       </div>

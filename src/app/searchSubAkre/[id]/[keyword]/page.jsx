@@ -53,7 +53,7 @@ const Page = ({ params: { id, keyword } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folakre.data} vardumb="Akre" />
+            <NavCategory judul={folakre.data} id={id} vardumb="Akre" api="accreditationSub" direct="subakreditasi" add={true}/>
             </div>
           </section>
           <div className="pt-2">

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Hapus from "@/components/Hapus";
@@ -6,10 +6,11 @@ import SideBar from "@/components/SideBar";
 import Update from "@/components/Update";
 import axios from "axios";
 
-const Page = () => {
+const Page = ({ params: { order } }) => {
   let jwt;
-  const [hisdat, setHidat] = useState("")
-
+  const [updok, setUpdok] = useState("");
+  const [deldok, setDeldok] = useState("");
+  
   useEffect(() => {
     getToken();
   }, []);
@@ -23,16 +24,25 @@ const Page = () => {
     );
     jwt = token.data.accessToken;
 
-    const history = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUpload`,
+    const historyUpload = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUploads?order=${order}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setHidat(history)
+    setUpdok(historyUpload);
 
+    const historyDelete = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyDeletes?order=${order}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    setDeldok(historyDelete);
   };
 
   return (
@@ -41,8 +51,8 @@ const Page = () => {
         <SideBar activePage="histori" />
       </div>
       <div className="w-full bg-gray-50 divide-y-2">
-        <Update data={hisdat.data} />
-        <Hapus />
+        <Update data={updok.data} />
+        <Hapus data={deldok.data}/>
       </div>
     </div>
   );
