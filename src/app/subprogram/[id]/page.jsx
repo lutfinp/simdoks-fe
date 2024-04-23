@@ -7,13 +7,19 @@ import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
 const Page = ({ params: { id } }) => {
-  let jwt
+  let jwt;
   const [folsubProgram, setFolsubProgram] = useState("");
   const [folProgram, setFolProgram] = useState("");
+  const [selectedFolderId, setSelectedFolderId] = useState("");
+
+  const handleFolderClick = (event, folderId) => {
+    event.preventDefault();
+    setSelectedFolderId(folderId);
+  };
 
   useEffect(() => {
     getToken();
-  }, []);
+  }, [selectedFolderId]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -54,11 +60,26 @@ const Page = ({ params: { id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folProgram.data} id={id} add={true} vardumb="Program" api="programSub" direct="subprogram" />
+              <NavCategory
+                judul={folProgram.data}
+                id={id}
+                add={true}
+                vardumb="Program"
+                api="programSub"
+                direct="subprogram"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folsubProgram.data} id={id} file="program" />
+            <ListFolder
+              data={folsubProgram.data}
+              id={id}
+              file="program"
+              handleFolderClick={handleFolderClick}
+              api="programSub"
+              fileID={selectedFolderId}
+              direct="subprogram"
+            />
           </div>
         </div>
       </div>

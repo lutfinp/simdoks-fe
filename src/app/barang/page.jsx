@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -7,12 +7,18 @@ import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
 const Page = () => {
-  let jwt
-  const [folBarang, setFolBarang] = useState("")
+  let jwt;
+  const [folBarang, setFolBarang] = useState("");
+  const [selectedFolderId, setSelectedFolderId] = useState("");
+
+  const handleFolderClick = (event, folderId) => {
+    event.preventDefault();
+    setSelectedFolderId(folderId);
+  };
 
   useEffect(() => {
     getToken();
-  }, []);
+  }, [selectedFolderId]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -31,8 +37,7 @@ const Page = () => {
         },
       }
     );
-    setFolBarang(folderBarang)
-
+    setFolBarang(folderBarang);
   };
 
   return (
@@ -44,11 +49,23 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Barang" add={true} api="item" direct="barang"/>
+              <NavCategory
+                judul="Barang"
+                add={true}
+                api="item"
+                direct="barang"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folBarang.data} sub="subbarang" />
+            <ListFolder
+              data={folBarang.data}
+              sub="subbarang"
+              handleFolderClick={handleFolderClick}
+              api="item"
+              fileID={selectedFolderId}
+              direct="barang"
+            />
           </div>
         </div>
       </div>
