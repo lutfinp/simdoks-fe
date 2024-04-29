@@ -10,10 +10,13 @@ const Page = ({ params: { order } }) => {
   let jwt;
   const [updok, setUpdok] = useState("");
   const [deldok, setDeldok] = useState("");
+  const [totalPage, setTotalPage] = useState("")
+  const [pageUpdate, setPageUpdate] =  useState(1)
+  const [pageHapus, setPageHapus] =  useState(1)
   
   useEffect(() => {
     getToken();
-  }, []);
+  }, [pageUpdate, pageHapus]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -25,7 +28,7 @@ const Page = ({ params: { order } }) => {
     jwt = token.data.accessToken;
 
     const historyUpload = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUploads?order=${order}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUpload?page=${pageUpdate}&pageSize=10&order=${order}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -35,7 +38,7 @@ const Page = ({ params: { order } }) => {
     setUpdok(historyUpload);
 
     const historyDelete = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyDeletes?order=${order}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyDeletes?page=${pageHapus}&pageSize=10&order=${order}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -43,6 +46,16 @@ const Page = ({ params: { order } }) => {
       }
     );
     setDeldok(historyDelete);
+
+    const allPage = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/totalPages?pageSize=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    setTotalPage(allPage)
   };
 
   return (
@@ -51,8 +64,8 @@ const Page = ({ params: { order } }) => {
         <SideBar activePage="histori" />
       </div>
       <div className="w-full bg-gray-50 divide-y-2">
-        <Update data={updok.data} />
-        <Hapus data={deldok.data}/>
+        <Update data={updok.data} total={totalPage.data}  pageUpdate={pageUpdate} setPageUpdate={setPageUpdate}/>
+        <Hapus data={deldok.data} total={totalPage.data}  pageHapus={pageHapus} setPageHapus={setPageHapus}/>
       </div>
     </div>
   );
