@@ -34,7 +34,7 @@ const Menu = ({ page }) => {
         </Link>
 
         <Link
-          href="/histori/asc"
+          href="/histori"
           className={`flex flex-row gap-2 p-2 mr-2 ${
             page === "histori"
               ? "bg-blue-800 text-white"

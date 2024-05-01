@@ -42,6 +42,7 @@ const Allfolder = ({ data, id, file, sub, api, direct }) => {
     setShowDropdown(false);
     setShowConfirmation(true);
   };
+
   const handleClickEdit = () => {
     setShowDropdown(false);
     setShowConfirmationEdit(true);
@@ -60,6 +61,7 @@ const Allfolder = ({ data, id, file, sub, api, direct }) => {
     }
     return title;
   };
+  
   return (
     <div className="flex-row flex flex-wrap gap-3">
       {data?.map((folder, index) => {

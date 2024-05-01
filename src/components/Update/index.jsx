@@ -3,7 +3,13 @@ import { Bell } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import NotificationPopup from "../Notification";
 
-const Update = ({ data, setPageUpdate, pageUpdate, total }) => {
+const Update = ({
+  data,
+  setPageUpdate,
+  pageUpdate,
+  total,
+  setFilterUpload,
+}) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
@@ -36,7 +42,13 @@ const Update = ({ data, setPageUpdate, pageUpdate, total }) => {
         </div>
       </div>
       <div>
-        <Updok data={data} pageUpdate={pageUpdate} total={total} setPageUpdate={setPageUpdate} />
+        <Updok
+          data={data}
+          pageUpdate={pageUpdate}
+          total={total}
+          setPageUpdate={setPageUpdate}
+          setFilterUpload={setFilterUpload}
+        />
       </div>
     </div>
   );
