@@ -1,8 +1,79 @@
 import React, { useState, useEffect } from "react";
+import { format, parseISO } from "date-fns";
+import axios from "axios";
 
 const Content = ({ data, onClose }) => {
   const [selectedNotification, setSelectedNotification] = useState(null);
+  const [jwt, setJwt] = useState("");
+  const [isMarkingAllRead, setIsMarkingAllRead] = useState(false);
 
+
+
+  useEffect(() => {
+    const getToken = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        setJwt(response.data.accessToken);
+      } catch (error) {
+        console.error("Error fetching token:", error);
+      }
+    };
+
+    getToken();
+  }, [],);
+
+  const handleNotificationClick = async (notification) => {
+    setSelectedNotification(notification);
+    if (!notification.isRead) {
+      await markNotificationAsRead(notification.id);
+    }
+  };
+  const markNotificationAsReadAll = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/postAllNotifications`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      window.location.reload();
+  } catch (error) {
+    console.error("Error menandai semua notifikasi:", error);
+  } finally {
+    setIsMarkingAllRead(false);
+  }
+
+  };
+
+  const markNotificationAsRead = async (notificationId) => {
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/notification/${notificationId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      console.error("Error menandai notifikasi sebagai sudah dibaca:", error);
+    }
+  };
   return (
     <div className="grid grid-rows-4 gap-4 ">
       <div
@@ -15,9 +86,13 @@ const Content = ({ data, onClose }) => {
         <div className="w-full h-full bg-white rounded shadow-md border border-gray-300">
           <div className="notification-header flex justify-between items-center p-3 bg-white border-b ">
             <div className="font-bold text-xl">Notifikasi</div>
-            <a
-              href="#"
+            <a href="#"
               className="text-sm text-gray-600 border-b border-b-black font-bold"
+              onClick={markNotificationAsReadAll}
+              style={{
+                cursor: isMarkingAllRead ? "not-allowed" : "pointer",
+                opacity: isMarkingAllRead ? 0.5 : 1
+              }}
             >
               Tandai sudah dibaca
             </a>
@@ -28,25 +103,27 @@ const Content = ({ data, onClose }) => {
                 key={index}
                 className={`notification-item bg-white p-4 rounded cursor-pointer border-b ${
                   selectedNotification === notification ? "selected" : ""
-                }`}
-                onClick={() => handleNotificationClick(notification)}
+                }${notification.isRead ? "read" : "unread"}`}
+                onClick={() => {
+                  handleNotificationClick(notification);
+                  markNotificationAsRead(notification.id);
+                }}
               >
-                <div className="text-gray-800 text-xs font-semibold">
-                  <p>Dokumen {notification.file_name} berhasil diupload</p>
+                <div
+                  className={`text-sm font-semibold ${
+                    notification.isRead ? "text-gray-300" : "text-blac-1000"
+                  }`}
+                >
+                  <p>
+                    Dokumen ({notification.file_name}) {notification.action} (
+                    {format(parseISO(notification.createdAt), "yyyy-MM-dd")})
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
-
-      {selectedNotification && (
-        <div className="selected-notification-popup bg-gray-800 text-white p-4 rounded absolute top-0 left-0 right-0 bottom-0 z-20">
-          <div className="selected-notification-content">
-            <p>{selectedNotification.file_name}</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

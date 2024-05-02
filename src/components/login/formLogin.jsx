@@ -13,7 +13,6 @@ const FormLogin = () => {
   const Auth = async (e) => {
     e.preventDefault();
     try {
-      console.log("Mengirim permintaan login:", username, password);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/login`,
         {
@@ -21,12 +20,9 @@ const FormLogin = () => {
           password,
         },
         {
-          withCredentials : true
+          withCredentials: true,
         }
       );
-
-      console.log("Login berhasil!", response.data);
-      // Set cookie dengan nama 'token' dan isi dari response.data.accessToken
       Cookies.set("token", response.data.accessToken);
       window.location.href = "./dashboard";
     } catch (error) {

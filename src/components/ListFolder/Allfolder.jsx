@@ -6,7 +6,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-const Allfolder = ({ data, id, file, sub }) => {
+const Allfolder = ({ data, id, file, sub}) => {
     const truncateTitle = (title) => {
       if (title.length > 20) {
         return title.slice(0, 20) + "...";
@@ -80,6 +80,7 @@ const Allfolder = ({ data, id, file, sub }) => {
           );
         }
       })}
+    
     </div>
   );
 };

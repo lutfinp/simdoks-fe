@@ -48,7 +48,7 @@ const Page = () => {
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folakre.data} sub="subakreditasi"/>
+            <ListFolder data={folakre.data} sub="subakreditasi" hassubfolder={true}/>
           </div>
         </div>
       </div>

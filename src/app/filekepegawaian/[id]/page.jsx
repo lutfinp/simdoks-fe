@@ -6,12 +6,11 @@ import NavCategory from "@/components/NavCategory";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
 
-const Page = ({ params: { subid, id } }) => {
+const Page = ({ params: { id } }) => {
   let jwt;
 
   const [file, setFile] = useState("");
-  const [folsubakre, setFolsubakre] = useState("");
-  const [folakre, setFolakre] = useState("");
+  const [folkepegawain, setFolkepegawain] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
 
@@ -34,18 +33,18 @@ const Page = ({ params: { subid, id } }) => {
     );
     jwt = token.data.accessToken;
 
-    const folderAkre = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
+    const folderKepegawaian = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/staffType/${id}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFolakre(folderAkre);
+    setFolkepegawain(folderKepegawaian);
 
     const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/staffs`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -54,20 +53,10 @@ const Page = ({ params: { subid, id } }) => {
     );
     setFile(file);
 
-    const folderSubAkre = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtype/${subid}`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFolsubakre(folderSubAkre);
-    
 
     if(selectedFileId){    
       const fileUrlResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditation/${selectedFileId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/staff/${selectedFileId}`,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -76,23 +65,23 @@ const Page = ({ params: { subid, id } }) => {
         );
           
     setFileUrl(fileUrlResponse.data.file_url);
-
   };
+
   };
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="Akreditasi" />
+        <SideBar activePage="Kepegawaian" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="accreditation" searchfile="Akre" />
+              <NavCategory judul={folkepegawain.data} add="true" id={id} api="staff" donthassubfolder="true"/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id} subid={subid} handleFileClick={handleFileClick} fileUrl={fileUrl} api="accreditation" fileID={selectedFileId} />
+            <ListFile data={file.data} id={id}  handleFileClick={handleFileClick} fileUrl={fileUrl} api="staff" fileID={selectedFileId}/>
           </div>
         </div>
       </div>

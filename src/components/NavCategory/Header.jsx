@@ -7,7 +7,9 @@ import { useRef } from "react";
 import TambahFolder from "../Tambah/tambahFolder";
 import TambahSubFolder from "../Tambah/tambahSubFolder";
 
-const Header = ({ judul, add, subid, id, coba, api, direct }) => {
+const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile}) => {
+  console.log("ini coba", coba  )
+  console.log("ini searchfile", searchfile  )
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showTambahDokumen, setShowTambahDokumen] = useState(false);
@@ -15,19 +17,28 @@ const Header = ({ judul, add, subid, id, coba, api, direct }) => {
   const router = useRouter();
   let cobaId = judul?.id;
 
-  const handleSearch = (event) => {
-    const keyword = searchRef.current.value;
+    const handleSearch = (event) => {
+      const keyword = searchRef.current.value;
 
-    if (!keyword || keyword.trim() == "") return;
+      if (!keyword || keyword.trim() == "") return;
 
-    if (event.key === "Enter") {
-      event.preventDefault();
-      {
-        typeof judul === "string"
-          ? router.push(`/search${judul}/${keyword}`)
-          : router.push(`/searchSub${coba}/${cobaId}/${keyword}`);
-      }
-    }
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (typeof judul === "string") {
+          // Jika `judul` adalah string, arahkan ke rute '/search<judul>/<keyword>'
+          router.push(`/search${judul}/${keyword}`);
+        } 
+        // Kondisi kedua: Cek apakah `judul` memiliki properti `subtype_name`
+        else if (judul && judul.type_name) {
+          // Jika `judul` memiliki `subtype_name`, arahkan ke rute '/searchSub<coba>/<cobaId>/<keyword>'
+          router.push(`/searchSub${coba}/${cobaId}/${keyword}`);
+        }
+        else if (judul && judul.subtype_name)
+        {
+          router.push(`/searchFile${searchfile}/${subid}/${id}/${keyword}`);
+        }
+      
+    };
   };
 
   const handleNotificationClick = () => {
@@ -48,7 +59,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct }) => {
 
   let contentToDisplay;
   if (showTambahDokumen) {
-    if (id != null && subid != null) {
+    if ((id != null && subid != null)||(id != null && donthassubfolder =="true")||(id == null && donthassubfolder =="true")) {
       contentToDisplay = (
         <TambahDokumen
           id={id} //folder

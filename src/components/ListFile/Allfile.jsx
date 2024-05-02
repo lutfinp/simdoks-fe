@@ -11,7 +11,7 @@ import DownloadBarcode from "../Barcode/DownloadBarcode";
 
 
 
-const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api }) => {
+const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [selectedFile, setSelectedFile] = useState("");
@@ -69,21 +69,16 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api }) => {
     return title;
   };
 
-  
-  
-
-  
-
   return (
     <div className="flex-row flex flex-wrap gap-3">
       {data?.map((file, index) => {
-        if (id != null) {
-          if (file.typeId == id && file.subtypeId == subid) {
-            const newUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}`
+        if (id != null || id == null ) {
+          if (file.typeId == id && file.subtypeId == subid)  {
+            const newUrl = fileUrl ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}` : undefined;
             return (
-        
                 <div className="h-[217px] w-[230px] bg-white flex items-center justify-center"  onClick={(e) => handleFileClick(e, file.id)}>
                    <Link
+                      xkey={index}
                       href={fileUrl && fileUrl !== "http://localhost:8000/" ? newUrl : "#"}
                       className={`transition-all ${
                         fileUrl && fileUrl !== "http://localhost:8000/"

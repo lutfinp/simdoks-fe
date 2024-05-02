@@ -20,24 +20,24 @@ const NotificationPopup = () => {
       }
     );
     jwt = token.data.accessToken;
-    getHistory();
+    getNotification();
   };
 
-  const getHistory = async () => {
+  const getNotification = async () => {
     const dataNotification = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/notifications`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/notifications?order=desc`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setNotification(dataNotification.data);
+    setNotification(dataNotification);
   };
 
   return (
     <>
-      <Content data={history.data} />
+      <Content data={notification.data} />
     </>
   );
 };

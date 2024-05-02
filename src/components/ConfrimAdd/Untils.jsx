@@ -1,3 +1,3 @@
-export const generateDummyBarcodeUrl = (barcodeData) => {
-    return `https://example.com/barcode/${barcodeData}`;
+export const generateBarcodeUrl = (barcodeData) => {
+    return `${barcodeData}`;
   };

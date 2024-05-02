@@ -48,7 +48,7 @@ const Page = () => {
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folArsip.data} sub="subarsip"/>
+            <ListFolder data={folArsip.data} sub="filearsip"/>
           </div>
         </div>
       </div>

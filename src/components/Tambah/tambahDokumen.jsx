@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import ConfirmationPopUp from "../ConfrimAdd/ConfirmationPopUp";
-import { generateDummyBarcodeUrl } from "../ConfrimAdd/Untils";
+import { generateBarcodeUrl } from "../ConfrimAdd/Untils";
 
 const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
-  
+  console.log("ini subid", subid  )
   let jwt;
 
   const [nama, setNama] = useState("");
@@ -12,8 +12,8 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
   const [file, setFile] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const barcodeRef = useRef(null);
-  const [dummyBarcodeUrl, setDummyBarcodeUrl] = useState("");
-  const [dummyBarcodeData, setDummyBarcodeData] = useState("");
+  const [BarcodeUrl, setBarcodeUrl] = useState("");
+  const [BarcodeData, setBarcodeData] = useState("");
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -27,10 +27,11 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
     }
 
     setShowConfirmation(true);
-    generateDummyBarcode();
+    generateBarcode();
   };
-  const handleConfrimation = async () => {
+  const handleConfirmation = async () => {
     if(confirm){
+      if(id != null && subid != null){
       try {
         const response_token = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -63,9 +64,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
             withCredentials: true,
           }
         );
-        console.log(api)
-        console.log("link"+direct)
-        console.log("Document added successfully:", response.data);
+        // window.location.reload();
         window.location.href = `/file${direct}/${subid}/${id}`;
         onClose();
       } catch (error) {
@@ -73,13 +72,93 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
       }
 
     }
+    else if(id != null && subid == null){
+      try {
+        const response_token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response_token.data && response_token.data.accessToken) {
+          jwt = response_token.data.accessToken;
+        } else {
+          console.error("Invalid response format:", response_token);
+          return;
+        }
+  
+        const formData = new FormData();
+        formData.append("nama", nama);
+        formData.append("startDate", startDate);
+        formData.append("typeId", id);
+        formData.append("file", file);
+  
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
+        // window.location.reload();
+        window.location.href = `/file${direct}/${id}`;
+        onClose();
+      } catch (error) {
+        console.log("Error adding document:", error);
+      }
+    }
+    else if(id == null && subid == null){
+      try {
+        const response_token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response_token.data && response_token.data.accessToken) {
+          jwt = response_token.data.accessToken;
+        } else {
+          console.error("Invalid response format:", response_token);
+          return;
+        }
+  
+        const formData = new FormData();
+        formData.append("nama", nama);
+        formData.append("startDate", startDate);
+        formData.append("file", file);
+  
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
+        // window.location.reload();
+        window.location.href = `/file${direct}`;
+        onClose();
+      } catch (error) {
+        console.log("Error adding document:", error);
+      }
+    }
+  }
   };
    
-  const generateDummyBarcode = () => {
+  const generateBarcode = () => {
     try {
-      setDummyBarcodeData("123456");
-      const dummyData = generateDummyBarcodeUrl(dummyBarcodeData);
-      setDummyBarcodeUrl(dummyData);
+      setBarcodeData(`http://localhost:8000/file/${api}s/${nama}`);
+      const Data = generateBarcodeUrl(BarcodeData);
+      setBarcodeUrl(Data);
+      console.log("barcode data "+BarcodeData)
+      console.log("barcode url "+BarcodeUrl)
     } catch (error) {
       console.error("Error generating dummy barcode:", error);
     }
@@ -143,9 +222,9 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
     )}
     {showConfirmation && (
       <ConfirmationPopUp
-        onConfirm={handleConfrimation}
+        onConfirm={handleConfirmation}
         onCancel={() => setShowConfirmation(false)}
-        dummyBarcodeUrl={dummyBarcodeUrl}
+        BarcodeUrl={BarcodeUrl}
         barcodeRef={barcodeRef}
       />
     )}

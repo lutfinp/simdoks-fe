@@ -57,7 +57,7 @@ const Page = ({ params: { id, keyword } }) => {
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folsubakre.data} id={id} />
+            <ListFolder data={folsubakre.data} id={id} file="akreditasi" />
           </div>
         </div>
       </div>

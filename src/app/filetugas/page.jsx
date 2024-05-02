@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -6,15 +6,11 @@ import NavCategory from "@/components/NavCategory";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
 
-const Page = ({ params: { subid, id } }) => {
-  let jwt;
-
-  const [file, setFile] = useState("");
-  const [folsubakre, setFolsubakre] = useState("");
-  const [folakre, setFolakre] = useState("");
+const Page = () => {
+  let jwt
+  const [file, setFile] = useState("")
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
-
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -25,6 +21,7 @@ const Page = ({ params: { subid, id } }) => {
   useEffect(() => {
     getToken();
   }, [selectedFileId]);
+
   const getToken = async () => {
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -34,40 +31,19 @@ const Page = ({ params: { subid, id } }) => {
     );
     jwt = token.data.accessToken;
 
-    const folderAkre = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFolakre(folderAkre);
-
     const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFile(file);
-
-    const folderSubAkre = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtype/${subid}`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFolsubakre(folderSubAkre);
+    setFile(file)
     
-
     if(selectedFileId){    
       const fileUrlResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditation/${selectedFileId}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/task/${selectedFileId}`,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -76,23 +52,24 @@ const Page = ({ params: { subid, id } }) => {
         );
           
     setFileUrl(fileUrlResponse.data.file_url);
+    console.log("ini adalah respone"+fileUrlResponse.data.file_url)
+  };
+  };
 
-  };
-  };
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="Akreditasi" />
+        <SideBar activePage="tugas" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="accreditation" searchfile="Akre" />
+              <NavCategory judul="Tugas" add={true} api="task" donthassubfolder="true"/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id} subid={subid} handleFileClick={handleFileClick} fileUrl={fileUrl} api="accreditation" fileID={selectedFileId} />
+            <ListFile data={file.data}  handleFileClick={handleFileClick} fileUrl={fileUrl} api="task" fileID={selectedFileId}/>
           </div>
         </div>
       </div>

@@ -118,7 +118,7 @@ const Menu = ({ page }) => {
         </Link>
 
         <Link
-          href="/tugas"
+          href="/filetugas"
           className={`flex flex-row gap-2 p-2 mr-2 ${
             page === "tugas"
               ? "bg-blue-800 text-white"
