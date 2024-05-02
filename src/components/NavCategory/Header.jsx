@@ -8,8 +8,6 @@ import TambahFolder from "../Tambah/tambahFolder";
 import TambahSubFolder from "../Tambah/tambahSubFolder";
 
 const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile}) => {
-  console.log("ini coba", coba  )
-  console.log("ini searchfile", searchfile  )
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showTambahDokumen, setShowTambahDokumen] = useState(false);
