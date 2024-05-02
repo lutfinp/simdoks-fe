@@ -6,13 +6,14 @@ import NavCategory from "@/components/NavCategory";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
 
-const Page = ({ params: { id } }) => {
+const Page = ({ params: { subid, id, keyword } }) => {
   let jwt;
-
+  const [folsubbarang, setFolsubbarang] = useState("");
+  const [folbarang, setFolbarang] = useState("");
   const [file, setFile] = useState("");
-  const [folkepegawain, setFolkepegawain] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -22,6 +23,7 @@ const Page = ({ params: { id } }) => {
   useEffect(() => {
     getToken();
   }, [selectedFileId]);
+
   const getToken = async () => {
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -31,18 +33,29 @@ const Page = ({ params: { id } }) => {
     );
     jwt = token.data.accessToken;
 
-    const folderKepegawaian = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveType/${id}`,
+    const folderBarang = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemType/${id}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    setFolkepegawain(folderKepegawaian);
+    setFolbarang(folderBarang);
+
+    const folderSubBarang = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemSubtype/${subid}`,
+        {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setFolsubbarang(folderSubBarang);
+        
 
     const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/archives`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/items/search?typeId=${id}&subtypeId=${subid}&search=${keyword}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -50,10 +63,10 @@ const Page = ({ params: { id } }) => {
       }
     );
     setFile(file);
-    
+
     if(selectedFileId){    
         const fileUrlResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/archive/${selectedFileId}`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/item/${selectedFileId}`,
             {
               headers: {
                 Authorization: `Bearer ${jwt}`,
@@ -62,22 +75,22 @@ const Page = ({ params: { id } }) => {
           );
             
       setFileUrl(fileUrlResponse.data.file_url);
-    };
+        };
   };
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="arsip" />
+        <SideBar activePage="barang" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folkepegawain.data} add="true" id={id} api="archive" vardumb="FileArsip" direct="arsip" donthassubfolder="true"/>
+            <NavCategory judul={folsubbarang.data} id={id} subid={subid} searchfile="Barang" api="item" direct="barang" add={true}/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id}  handleFileClick={handleFileClick} fileUrl={fileUrl} api="archive" fileID={selectedFileId}/>
+            <ListFile data={file.data} subid={subid} id={id} handleFileClick={handleFileClick} fileUrl={fileUrl} api="item" fileID={selectedFileId} />
           </div>
         </div>
       </div>

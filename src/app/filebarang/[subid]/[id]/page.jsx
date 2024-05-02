@@ -82,13 +82,13 @@ const Page = ({ params: { subid, id } }) => {
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="Barang" />
+        <SideBar activePage="barang" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="item" direct="barang" />
+              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="item" searchfile="Barang" direct="barang" />
             </div>
           </section>
           <div className="pt-2">

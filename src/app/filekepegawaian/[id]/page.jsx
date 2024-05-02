@@ -71,13 +71,13 @@ const Page = ({ params: { id } }) => {
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="Kepegawaian" />
+        <SideBar activePage="kepegawaian" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folkepegawain.data} add="true" id={id} api="staff" donthassubfolder="true"/>
+              <NavCategory judul={folkepegawain.data} add="true" id={id} api="staff" vardumb="FileKepegawaian" direct="kepegawaian" searchfile="Kepegawain" donthassubfolder="true"/>
             </div>
           </section>
           <div className="pt-2">

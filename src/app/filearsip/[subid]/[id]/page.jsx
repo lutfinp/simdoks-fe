@@ -6,11 +6,12 @@ import NavCategory from "@/components/NavCategory";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
 
-const Page = ({ params: { id } }) => {
+const Page = ({ params: { id, subid } }) => {
   let jwt;
 
   const [file, setFile] = useState("");
-  const [folkepegawain, setFolkepegawain] = useState("");
+  const [folarsip, setFolarsip] = useState("");
+  const [folsubarsip, setFolsubarsip] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
 
@@ -31,7 +32,7 @@ const Page = ({ params: { id } }) => {
     );
     jwt = token.data.accessToken;
 
-    const folderKepegawaian = await axios.get(
+    const folderArsip = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveType/${id}`,
       {
         headers: {
@@ -39,7 +40,7 @@ const Page = ({ params: { id } }) => {
         },
       }
     );
-    setFolkepegawain(folderKepegawaian);
+    setFolarsip(folderArsip);
 
     const file = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/archives`,
@@ -50,6 +51,16 @@ const Page = ({ params: { id } }) => {
       }
     );
     setFile(file);
+
+    const folderSubArsip = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveSubtype/${subid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+    setFolsubarsip(folderSubArsip);
     
     if(selectedFileId){    
         const fileUrlResponse = await axios.get(
@@ -73,11 +84,11 @@ const Page = ({ params: { id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folkepegawain.data} add="true" id={id} api="archive" vardumb="FileArsip" direct="arsip" donthassubfolder="true"/>
+              <NavCategory judul={folsubarsip.data} add="true" id={id} subid={subid}  api="archive" vardumb="FileArsip" direct="arsip" donthassubfolder="true"/>
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id}  handleFileClick={handleFileClick} fileUrl={fileUrl} api="archive" fileID={selectedFileId}/>
+            <ListFile data={file.data} id={id} subid={subid}  handleFileClick={handleFileClick} fileUrl={fileUrl} api="archive" fileID={selectedFileId}/>
           </div>
         </div>
       </div>

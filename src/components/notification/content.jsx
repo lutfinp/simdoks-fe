@@ -115,7 +115,7 @@ const Content = ({ data, onClose }) => {
                   }`}
                 >
                   <p>
-                    Dokumen ({notification.file_name}) {notification.action} (
+                    Dokumen ({notification.file_name}) berhasil di{notification.action} (
                     {format(parseISO(notification.createdAt), "yyyy-MM-dd")})
                   </p>
                 </div>

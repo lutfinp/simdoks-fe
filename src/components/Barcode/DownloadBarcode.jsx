@@ -1,20 +1,18 @@
 import React, { useRef } from "react";
 import QRCode from "react-qr-code";
-import domtoimage from "dom-to-image";
+import domtoimage from "dom-to-image-more";
 
 const DownloadBarcode = ({ onClose, fileUrlBarcode }) => {
-  const barcodeRef = useRef(null); // Tambahkan ref untuk mengakses container QR Code
+  const barcodeRef = useRef(null);
 
   const onClickDownloadBarcode = () => {
     if (barcodeRef.current) {
-      domtoimage.toPng(barcodeRef.current)
+      domtoimage.toJpeg(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 258, height: 258 })
         .then(function (dataUrl) {
           const link = document.createElement('a');
           link.href = dataUrl;
-          link.download = 'barcode.png';
-          document.body.appendChild(link);
+          link.download = 'barcode';
           link.click();
-          document.body.removeChild(link);
         })
         .catch(function (error) {
           console.error('Failed to convert image:', error);
@@ -35,8 +33,8 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode }) => {
             />
           </button>
         </div>
-        <div className="flex justify-center space-x-10 mt-4" ref={barcodeRef}>
-          <QRCode value={fileUrlBarcode} />
+        <div className="flex justify-center space-x-10 w-[256px] h-[256px]" ref={barcodeRef}>
+          <QRCode value={fileUrlBarcode}/>
         </div>
         <div className="flex justify-center mt-8">
           <button

@@ -4,8 +4,8 @@ import ConfirmationPopUp from "../ConfrimAdd/ConfirmationPopUp";
 import { generateBarcodeUrl } from "../ConfrimAdd/Untils";
 
 const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
-  console.log("ini subid", subid  )
   let jwt;
+  console.log("id: ",id ,"subid", subid);
 
   const [nama, setNama] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -157,8 +157,6 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
       setBarcodeData(`http://localhost:8000/file/${api}s/${nama}`);
       const Data = generateBarcodeUrl(BarcodeData);
       setBarcodeUrl(Data);
-      console.log("barcode data "+BarcodeData)
-      console.log("barcode url "+BarcodeUrl)
     } catch (error) {
       console.error("Error generating dummy barcode:", error);
     }
