@@ -1,27 +1,47 @@
+import React, { useRef } from "react";
 import QRCode from "react-qr-code";
+import domtoimage from "dom-to-image";
 
 const DownloadBarcode = ({ onClose, fileUrlBarcode }) => {
+  const barcodeRef = useRef(null); // Tambahkan ref untuk mengakses container QR Code
+
+  const onClickDownloadBarcode = () => {
+    if (barcodeRef.current) {
+      domtoimage.toPng(barcodeRef.current)
+        .then(function (dataUrl) {
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          link.download = 'barcode.png';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        })
+        .catch(function (error) {
+          console.error('Failed to convert image:', error);
+        });
+    }
+    onClose();
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md">
-      <div className="bg-white p-8 rounded-2xl shadow-md relative">
-      <div className="absolute top-0 right-0 mr-4 ">
+      <div className="bg-white p-8 rounded-2xl shadow-md relative ">
+        <div className="absolute top-0 right-0 mr-4 ">
           <button onClick={onClose}>
             <img
               src="/assets/close.png"
-              alt="logo_close"
-              className="h-8 w-12\"
+              alt="Close"
+              className="h-8 w-8"
             />
           </button>
         </div>
-        <div className="flex justify-center space-x-10 mt-4">
+        <div className="flex justify-center space-x-10 mt-4" ref={barcodeRef}>
           <QRCode value={fileUrlBarcode} />
-         
         </div>
         <div className="flex justify-center mt-8">
-
-        <button
+          <button
             className="bg-blue-500 text-white py-2 px-4 rounded"
-            onClick={onClose}
+            onClick={onClickDownloadBarcode}
           >
             Download Barcode
           </button>
@@ -30,4 +50,5 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode }) => {
     </div>
   );
 };
+
 export default DownloadBarcode;
