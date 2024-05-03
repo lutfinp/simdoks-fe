@@ -30,8 +30,10 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
     generateBarcode();
   };
   const handleConfirmation = async () => {
+    console.log("di dalam handle id: ",id ,"subid", subid);
     if(confirm){
       if(id != null && subid != null){
+      console.log("di dalam confrim id: ",id ,"subid", subid);
       try {
         const response_token = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -45,7 +47,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           console.error("Invalid response format:", response_token);
           return;
         }
-  
+        console.log("di dalam form add id: ",id ,"subid", subid);
         const formData = new FormData();
         formData.append("nama", nama);
         formData.append("startDate", startDate);
@@ -54,6 +56,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
         formData.append("file", file);
   
         const response = await axios.post(
+          
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}`,
           formData,
           {
@@ -105,7 +108,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           }
         );
         // window.location.reload();
-        window.location.href = `/file${direct}/${id}`;
+        window.location.href = `/${direct}/${id}`;
         onClose();
       } catch (error) {
         console.log("Error adding document:", error);

@@ -153,6 +153,7 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api}) => {
       {showConfirmationDownloadBarcode && (
         <DownloadBarcode
           fileUrlBarcode={fileUrlBarcode}
+          selectedFile={selectedFile.name}
           onClose={() => {
             setShowConfirmationDownloadBarcode(false);
           }}

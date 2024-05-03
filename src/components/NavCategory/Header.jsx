@@ -58,6 +58,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   let contentToDisplay;
   if (showTambahDokumen) {
     if ((id != null && subid != null)||(id != null && donthassubfolder =="true")||(id == null && donthassubfolder =="true")) {
+      console.log("id: ",id ,"subid: ", subid);
       contentToDisplay = (
         <TambahDokumen
           id={id} //folder

@@ -88,7 +88,7 @@ const Page = ({ params: { subid, id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="item" searchfile="Barang" direct="barang" />
+              <NavCategory judul={folsubakre.data} add="true" subid={subid} id={id}  api="itemWith" searchfile="Barang" direct="barang" />
             </div>
           </section>
           <div className="pt-2">

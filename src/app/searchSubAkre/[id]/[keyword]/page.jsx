@@ -33,6 +33,7 @@ const Page = ({ params: { id, keyword } }) => {
       }
     );
     setFolakre(folderAkre);
+    
 
     const folderSubAkre = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes/search?typeId=${id}&search=${keyword}`,

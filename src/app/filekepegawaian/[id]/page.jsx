@@ -77,7 +77,7 @@ const Page = ({ params: { id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folkepegawain.data} add="true" id={id} api="staff" vardumb="FileKepegawaian" direct="kepegawaian" searchfile="Kepegawain" donthassubfolder="true"/>
+              <NavCategory judul={folkepegawain.data} add="true" id={id} api="staff" vardumb="FileKepegawaian" direct="filekepegawaian" searchfile="Kepegawain" donthassubfolder="true"/>
             </div>
           </section>
           <div className="pt-2">
