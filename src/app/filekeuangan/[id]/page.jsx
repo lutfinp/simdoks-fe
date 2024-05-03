@@ -5,6 +5,7 @@ import SideBar from "@/components/SideBar";
 import NavCategory from "@/components/NavCategory";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
+import { set } from "date-fns";
 
 const Page = ({ params: { id } }) => {
   let jwt;
@@ -13,6 +14,7 @@ const Page = ({ params: { id } }) => {
   const [folkepegawain, setFolkepegawain] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -50,20 +52,19 @@ const Page = ({ params: { id } }) => {
       }
     );
     setFile(file);
-    
-    if(selectedFileId){    
-        const fileUrlResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/finance/${selectedFileId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${jwt}`,
-              },
-            }
-          );
-            
-      setFileUrl(fileUrlResponse.data.file_url);
-    };
 
+    if (selectedFileId) {
+      const fileUrlResponse = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/finance/${selectedFileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFileUrl(fileUrlResponse.data.file_url);
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
   return (
     <div className="flex flex-row gap-2">
@@ -74,11 +75,29 @@ const Page = ({ params: { id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folkepegawain.data} add="true" id={id} api="finance" vardumb="FileKepegawain" direct="filekeuangan" donthassubfolder="true"/>
+              <NavCategory
+                judul={folkepegawain.data}
+                add="true"
+                id={id}
+                api="finance"
+                vardumb="FileKeuangan"
+                direct="filekeuangan"
+                searchfile="Keuangan"
+                donthassubfolder="true"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id}  handleFileClick={handleFileClick} fileUrl={fileUrl} api="finance" fileID={selectedFileId}/>
+            <ListFile
+              data={file.data}
+              id={id}
+              handleFileClick={handleFileClick}
+              fileUrl={fileUrl}
+              fileName={fileName}
+              api="finance"
+              direct="filekeuangan"
+              fileID={selectedFileId}
+            />
           </div>
         </div>
       </div>

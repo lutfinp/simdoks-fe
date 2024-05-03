@@ -5,6 +5,7 @@ import SideBar from "@/components/SideBar";
 import NavCategory from "@/components/NavCategory";
 import ListFile from "@/components/ListFile/index.jsx";
 import axios from "axios";
+import { set } from "date-fns";
 
 const Page = ({ params: { subid, id } }) => {
   let jwt;
@@ -14,12 +15,12 @@ const Page = ({ params: { subid, id } }) => {
   const [folprogram, setFolprogram] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
     setSelectedFileId(fileId);
   };
-
 
   useEffect(() => {
     getToken();
@@ -63,18 +64,19 @@ const Page = ({ params: { subid, id } }) => {
     );
     setFolsubprogram(folderSubProgram);
 
-    if(selectedFileId){    
+    if (selectedFileId) {
       const fileUrlResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/program/${selectedFileId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-          
-    setFileUrl(fileUrlResponse.data.file_url);
-      };
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/program/${selectedFileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
+      setFileUrl(fileUrlResponse.data.file_url);
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
   return (
     <div className="flex flex-row gap-2">
@@ -85,11 +87,29 @@ const Page = ({ params: { subid, id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubprogram.data} add="true" id={id} subid={subid} searchfile="Program" api="program" direct="program"/>
+              <NavCategory
+                judul={folsubprogram.data}
+                add="true"
+                id={id}
+                subid={subid}
+                searchfile="Program"
+                api="program"
+                direct="program"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id} subid={subid} handleFileClick={handleFileClick} fileUrl={fileUrl} api="program" fileID={selectedFileId} />
+            <ListFile
+              data={file.data}
+              id={id}
+              subid={subid}
+              handleFileClick={handleFileClick}
+              fileUrl={fileUrl}
+              fileName={fileName}
+              api="program"
+              direct="program"
+              fileID={selectedFileId}
+            />
           </div>
         </div>
       </div>

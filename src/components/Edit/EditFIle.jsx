@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useState, useRef } from "react";
-import ConfirmationPopUp from "../ConfrimAdd/ConfirmationPopUp";
+import ConfirmationPopUp from "../ConfrimEdit/ConfirmationPopUp";
 import { generateBarcodeUrl } from "../ConfrimAdd/Untils";
 
 
-const EditFile = ({onClose, api, selectedFileId, subid, id}) => {
+const EditFile = ({onClose, api, selectedFileId, subid, id, direct}) => {
   
   let jwt;
   const [nama, setNama] = useState("");
@@ -64,8 +64,8 @@ const EditFile = ({onClose, api, selectedFileId, subid, id}) => {
             withCredentials: true,
           }
         );
-        window.location.reload();
         onClose();
+        window.location.href = `/file${direct}/${subid}/${id}`;
       } catch (error) {
         console.log("Error adding document:", error);
       }
@@ -103,8 +103,8 @@ const EditFile = ({onClose, api, selectedFileId, subid, id}) => {
             withCredentials: true,
           }
         );
-        window.location.reload();
         onClose();
+        window.location.href = `/${direct}/${id}`;
       } catch (error) {
         console.log("Error adding document:", error);
       }
@@ -140,8 +140,8 @@ const EditFile = ({onClose, api, selectedFileId, subid, id}) => {
             withCredentials: true,
           }
         );
-        window.location.reload();
         onClose();
+        window.location.href = `/file${direct}`;
       } catch (error) {
         console.log("Error adding document:", error);
       }

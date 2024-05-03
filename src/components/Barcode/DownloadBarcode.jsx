@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import QRCode from "react-qr-code";
 import domtoimage from "dom-to-image-more";
 
-const DownloadBarcode = ({ onClose, fileUrlBarcode, filename }) => {
+const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
   const barcodeRef = useRef(null);
 
   const onClickDownloadBarcode = () => {
@@ -11,7 +11,7 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, filename }) => {
         .then(function (dataUrl) {
           const link = document.createElement('a');
           link.href = dataUrl;
-          link.download = 'barcode';
+          link.download = `${fileName}`;
           link.click();
         })
         .catch(function (error) {

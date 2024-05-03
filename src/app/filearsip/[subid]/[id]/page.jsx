@@ -13,6 +13,7 @@ const Page = ({ params: { id, subid } }) => {
   const [folarsip, setFolarsip] = useState("");
   const [folsubarsip, setFolsubarsip] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
+  const [fileName, setFileName] = useState("");
   const [fileUrl, setFileUrl] = useState("");
 
   const handleFileClick = (event, fileId) => {
@@ -53,27 +54,28 @@ const Page = ({ params: { id, subid } }) => {
     setFile(file);
 
     const folderSubArsip = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveSubtype/${subid}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveSubtype/${subid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    setFolsubarsip(folderSubArsip);
+
+    if (selectedFileId) {
+      const fileUrlResponse = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/archive/${selectedFileId}`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         }
       );
-    setFolsubarsip(folderSubArsip);
-    
-    if(selectedFileId){    
-        const fileUrlResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/archive/${selectedFileId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${jwt}`,
-              },
-            }
-          );
-            
+
       setFileUrl(fileUrlResponse.data.file_url);
-    };
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
   return (
     <div className="flex flex-row gap-2">
@@ -84,11 +86,29 @@ const Page = ({ params: { id, subid } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubarsip.data} add="true" id={id} subid={subid}  api="archive" vardumb="FileArsip" direct="arsip" donthassubfolder="true"/>
+              <NavCategory
+                judul={folsubarsip.data}
+                add="true"
+                id={id}
+                subid={subid}
+                api="archive"
+                searchfile="Arsip"
+                direct="arsip"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id} subid={subid}  handleFileClick={handleFileClick} fileUrl={fileUrl} api="archive" fileID={selectedFileId}/>
+            <ListFile
+              data={file.data}
+              id={id}
+              subid={subid}
+              handleFileClick={handleFileClick}
+              fileName={fileName}
+              fileUrl={fileUrl}
+              api="archive"
+              direct="arsip"
+              fileID={selectedFileId}
+            />
           </div>
         </div>
       </div>

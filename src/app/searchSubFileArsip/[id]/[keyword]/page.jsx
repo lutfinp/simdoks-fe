@@ -5,6 +5,7 @@ import SideBar from "@/components/SideBar";
 import NavCategory from "@/components/NavCategory";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
+import { set } from "date-fns";
 
 const Page = ({ params: { id, keyword } }) => {
   let jwt;
@@ -12,7 +13,7 @@ const Page = ({ params: { id, keyword } }) => {
   const [file, setFile] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
-
+  const [fileName, setFileName] = useState("");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -42,9 +43,6 @@ const Page = ({ params: { id, keyword } }) => {
     );
     setFolarsip(folderArsip);
 
-
-        
-
     const file = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/archives/search?typeId=${id}&search=${keyword}`,
       {
@@ -55,18 +53,19 @@ const Page = ({ params: { id, keyword } }) => {
     );
     setFile(file);
 
-    if(selectedFileId){    
-        const fileUrlResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/archive/${selectedFileId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${jwt}`,
-              },
-            }
-          );
-            
+    if (selectedFileId) {
+      const fileUrlResponse = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/archive/${selectedFileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
       setFileUrl(fileUrlResponse.data.file_url);
-        };
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
   return (
     <div className="flex flex-row gap-2">
@@ -77,11 +76,28 @@ const Page = ({ params: { id, keyword } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-            <NavCategory judul={folarsip.data} id={id} vardumb="FileArsip" api="archive" direct="arsip" add={true}/>
+              <NavCategory
+                judul={folarsip.data}
+                id={id}
+                vardumb="FileArsip"
+                api="archive"
+                direct="subarsip"
+                add={true}
+                donthassubfolder="true"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id} handleFileClick={handleFileClick} fileUrl={fileUrl} api="archive" fileID={selectedFileId} />
+            <ListFile
+              data={file.data}
+              id={id}
+              handleFileClick={handleFileClick}
+              fileUrl={fileUrl}
+              fileName={fileName}
+              api="archive"
+              direct="subarsip"
+              fileID={selectedFileId}
+            />
           </div>
         </div>
       </div>

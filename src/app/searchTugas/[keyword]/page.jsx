@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -7,16 +7,16 @@ import ListFile from "@/components/ListFile";
 import axios from "axios";
 
 const Page = ({ params: { keyword } }) => {
-  let jwt
-  const [file, setFile] = useState("")
+  let jwt;
+  const [file, setFile] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
     setSelectedFileId(fileId);
   };
-
 
   useEffect(() => {
     getToken();
@@ -39,21 +39,21 @@ const Page = ({ params: { keyword } }) => {
         },
       }
     );
-    setFile(file)
-    
-    if(selectedFileId){    
+    setFile(file);
+
+    if (selectedFileId) {
       const fileUrlResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/task/${selectedFileId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-          
-    setFileUrl(fileUrlResponse.data.file_url);
-    console.log("ini adalah respone"+fileUrlResponse.data.file_url)
-  };
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/task/${selectedFileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
+      setFileUrl(fileUrlResponse.data.file_url);
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
 
   return (
@@ -65,11 +65,25 @@ const Page = ({ params: { keyword } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="FileTugas" add={true} api="task" donthassubfolder="true"/>
+              <NavCategory
+                judul="Tugas"
+                add={true}
+                api="task"
+                direct="tugas"
+                donthassubfolder="true"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} handleFileClick={handleFileClick} fileUrl={fileUrl} api="task" fileID={selectedFileId}/>
+            <ListFile
+              data={file.data}
+              handleFileClick={handleFileClick}
+              fileUrl={fileUrl}
+              fileName={fileName}
+              api="task"
+              fileID={selectedFileId}
+              direct="tugas"
+            />
           </div>
         </div>
       </div>

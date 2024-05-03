@@ -5,7 +5,6 @@ import { generateBarcodeUrl } from "../ConfrimAdd/Untils";
 
 const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
   let jwt;
-  console.log("id: ",id ,"subid", subid);
 
   const [nama, setNama] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -22,7 +21,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!nama || !startDate || !file) {
-      alert("Please fill in all fields");
+      alert("Mohon untuk mengisi semua field");
       return;
     }
 
@@ -30,10 +29,8 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
     generateBarcode();
   };
   const handleConfirmation = async () => {
-    console.log("di dalam handle id: ",id ,"subid", subid);
     if(confirm){
-      if(id != null && subid != null){
-      console.log("di dalam confrim id: ",id ,"subid", subid);
+      if((id != null )&& (subid != null)){
       try {
         const response_token = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -55,10 +52,11 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
         formData.append("subtypeId", subid);
         formData.append("file", file);
   
-        const response = await axios.post(
+        const response = await axios.post(  
           
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}`,
           formData,
+          
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -66,8 +64,8 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
             },
             withCredentials: true,
           }
+          
         );
-        // window.location.reload();
         window.location.href = `/file${direct}/${subid}/${id}`;
         onClose();
       } catch (error) {
@@ -107,7 +105,6 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
             withCredentials: true,
           }
         );
-        // window.location.reload();
         window.location.href = `/${direct}/${id}`;
         onClose();
       } catch (error) {
@@ -145,7 +142,6 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
             withCredentials: true,
           }
         );
-        // window.location.reload();
         window.location.href = `/file${direct}`;
         onClose();
       } catch (error) {

@@ -6,16 +6,18 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
+import { set } from "date-fns";
 
-const Page = ({ params: { id   } }) => {
-  let jwt
-  
+const Page = ({ params: { id } }) => {
+  let jwt;
+
   const [folsubarsip, setFolsubarsip] = useState([]);
   const [folarsip, setFolarsip] = useState("");
   const [file, setFile] = useState("");
-  const [currentType, setCurrentType] = useState("");
+  const [foltypeId, setFoltypeId] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -44,8 +46,7 @@ const Page = ({ params: { id   } }) => {
       }
     );
     setFolarsip(folderArsip);
-    setCurrentType(folderArsip.data.current);
- 
+    setFoltypeId(folderArsip.data.id);
 
     const folderSubarsip = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveSubtypes`,
@@ -67,61 +68,84 @@ const Page = ({ params: { id   } }) => {
     );
     setFile(file);
 
-    if(selectedFileId){    
+    if (selectedFileId) {
       const fileUrlResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/archive/${selectedFileId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-          
-    setFileUrl(fileUrlResponse.data.file_url);
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/archive/${selectedFileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
+      setFileUrl(fileUrlResponse.data.file_url);
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
-  };
-  if(currentType == true){
-  return (
-    <div className="flex flex-row gap-2">
-      <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="arsip" />
-      </div>
-      <div className="w-full bg-gray-50">
-        <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
-          <section>
-            <div>
-              <NavCategory judul={folarsip.data} id={id} vardumb="Arsip" api="archiveSub" direct="subarsip" add={true} />
+  if (foltypeId == 2) {
+    return (
+      <div className="flex flex-row gap-2">
+        <div className="text-gray-700 h-screen w-[249px]">
+          <SideBar activePage="arsip" />
+        </div>
+        <div className="w-full bg-gray-50">
+          <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
+            <section>
+              <div>
+                <NavCategory
+                  judul={folarsip.data}
+                  id={id}
+                  vardumb="Arsip"
+                  api="archiveSub"
+                  direct="subarsip"
+                  add={true}
+                />
+              </div>
+            </section>
+            <div className="pt-2">
+              <ListFolder data={folsubarsip.data} id={id} file="arsip" />
             </div>
-          </section>
-          <div className="pt-2">
-            <ListFolder data={folsubarsip.data} id={id} file="arsip" />
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-else {
-  return (
-    <div className="flex flex-row gap-2">
-      <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="arsip" />
-      </div>
-      <div className="w-full bg-gray-50">
-        <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
-          <section>
-            <div>
-              <NavCategory judul={folarsip.data} add="true" id={id} api="archive" vardumb="FileArsip" direct="subarsip" donthassubfolder="true"/>
+    );
+  } else {
+    return (
+      <div className="flex flex-row gap-2">
+        <div className="text-gray-700 h-screen w-[249px]">
+          <SideBar activePage="arsip" />
+        </div>
+        <div className="w-full bg-gray-50">
+          <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
+            <section>
+              <div>
+                <NavCategory
+                  judul={folarsip.data}
+                  add="true"
+                  id={id}
+                  api="archive"
+                  vardumb="FileArsip"
+                  direct="subarsip"
+                  donthassubfolder="true"
+                />
+              </div>
+            </section>
+            <div className="pt-2">
+              <ListFile
+                data={file.data}
+                id={id}
+                handleFileClick={handleFileClick}
+                fileUrl={fileUrl}
+                fileName={fileName}
+                api="archive"
+                fileID={selectedFileId}
+              />
             </div>
-          </section>
-          <div className="pt-2">
-            <ListFile data={file.data} id={id} handleFileClick={handleFileClick} fileUrl={fileUrl} api="archive" fileID={selectedFileId}/>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 };
 
 export default Page;

@@ -6,16 +6,18 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
+import { set } from "date-fns";
 
-const Page = ({ params: { id   } }) => {
-  let jwt
-  
+const Page = ({ params: { id } }) => {
+  let jwt;
+
   const [folsubbarang, setFolsubbarang] = useState([]);
   const [folbarang, setFolbarang] = useState("");
   const [file, setFile] = useState("");
-  const [currentType, setCurrentType] = useState("");
+  const [foltypeId, setFoltypeId] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -44,8 +46,7 @@ const Page = ({ params: { id   } }) => {
       }
     );
     setFolbarang(folderBarang);
-    setCurrentType(folderBarang.data.current);
- 
+    setFoltypeId(folderBarang.data.id);
 
     const folderSubbarang = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemSubtypes`,
@@ -67,61 +68,84 @@ const Page = ({ params: { id   } }) => {
     );
     setFile(file);
 
-    if(selectedFileId){    
+    if (selectedFileId) {
       const fileUrlResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/item/${selectedFileId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-          
-    setFileUrl(fileUrlResponse.data.file_url);
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/item/${selectedFileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
+      setFileUrl(fileUrlResponse.data.file_url);
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
-  };
-  if(currentType == true){
-  return (
-    <div className="flex flex-row gap-2">
-      <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="item" />
-      </div>
-      <div className="w-full bg-gray-50">
-        <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
-          <section>
-            <div>
-              <NavCategory judul={folbarang.data} id={id} vardumb="Barang" api="barangSub" direct="subbarang" add={true} />
+  if (foltypeId == 1) {
+    return (
+      <div className="flex flex-row gap-2">
+        <div className="text-gray-700 h-screen w-[249px]">
+          <SideBar activePage="barang" />
+        </div>
+        <div className="w-full bg-gray-50">
+          <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
+            <section>
+              <div>
+                <NavCategory
+                  judul={folbarang.data}
+                  id={id}
+                  vardumb="Barang"
+                  api="barangSub"
+                  direct="subbarang"
+                  add={true}
+                />
+              </div>
+            </section>
+            <div className="pt-2">
+              <ListFolder data={folsubbarang.data} id={id} file="barang" />
             </div>
-          </section>
-          <div className="pt-2">
-            <ListFolder data={folsubbarang.data} id={id} file="barang" />
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-else {
-  return (
-    <div className="flex flex-row gap-2">
-      <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="item" />
-      </div>
-      <div className="w-full bg-gray-50">
-        <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
-          <section>
-            <div>
-              <NavCategory judul={folbarang.data} add="true" id={id} api="item" vardumb="FileBarang" direct="barang" donthassubfolder="true"/>
+    );
+  } else {
+    return (
+      <div className="flex flex-row gap-2">
+        <div className="text-gray-700 h-screen w-[249px]">
+          <SideBar activePage="barang" />
+        </div>
+        <div className="w-full bg-gray-50">
+          <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
+            <section>
+              <div>
+                <NavCategory
+                  judul={folbarang.data}
+                  add="true"
+                  id={id}
+                  api="item"
+                  vardumb="FileBarang"
+                  direct="subbarang"
+                  donthassubfolder="true"
+                />
+              </div>
+            </section>
+            <div className="pt-2">
+              <ListFile
+                data={file.data}
+                id={id}
+                handleFileClick={handleFileClick}
+                fileUrl={fileUrl}
+                fileName={fileName}
+                api="item"
+                fileID={selectedFileId}
+              />
             </div>
-          </section>
-          <div className="pt-2">
-            <ListFile data={file.data} id={id} handleFileClick={handleFileClick} fileUrl={fileUrl} api="item" fileID={selectedFileId}/>
           </div>
-        </div>  
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 };
 
 export default Page;

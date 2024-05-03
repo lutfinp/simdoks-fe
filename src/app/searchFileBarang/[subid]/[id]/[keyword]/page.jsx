@@ -5,6 +5,7 @@ import SideBar from "@/components/SideBar";
 import NavCategory from "@/components/NavCategory";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
+import { set } from "date-fns";
 
 const Page = ({ params: { subid, id, keyword } }) => {
   let jwt;
@@ -13,7 +14,7 @@ const Page = ({ params: { subid, id, keyword } }) => {
   const [file, setFile] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
-
+  const [fileName, setFileName] = useState("");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -44,15 +45,14 @@ const Page = ({ params: { subid, id, keyword } }) => {
     setFolbarang(folderBarang);
 
     const folderSubBarang = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemSubtype/${subid}`,
-        {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-        setFolsubbarang(folderSubBarang);
-        
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemSubtype/${subid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    setFolsubbarang(folderSubBarang);
 
     const file = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/items/search?typeId=${id}&subtypeId=${subid}&search=${keyword}`,
@@ -64,18 +64,19 @@ const Page = ({ params: { subid, id, keyword } }) => {
     );
     setFile(file);
 
-    if(selectedFileId){    
-        const fileUrlResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/item/${selectedFileId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${jwt}`,
-              },
-            }
-          );
-            
+    if (selectedFileId) {
+      const fileUrlResponse = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/item/${selectedFileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
       setFileUrl(fileUrlResponse.data.file_url);
-        };
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
   return (
     <div className="flex flex-row gap-2">
@@ -86,11 +87,29 @@ const Page = ({ params: { subid, id, keyword } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-            <NavCategory judul={folsubbarang.data} id={id} subid={subid} searchfile="Barang" api="item" direct="barang" add={true}/>
+              <NavCategory
+                judul={folsubbarang.data}
+                id={id}
+                subid={subid}
+                searchfile="Barang"
+                api="item"
+                direct="barang"
+                add={true}
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} subid={subid} id={id} handleFileClick={handleFileClick} fileUrl={fileUrl} api="item" fileID={selectedFileId} />
+            <ListFile
+              data={file.data}
+              subid={subid}
+              id={id}
+              handleFileClick={handleFileClick}
+              fileUrl={fileUrl}
+              fileName={fileName}
+              api="item"
+              direct="barang"
+              fileID={selectedFileId}
+            />
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ import DownloadBarcode from "../Barcode/DownloadBarcode";
 
 
 
-const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api}) => {
+const Allfile = ({ data, id, subid, handleFileClick, fileUrl, fileName, api, direct}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [selectedFile, setSelectedFile] = useState("");
@@ -145,15 +145,17 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, api}) => {
           subid={subid}
           api={api}
           selectedFileId={selectedFileId}
+          direct={direct}
           onClose={() => {
             setShowConfirmationEdit(false);
           }}
         />
       )}
       {showConfirmationDownloadBarcode && (
+      
         <DownloadBarcode
           fileUrlBarcode={fileUrlBarcode}
-          selectedFile={selectedFile.name}
+          fileName={fileName}
           onClose={() => {
             setShowConfirmationDownloadBarcode(false);
           }}
