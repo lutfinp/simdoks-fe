@@ -1,6 +1,14 @@
 import Hasdok from "./Hasdok";
 
-const Hapus = ({ data, total, pageHapus, setPageHapus, setFilterDelete }) => {
+const Hapus = ({
+  data,
+  total,
+  pageHapus,
+  setPageHapus,
+  setFilterDelete,
+  setSearchDelete,
+  setKeywordDelete,
+}) => {
   return (
     <div className="ml-[32px] mr-[32px] my-4">
       <div>
@@ -10,6 +18,8 @@ const Hapus = ({ data, total, pageHapus, setPageHapus, setFilterDelete }) => {
           pageHapus={pageHapus}
           setPageHapus={setPageHapus}
           setFilterDelete={setFilterDelete}
+          setSearchDelete={setSearchDelete}
+          setKeywordDelete={setKeywordDelete}
         />
       </div>
     </div>

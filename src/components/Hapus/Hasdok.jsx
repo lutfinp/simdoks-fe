@@ -2,11 +2,21 @@ import React from "react";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import PaginationHapus from "../Utilities/PaginationHapus";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
-const Hasdok = ({ data, total, pageHapus, setPageHapus, setFilterDelete }) => {
+const Hasdok = ({
+  data,
+  total,
+  pageHapus,
+  setPageHapus,
+  setFilterDelete,
+  setSearchDelete,
+  setKeywordDelete,
+}) => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const dropdownRef = useRef(null);
+  const searchRef = useRef();
 
   const formatDate = (dateString) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -44,6 +54,20 @@ const Hasdok = ({ data, total, pageHapus, setPageHapus, setFilterDelete }) => {
     setFilterDelete("week");
   };
 
+  const handleSearch = (event) => {
+    const keyword = searchRef.current.value;
+
+    if (!keyword || keyword.trim() == "") return;
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      {
+        setSearchDelete((prevState) => prevState + 1);
+        setKeywordDelete(keyword);
+      }
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -55,7 +79,7 @@ const Hasdok = ({ data, total, pageHapus, setPageHapus, setFilterDelete }) => {
     <div className="flex flex-col">
       <div className="flex flex-col gap-3">
         <div className="flex flex-row justify-between mt-4">
-        <p className="text-xl font-bold text-blue-800 self-center">Hapus</p>
+          <p className="text-xl font-bold text-blue-800 self-center">Delete</p>
           <div className="flex flex-row gap-2">
             <button
               onClick={handleClickFilter}
@@ -94,13 +118,13 @@ const Hasdok = ({ data, total, pageHapus, setPageHapus, setFilterDelete }) => {
                 <ul className="text-sm font-normal text-gray-700">
                   <li
                     className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickAsc}
+                    onClick={handleClickDsc}
                   >
                     Terbaru
                   </li>
                   <li
                     className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickDsc}
+                    onClick={handleClickAsc}
                   >
                     Terlama
                   </li>
@@ -123,6 +147,8 @@ const Hasdok = ({ data, total, pageHapus, setPageHapus, setFilterDelete }) => {
                 placeholder="Search"
                 type="text"
                 name="search"
+                ref={searchRef}
+                onKeyDown={handleSearch}
               />
             </label>
           </div>
@@ -130,54 +156,77 @@ const Hasdok = ({ data, total, pageHapus, setPageHapus, setFilterDelete }) => {
         {/* <div className="flex items-center justify-center w-full h-[83px] bg-red-100 rounded-md text-center">
         search not found
       </div> */}
-        <table className="w-full outline outline-2 outline-gray-300 rounded-md">
-          <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
-            <tr>
-              <th className="text-center p-3 border-r-2 border-gray-300">
-                NO.
-              </th>
-              <th className="text-left p-3 border-r-2 border-gray-300">
-                NAMA DOKUMEN
-              </th>
-              <th className="p-3 border-r-2 border-gray-300">BERLAKU MULAI</th>
-              <th className="p-3 border-r-2 border-gray-300">BERLAKU HINGGA</th>
-              <th className="p-3">TANGGAL UPLOAD</th>
-            </tr>
-          </thead>
-          <tbody className="text-xs text-gray-700">
-            {data?.map((upload, index) => {
-              return (
-                <tr key={index} className=" bg-gray-50 odd:bg-white">
+        {data && data.length > 0 ? (
+          <table className="w-full outline outline-2 outline-gray-300 rounded-md">
+            <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
+              <tr>
+                <th className="text-center p-3 border-r-2 border-gray-300">
+                  NO.
+                </th>
+                <th className="text-left p-3 border-r-2 border-gray-300">
+                  NAMA DOKUMEN
+                </th>
+                <th className="p-3 border-r-2 border-gray-300">
+                  TANGGAL PENGHAPUSAN
+                </th>
+                <th className="p-3">SISTEM PENGHAPUSAN</th>
+              </tr>
+            </thead>
+            <tbody className="text-xs text-gray-700">
+              {data?.map((hapus, index) => (
+                <tr
+                  key={index}
+                  className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
+                >
                   <td className="text-center p-3 border-r-2 border-gray-300">
-                    {upload.id}
+                    {index + 1}.
                   </td>
                   <td className="p-3 border-r-2 border-gray-300">
-                    {upload.file_name}
+                    {hapus.file_name}
                   </td>
                   <td className="text-center p-3 border-r-2 border-gray-300">
-                    {formatDate(upload.start_date)}
-                  </td>
-                  <td className="text-center p-3 border-r-2 border-gray-300">
-                    {upload.expired_date == null
-                      ? "-"
-                      : `${upload.expired_date}`}
+                    {formatDate(hapus.createdAt)}
                   </td>
                   <td className="text-center p-3">
-                    {formatDate(upload.uploaded_at)}
+                    <div className="flex items-center justify-center">
+                      {hapus.deletion_system == "Manual" ? (
+                        <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800 text-xs font-medium">
+                          {hapus.deletion_system}
+                        </div>
+                      ) : (
+                        <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800 text-xs font-medium">
+                          {hapus.deletion_system}
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
+            <div>
+              <Image
+                className="mt-2"
+                src="/assets/dihapus.png"
+                alt="Tidak ada dokumen yang akan dihapus"
+                width={400}
+                height={173}
+              />
+            </div>
+          </div>
+        )}
       </div>
-      <div className="flex justify-end">
-        <PaginationHapus
-          total={total}
-          pageHapus={pageHapus}
-          setPageHapus={setPageHapus}
-        />
-      </div>
+      {data && data.length > 0 ? (
+        <div className="flex justify-end">
+          <PaginationHapus
+            total={total}
+            pageHapus={pageHapus}
+            setPageHapus={setPageHapus}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

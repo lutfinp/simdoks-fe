@@ -13,12 +13,16 @@ const Page = () => {
   const [totalPage, setTotalPage] = useState("");
   const [pageUpdate, setPageUpdate] = useState(1);
   const [pageHapus, setPageHapus] = useState(1);
-  const [filterUpload, setFilterUpload] = useState("asc");
-  const [filterDelete, setFilterDelete] = useState("asc");
+  const [filterUpload, setFilterUpload] = useState("desc");
+  const [filterDelete, setFilterDelete] = useState("desc");
+  const [searchUpload, setSearchUpload] = useState(0);
+  const [searchDelete, setSearchDelete] = useState(0);
+  const [keywordDelete, setKeywordDelete] = useState("");
+  const [keywordUpload, setKeywordUpload] = useState("");
 
   useEffect(() => {
     getToken();
-  }, [pageUpdate, pageHapus, filterUpload, filterDelete]);
+  }, [pageUpdate, pageHapus, filterUpload, filterDelete, searchUpload, searchDelete]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -29,19 +33,31 @@ const Page = () => {
     );
     jwt = token.data.accessToken;
 
-    if (filterUpload == "desc" || "asc") {
-      const historyUpload = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUpload?page=${pageUpdate}&pageSize=10&order=${filterUpload}`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      setUpdok(historyUpload);
+    if (searchUpload == 0) {
+      if (filterUpload == "desc" || "asc") {
+        const historyUpload = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUpload?page=${pageUpdate}&pageSize=10&order=${filterUpload}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setUpdok(historyUpload);
+      } else {
+        const historyUpload = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/last7DaysUploads?page=${pageUpdate}&pageSize=10&order=asc`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setUpdok(historyUpload);
+      }
     } else {
       const historyUpload = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/last7DaysUploads?page=${pageUpdate}&pageSize=10&order=asc`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchHistoryUploads?search=${keywordUpload}&order=${filterUpload}`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -51,9 +67,31 @@ const Page = () => {
       setUpdok(historyUpload);
     }
 
-    if (filterDelete == "desc" || "asc") {
+    if (searchDelete == 0) {
+      if (filterDelete == "desc" || "asc") {
+        const historyDelete = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyDelete?page=${pageHapus}&pageSize=10&order=${filterDelete}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setDeldok(historyDelete);
+      } else {
+        const historyDelete = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/last7DaysDeletes?page=${pageHapus}&pageSize=10&order=asc`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setDeldok(historyDelete);
+      }
+    }else {
       const historyDelete = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyDeletes?page=${pageHapus}&pageSize=10&order=${filterDelete}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchHistoryDeletes?search=${keywordDelete}&order=${filterDelete}`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -61,17 +99,6 @@ const Page = () => {
         }
       );
       setDeldok(historyDelete);
-
-    } else {
-      const historyDelete = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/last7DaysDeletes?page=${pageUpdate}&pageSize=10&order=asc`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      setUpdok(historyDelete);
     }
 
     const allPage = await axios.get(
@@ -97,6 +124,8 @@ const Page = () => {
           pageUpdate={pageUpdate}
           setPageUpdate={setPageUpdate}
           setFilterUpload={setFilterUpload}
+          setSearchUpload={setSearchUpload}
+          setKeywordUpload={setKeywordUpload}
         />
         <Hapus
           data={deldok.data}
@@ -104,6 +133,8 @@ const Page = () => {
           pageHapus={pageHapus}
           setPageHapus={setPageHapus}
           setFilterDelete={setFilterDelete}
+          setSearchDelete={setSearchDelete}
+          setKeywordDelete={setKeywordDelete}
         />
       </div>
     </div>

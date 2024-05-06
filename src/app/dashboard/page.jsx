@@ -12,12 +12,14 @@ import { jwtDecode } from "jwt-decode";
 export default function Page() {
   const [nama, setNama] = useState("");
   const [cat, setcat] = useState("");
+  const [hapus, setHapus] = useState("")
+  const [pageHapus, setPageHapus] = useState(1)
   let jwt
   
 
   useEffect(() => {
     getToken();
-  }, []);
+  }, [pageHapus]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -27,8 +29,16 @@ export default function Page() {
       }
     );
     jwt = token.data.accessToken
-    const decoded = jwtDecode(token.data?.accessToken);
-    setNama(decoded.username);
+    
+    const info = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    setNama(info)
 
     const category = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories`,
@@ -39,6 +49,16 @@ export default function Page() {
       }
     );
     setcat(category)
+
+    const deleted = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/getAllFilesDeletedIn7Days`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    setHapus(deleted)
   };
 
   return (
@@ -50,18 +70,18 @@ export default function Page() {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <Navbar data={nama} />
+              <Navbar data={nama?.data} />
             </div>
           </section>
-          <div>
-            <Reminder />
-          </div>
+          {/* <div>
+            <Reminder total={hapus.data?.totalFile} date={hapus.data?.data} />
+          </div> */}
           <div className="flex flex-col gap-7 divide-y-2">
             <div>
-              <Category data={cat.data} />
+              <Category data={cat?.data} />
             </div>
             <div>
-              <Deleted />
+              <Deleted data={hapus.data?.data}/>
             </div>
             <div></div>
           </div>

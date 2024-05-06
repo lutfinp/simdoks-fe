@@ -17,7 +17,7 @@ const Menu = ({ page }) => {
     <div className="text-xs fixed">
       <div className="flex">
         <div className="ml-1 mt-2 flex flex-row gap-2">
-          <Image src="/assets/Logo.png" alt="logo" width={220} height={100} />
+          <Image src="/assets/simdoks baru-02.png" alt="logo" width={200} height={100} />
         </div>
       </div>
       <div className="ml-2 mt-4 flex flex-col gap-1">

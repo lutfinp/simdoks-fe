@@ -16,7 +16,7 @@ const Header = ({ name }) => {
 
   return (
     <div className="flex-row flex justify-between text-2xl font-bold text-gray-700">
-      <div>Hai {name}!</div>
+      <div>Hai {name?.role}!</div>
       <div>
         <button
           className="self-center hover:scale-105"

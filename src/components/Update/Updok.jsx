@@ -1,11 +1,21 @@
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import PaginationUpdate from "../Utilities/PaginationUpdate";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
-const Updok = ({ data, pageUpdate, setPageUpdate, total, setFilterUpload }) => {
+const Updok = ({
+  data,
+  pageUpdate,
+  setPageUpdate,
+  total,
+  setFilterUpload,
+  setSearchUpload,
+  setKeywordUpload,
+}) => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const dropdownRef = useRef(null);
+  const searchRef = useRef();
 
   const formatDate = (dateString) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -41,6 +51,20 @@ const Updok = ({ data, pageUpdate, setPageUpdate, total, setFilterUpload }) => {
 
   const handleClickWeek = () => {
     setFilterUpload("week");
+  };
+
+  const handleSearch = (event) => {
+    const keyword = searchRef.current.value;
+
+    if (!keyword || keyword.trim() == "") return;
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      {
+        setSearchUpload((prevState) => prevState + 1);
+        setKeywordUpload(keyword);
+      }
+    }
   };
 
   useEffect(() => {
@@ -93,13 +117,13 @@ const Updok = ({ data, pageUpdate, setPageUpdate, total, setFilterUpload }) => {
                 <ul className="text-sm font-normal text-gray-700">
                   <li
                     className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickAsc}
+                    onClick={handleClickDsc}
                   >
                     Terbaru
                   </li>
                   <li
                     className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickDsc}
+                    onClick={handleClickAsc}
                   >
                     Terlama
                   </li>
@@ -122,6 +146,8 @@ const Updok = ({ data, pageUpdate, setPageUpdate, total, setFilterUpload }) => {
                 placeholder="Search"
                 type="text"
                 name="search"
+                ref={searchRef}
+                onKeyDown={handleSearch}
               />
             </label>
           </div>
@@ -129,54 +155,90 @@ const Updok = ({ data, pageUpdate, setPageUpdate, total, setFilterUpload }) => {
         {/* <div className="flex items-center justify-center w-full h-[83px] bg-red-100 rounded-md text-center">
           search not found
       </div> */}
-        <table className="w-full outline outline-2 outline-gray-300 rounded-md">
-          <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
-            <tr>
-              <th className="text-center p-3 border-r-2 border-gray-300">
-                NO.
-              </th>
-              <th className="text-left p-3 border-r-2 border-gray-300">
-                NAMA DOKUMEN
-              </th>
-              <th className="p-3 border-r-2 border-gray-300">BERLAKU MULAI</th>
-              <th className="p-3 border-r-2 border-gray-300">BERLAKU HINGGA</th>
-              <th className="p-3">TANGGAL UPLOAD</th>
-            </tr>
-          </thead>
-          <tbody className="text-xs text-gray-700">
-            {data?.map((upload, index) => {
-              return (
-                <tr key={index} className="bg-gray-50 odd:bg-white">
-                  <td className="text-center p-3 border-r-2 border-gray-300">
-                    {upload.id}
-                  </td>
-                  <td className="p-3 border-r-2 border-gray-300">
-                    {upload.file_name}
-                  </td>
-                  <td className="text-center p-3 border-r-2 border-gray-300">
-                    {formatDate(upload.start_date)}
-                  </td>
-                  <td className="text-center p-3 border-r-2 border-gray-300">
-                    {upload.expired_date == null
-                      ? "-"
-                      : `${upload.expired_date}`}
-                  </td>
-                  <td className="text-center p-3">
-                    {formatDate(upload.uploaded_at)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {data && data.length > 0 ? (
+          <table className="w-full outline outline-2 outline-gray-300 rounded-md">
+            <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
+              <tr>
+                <th className="text-center p-3 border-r-2 border-gray-300">
+                  NO.
+                </th>
+                <th className="text-left p-3 border-r-2 border-gray-300">
+                  NAMA DOKUMEN
+                </th>
+                <th className="p-3 border-r-2 border-gray-300">
+                  BERLAKU MULAI
+                </th>
+                <th className="p-3 border-r-2 border-gray-300">
+                  BERLAKU HINGGA
+                </th>
+                <th className="p-3 border-r-2 border-gray-300">
+                  TANGGAL UPLOAD
+                </th>
+                <th className="p-3">AKSI</th>
+              </tr>
+            </thead>
+            <tbody className="text-xs text-gray-700">
+              {data?.map((upload, index) => {
+                return (
+                  <tr key={index} className="bg-gray-50 odd:bg-white">
+                    <td className="text-center p-3 border-r-2 border-gray-300">
+                      {index + 1}.
+                    </td>
+                    <td className="p-3 border-r-2 border-gray-300">
+                      {upload.file_name}
+                    </td>
+                    <td className="text-center p-3 border-r-2 border-gray-300">
+                      {formatDate(upload.start_date)}
+                    </td>
+                    <td className="text-center p-3 border-r-2 border-gray-300">
+                      {upload.expired_date == null
+                        ? "-"
+                        : `${formatDate(upload.expired_date)}`}
+                    </td>
+                    <td className="text-center p-3 border-r-2 border-gray-300">
+                      {formatDate(upload.createdAt)}
+                    </td>
+                    <td className="text-center p-3">
+                      <div className="flex items-center justify-center">
+                        {upload.action == "Tambah" ? (
+                          <div className="bg-blue-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-blue-800 text-xs font-medium">
+                            {upload.action}
+                          </div>
+                        ) : (
+                          <div className="bg-green-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-green-800 text-xs font-medium">
+                            {upload.action}
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
+            <div>
+              <Image
+                className="mt-2"
+                src="/assets/diupload.png"
+                alt="Tidak ada dokumen yang akan diupload"
+                width={400}
+                height={173}
+              />
+            </div>
+          </div>
+        )}
       </div>
-      <div className="flex justify-end">
-        <PaginationUpdate
-          total={total}
-          pageUpdate={pageUpdate}
-          setPageUpdate={setPageUpdate}
-        />
-      </div>
+      {data && data.length > 0 ? (
+        <div className="flex justify-end">
+          <PaginationUpdate
+            total={total}
+            pageUpdate={pageUpdate}
+            setPageUpdate={setPageUpdate}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };
