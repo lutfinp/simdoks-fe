@@ -10,10 +10,16 @@ const Page = ({ params: { id, keyword } }) => {
   let jwt;
   const [folsubakre, setFolsubakre] = useState("");
   const [folakre, setFolakre] = useState("");
+  const [selectedFolderId, setSelectedFolderId] = useState("");
+
+  const handleFolderClick = (event, folderId) => {
+    event.preventDefault();
+    setSelectedFolderId(folderId);
+  };
 
   useEffect(() => {
     getToken();
-  }, []);
+  }, [selectedFolderId]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -53,11 +59,26 @@ const Page = ({ params: { id, keyword } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-            <NavCategory judul={folakre.data} id={id} vardumb="Akre" api="accreditationSub" direct="subakreditasi" add={true}/>
+              <NavCategory
+                judul={folakre.data}
+                id={id}
+                vardumb="Akre"
+                api="accreditationSub"
+                direct="subakreditasi"
+                add={true}
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folsubakre.data} id={id} />
+            <ListFolder
+              data={folsubakre.data}
+              id={id}
+              file="akreditasi"
+              handleFolderClick={handleFolderClick}
+              api="accreditationSub"
+              fileID={selectedFolderId}
+              direct="subakreditasi"
+            />
           </div>
         </div>
       </div>

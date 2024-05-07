@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -7,12 +7,18 @@ import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
 const Page = () => {
-  let jwt
-  const [folProgram, setFolProgram] = useState("")
+  let jwt;
+  const [folProgram, setFolProgram] = useState("");
+  const [selectedFolderId, setSelectedFolderId] = useState("");
+
+  const handleFolderClick = (event, folderId) => {
+    event.preventDefault();
+    setSelectedFolderId(folderId);
+  };
 
   useEffect(() => {
     getToken();
-  }, []);
+  }, [selectedFolderId]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -31,8 +37,7 @@ const Page = () => {
         },
       }
     );
-    setFolProgram(folderProgram)
-
+    setFolProgram(folderProgram);
   };
 
   return (
@@ -44,11 +49,23 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Program" add={true} api="program" direct="program"/>
+              <NavCategory
+                judul="Program"
+                add={true}
+                api="program"
+                direct="program"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folProgram.data} sub="subprogram"/>
+            <ListFolder
+              data={folProgram.data}
+              sub="subprogram"
+              handleFolderClick={handleFolderClick}
+              api="program"
+              fileID={selectedFolderId}
+              direct="program"
+            />
           </div>
         </div>
       </div>

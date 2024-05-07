@@ -1,11 +1,11 @@
-import Deldok from "./Deldok"
+import Deldok from "./Deldok";
 
-const Deleted = () => {
+const Deleted = ({ data }) => {
   return (
     <>
-        <Deldok/>
+      <Deldok data={data} />
     </>
-  )
-}
+  );
+};
 
-export default Deleted
+export default Deleted;

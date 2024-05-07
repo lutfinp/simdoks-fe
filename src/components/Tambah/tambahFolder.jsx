@@ -7,11 +7,6 @@ const TambahFolder = ({ onClose, direct, api }) => {
 
   const [typeName, settypeName] = useState("");
 
-
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

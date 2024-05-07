@@ -1,11 +1,11 @@
-import Announc from "./Announc"
+import Announc from "./Announc";
 
-const Reminder = () => {
+const Reminder = ({ total, date }) => {
   return (
     <>
-        <Announc/>
+      <Announc total={total} date={date} />
     </>
-  )
-}
+  );
+};
 
-export default Reminder
+export default Reminder;
