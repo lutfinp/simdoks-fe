@@ -1,7 +1,8 @@
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
+import Pagination7Days from "../Utilities/Pagination7Days";
 
-const Deldok = () => {
+const Deldok = ({ data }) => {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row justify-between mt-4">
@@ -36,76 +37,22 @@ const Deldok = () => {
           </tr>
         </thead>
         <tbody className="text-xs text-gray-700">
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">1</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">29 November 2020</td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">2</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">29 November 2020</td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">3</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">29 November 2020</td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">4</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">29 November 2020</td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">5</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">29 November 2020</td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">6</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">29 November 2020</td>
-          </tr>
-          <tr className=" bg-gray-50 odd:bg-white">
-            <td className="text-center p-3 border-r-2 border-gray-300">7</td>
-            <td className="p-3 border-r-2 border-gray-300">
-              Lorem ipsum dolor sit amet
-            </td>
-            <td className="text-center p-3 border-r-2 border-gray-300">
-              29 November 2020
-            </td>
-            <td className="text-center p-3">29 November 2020</td>
-          </tr>
+          {data?.map((hapus, index) => {
+            return (
+              <tr key={index} className=" bg-gray-50 odd:bg-white">
+                <td className="text-center p-3 border-r-2 border-gray-300">
+                  1
+                </td>
+                <td className="p-3 border-r-2 border-gray-300">
+                  {hapus.file_name}
+                </td>
+                <td className="text-center p-3 border-r-2 border-gray-300">
+                  {hapus.start_date}
+                </td>
+                <td className="text-center p-3">{hapus.end_date}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {/* <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
@@ -119,6 +66,11 @@ const Deldok = () => {
           />
         </div>
       </div> */}
+      <div className="flex justify-end">
+        <Pagination7Days
+
+        />
+      </div>
     </div>
   );
 };

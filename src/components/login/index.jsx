@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import FormLogin from "./formLogin";
+import FormLogin from "./FormLogin";
 ;
 const Login = () => {
     return (

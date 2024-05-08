@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -7,12 +7,18 @@ import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
 const Page = () => {
-  let jwt
-  const [folakre, setFolakre] = useState("")
+  let jwt;
+  const [folakre, setFolakre] = useState("");
+  const [selectedFolderId, setSelectedFolderId] = useState("");
+
+  const handleFolderClick = (event, folderId) => {
+    event.preventDefault();
+    setSelectedFolderId(folderId);
+  };
 
   useEffect(() => {
     getToken();
-  }, []);
+  }, [selectedFolderId]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -31,8 +37,7 @@ const Page = () => {
         },
       }
     );
-    setFolakre(folderAkre)
-
+    setFolakre(folderAkre);
   };
 
   return (
@@ -44,11 +49,24 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Akreditasi" add={true} api="accreditation" direct="akreditasi"/>
+              <NavCategory
+                judul="Akreditasi"
+                add={true}
+                api="accreditation"
+                direct="akreditasi"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folakre.data} sub="subakreditasi" hassubfolder={true}/>
+            <ListFolder
+              data={folakre.data}
+              sub="subakreditasi"
+              handleFolderClick={handleFolderClick}
+              api="accreditation"
+              fileID={selectedFolderId}
+              direct="akreditasi"
+              hassubfolder={true}
+            />
           </div>
         </div>
       </div>

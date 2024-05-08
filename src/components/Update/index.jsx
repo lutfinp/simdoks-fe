@@ -1,16 +1,24 @@
 import Updok from "./Updok";
 import { Bell } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react"; 
-import NotificationPopup from "../Notification";
+import NotificationPopup from "../NotificationPopup";
 
-
-const Update = ({ data }) => {
+const Update = ({
+  data,
+  setPageUpdate,
+  pageUpdate,
+  total,
+  setFilterUpload,
+  setSearchUpload,
+  setKeywordUpload
+}) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
   const handleNotificationClick = () => {
     setShowNotifications(!showNotifications);
   };
+
   const handleCloseNotification = () => {
     setShowNotifications(false);
   };
@@ -33,10 +41,19 @@ const Update = ({ data }) => {
         </div>
       </div>
       <div>
-        <Updok data={data} />
+      <Updok
+          data={data}
+          pageUpdate={pageUpdate}
+          total={total}
+          setPageUpdate={setPageUpdate}
+          setFilterUpload={setFilterUpload}
+          setSearchUpload={setSearchUpload}
+          setKeywordUpload={setKeywordUpload}
+        />
       </div>
     </div>
   );
 };
+
 
 export default Update;

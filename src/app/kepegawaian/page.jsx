@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
@@ -7,12 +7,18 @@ import ListFolder from "@/components/ListFolder";
 import axios from "axios";
 
 const Page = () => {
-  let jwt
-  const [folKepegawaian, setFolKepegawaian] = useState("")
+  let jwt;
+  const [folKepegawaian, setFolKepegawaian] = useState("");
+  const [selectedFolderId, setSelectedFolderId] = useState("");
+
+  const handleFolderClick = (event, folderId) => {
+    event.preventDefault();
+    setSelectedFolderId(folderId);
+  };
 
   useEffect(() => {
     getToken();
-  }, []);
+  }, [selectedFolderId]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -31,8 +37,7 @@ const Page = () => {
         },
       }
     );
-    setFolKepegawaian(folderKepegawaian)
-
+    setFolKepegawaian(folderKepegawaian);
   };
 
   return (
@@ -44,11 +49,24 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul="Kepegawaian" add={true} api="staff" direct="kepegawaian"/>
+              <NavCategory
+                judul="Kepegawaian"
+                add={true}
+                api="staff"
+                direct="kepegawaian"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFolder data={folKepegawaian.data} sub="filekepegawaian" hassubfolder={false} />
+            <ListFolder
+              data={folKepegawaian.data}
+              handleFolderClick={handleFolderClick}
+              api="staff"
+              fileID={selectedFolderId}
+              direct="kepegawaian"
+              sub="filekepegawaian" 
+              hassubfolder={false}
+            />
           </div>
         </div>
       </div>

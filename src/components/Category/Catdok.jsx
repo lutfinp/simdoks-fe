@@ -22,7 +22,7 @@ const Catdok = ({ data }) => {
               return (
                 <tr key={index} className=" bg-gray-50 odd:bg-white">
                   <td className="text-center p-3 border-r-2 border-gray-300">
-                    {category.id}
+                    {index + 1}.
                   </td>
                   <td className="p-3 border-r-2 border-gray-300">
                     Dokumen <b>{category.category_name}</b>
@@ -38,11 +38,11 @@ const Catdok = ({ data }) => {
                   <td className="text-center p-3">
                     <div className="flex items-center justify-center">
                       {category.deletion_system == "Manual" ? (
-                        <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800">
+                        <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800 text-xs font-medium">
                           {category.deletion_system}
                         </div>
                       ) : (
-                        <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800">
+                        <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800 text-xs font-medium">
                           {category.deletion_system}
                         </div>
                       )}
