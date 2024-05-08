@@ -18,6 +18,7 @@ const Page = ({ params: { id } }) => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
+  const [filter, setFilter] = useState("all");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -26,7 +27,7 @@ const Page = ({ params: { id } }) => {
 
   useEffect(() => {
     getToken();
-  }, [selectedFileId]);
+  }, [selectedFileId, filter]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -58,15 +59,42 @@ const Page = ({ params: { id } }) => {
     );
     setFolsubbarang(folderSubbarang);
 
-    const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/items`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFile(file);
+    if(filter == "all"){
+      const file = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/items`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(file);
+
+    }
+    else if(filter == "Semua" )
+    {  
+      const Filter = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/items`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(Filter);
+    }
+    else{
+        const Filter = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/getitem/year?typeId=${id}&years=${filter}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          console.log("ini masuk filter", Filter.data)
+          setFile(Filter);
+    }
 
     if (selectedFileId) {
       const fileUrlResponse = await axios.get(
@@ -122,6 +150,8 @@ const Page = ({ params: { id } }) => {
                 <NavCategory
                   judul={folbarang.data}
                   add="true"
+                  filteron="true"
+                  setFilter={setFilter}
                   id={id}
                   api="item"
                   vardumb="FileBarang"

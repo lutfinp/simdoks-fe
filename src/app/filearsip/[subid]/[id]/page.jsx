@@ -15,6 +15,7 @@ const Page = ({ params: { id, subid } }) => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileName, setFileName] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [filter, setFilter] = useState("all");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -23,7 +24,7 @@ const Page = ({ params: { id, subid } }) => {
 
   useEffect(() => {
     getToken();
-  }, [selectedFileId]);
+  }, [selectedFileId, filter]);
   const getToken = async () => {
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -43,15 +44,44 @@ const Page = ({ params: { id, subid } }) => {
     );
     setFolarsip(folderArsip);
 
-    const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/archives`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFile(file);
+
+
+    if(filter == "all"){
+      const file = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/archives`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(file);
+
+    }
+    else if(filter == "Semua" )
+    {  
+      const Filter = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/archives`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(Filter);
+    }
+    else{
+        const Filter = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/getarchive/year?typeId=${id}&subtypeId=${subid}&years=${filter}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          console.log("ini masuk filter", Filter.data)
+          setFile(Filter);
+    }
 
     const folderSubArsip = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/archiveSubtype/${subid}`,
@@ -89,6 +119,8 @@ const Page = ({ params: { id, subid } }) => {
               <NavCategory
                 judul={folsubarsip.data}
                 add="true"
+                filteron="true"
+                setFilter={setFilter}
                 id={id}
                 subid={subid}
                 api="archive"

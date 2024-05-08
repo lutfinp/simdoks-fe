@@ -12,6 +12,7 @@ const Page = () => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
+  const [filter, setFilter] = useState("all");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -20,7 +21,7 @@ const Page = () => {
 
   useEffect(() => {
     getToken();
-  }, [selectedFileId]);
+  }, [selectedFileId, filter]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -31,15 +32,41 @@ const Page = () => {
     );
     jwt = token.data.accessToken;
 
-    const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFile(file);
+    if(filter == "all"){
+      const file = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(file);
+
+    }
+    else if(filter == "Semua" )
+    {  
+      const Filter = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(Filter);
+    }
+    else{
+        const Filter = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks/filter?years=${filter}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          setFile(Filter);
+    }
 
     if (selectedFileId) {
       const fileUrlResponse = await axios.get(
@@ -67,7 +94,9 @@ const Page = () => {
             <div>
               <NavCategory
                 judul="Tugas"
-                add={true}
+                add="true"
+                filteron="true"
+                setFilter={setFilter}
                 api="task"
                 donthassubfolder="true"
                 direct="tugas"

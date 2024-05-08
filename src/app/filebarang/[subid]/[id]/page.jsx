@@ -15,6 +15,7 @@ const Page = ({ params: { subid, id } }) => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
+  const [filter, setFilter] = useState("all");
 
 
   const handleFileClick = (event, fileId) => {
@@ -24,7 +25,7 @@ const Page = ({ params: { subid, id } }) => {
 
   useEffect(() => {
     getToken();
-  }, [selectedFileId]);
+  }, [selectedFileId, filter]);
   const getToken = async () => {
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -44,15 +45,39 @@ const Page = ({ params: { subid, id } }) => {
     );
     setFolakre(folderAkre);
 
-    const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/items`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
+    if (filter == "all") {
+      const file = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/items`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(file);
+    }
+    else if (filter == "Semua") {
+      const Filter = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/items`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(Filter);
+    }
+    else {
+      const Filter = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/getitem/year?typeId=${id}&subtypeId=${subid}&years=${filter}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setFile(Filter);
       }
-    );
-    setFile(file);
 
     const folderSubAkre = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemSubtype/${subid}`,
@@ -90,6 +115,8 @@ const Page = ({ params: { subid, id } }) => {
               <NavCategory
                 judul={folsubakre.data}
                 add="true"
+                filteron="true"
+                setFilter={setFilter}
                 subid={subid}
                 id={id}
                 api="item"

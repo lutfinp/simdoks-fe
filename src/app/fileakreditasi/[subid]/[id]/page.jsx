@@ -16,6 +16,7 @@ const Page = ({ params: { subid, id } }) => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
+  const [filter, setFilter] = useState("all");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -24,7 +25,7 @@ const Page = ({ params: { subid, id } }) => {
 
   useEffect(() => {
     getToken();
-  }, [selectedFileId]);
+  }, [selectedFileId, filter]);
   const getToken = async () => {
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -44,15 +45,41 @@ const Page = ({ params: { subid, id } }) => {
     );
     setFolakre(folderAkre);
 
-    const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFile(file);
+    if(filter == "all"){
+      const file = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(file);
+
+    }
+    else if(filter == "Semua" )
+    {  
+      const Filter = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(Filter);
+    }
+    else{
+        const Filter = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations/filter?typeId=${id}&subtypeId=${subid}&years=${filter}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          setFile(Filter);
+    }
 
     const folderSubAkre = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtype/${subid}`,
@@ -90,6 +117,8 @@ const Page = ({ params: { subid, id } }) => {
               <NavCategory
                 judul={folsubakre.data}
                 add="true"
+                filteron="true"
+                setFilter={setFilter}
                 id={id}
                 subid={subid}
                 api="accreditation"
