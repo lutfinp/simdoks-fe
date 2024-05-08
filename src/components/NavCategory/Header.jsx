@@ -1,7 +1,7 @@
 import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 import NotificationPopup from "../Notification";
 import { useState } from "react";
-import TambahDokumen from "../Tambah/tambahDokumen";
+import TambahDokumen from "../Tambah/TambahDokumen";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import TambahFolder from "../Tambah/tambahFolder";
