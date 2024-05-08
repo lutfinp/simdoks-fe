@@ -44,7 +44,6 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           console.error("Invalid response format:", response_token);
           return;
         }
-        console.log("di dalam form add id: ",id ,"subid", subid);
         const formData = new FormData();
         formData.append("nama", nama);
         formData.append("startDate", startDate);

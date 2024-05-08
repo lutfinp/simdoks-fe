@@ -79,7 +79,6 @@ const Page = ({ params: { id, subid } }) => {
               },
             }
           );
-          console.log("ini masuk filter", Filter.data)
           setFile(Filter);
     }
 

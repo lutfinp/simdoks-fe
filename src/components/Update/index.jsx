@@ -1,5 +1,5 @@
 import Updok from "./Updok";
-import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
+import { Bell } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react"; 
 import NotificationPopup from "../Notification";
 
@@ -22,13 +22,15 @@ const Update = ({ data }) => {
           <button className="self-center " onClick={handleNotificationClick}>
             <Bell size={27} weight="fill" />
           </button>
-        </div>
-        {showNotifications && (
+          <div className="h-0">
+            {showNotifications && (
               <NotificationPopup
                 notifications={notifications}
                 onClose={handleCloseNotification}
               />
             )}
+          </div>
+        </div>
       </div>
       <div>
         <Updok data={data} />
