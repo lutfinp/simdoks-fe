@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { format, parseISO } from "date-fns";
 import axios from "axios";
 
 const Content = ({ data, onClose }) => {
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [jwt, setJwt] = useState("");
   const [isMarkingAllRead, setIsMarkingAllRead] = useState(false);
-  
-  const hasUnreadNotifications = useMemo(() => {
-    return data.some(notification => notification.isRead === 0);
-  }, [data]);
 
   useEffect(() => {
     const getToken = async () => {
@@ -28,6 +23,15 @@ const Content = ({ data, onClose }) => {
 
     getToken();
   }, [],);
+
+  const formatDate = (dateString) => {
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "id-ID",
+      options
+    );
+    return formattedDate;
+  };
 
   const handleNotificationClick = async (notification) => {
     setSelectedNotification(notification);
@@ -118,7 +122,7 @@ const Content = ({ data, onClose }) => {
                 >
                   <p>
                     Dokumen ({notification.file_name}) berhasil di{notification.action} (
-                    {format(parseISO(notification.createdAt), "yyyy-MM-dd")})
+                      {formatDate(notification.createdAt)})
                   </p>
                 </div>
               </div>

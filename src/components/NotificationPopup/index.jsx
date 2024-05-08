@@ -1,14 +1,9 @@
-  "use client";
+"use client";
 
-<<<<<<< HEAD:src/components/notification/index.jsx
-  import React, { useState, useEffect } from "react";
-  import axios from "axios";
-  import Content from "./content";
-=======
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Content from "./Content";
->>>>>>> ab89df21fd8ee982f133702e2ce4d355f3d0d39d:src/components/NotificationPopup/index.jsx
+
 
   const NotificationPopup = () => {
     const [notification, setNotification] = useState([]);
@@ -40,9 +35,6 @@ import Content from "./Content";
       );
       setNotification(dataNotification);
     };
-    const hasUnreadNotifications = useMemo(() => {
-      return data.some(notification => notification.isRead === 0);
-    }, [data]);
 
     return (
       <>
