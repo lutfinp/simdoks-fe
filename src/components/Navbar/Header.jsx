@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Bell } from "@phosphor-icons/react/dist/ssr";
-import NotificationPopup from "../Notification";
+import NotificationPopup from "../NotificationPopup";
 
 const Header = ({ name }) => {
   const [showNotifications, setShowNotifications] = useState(false);

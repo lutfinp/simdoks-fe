@@ -1,8 +1,7 @@
 import Updok from "./Updok";
 import { Bell } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-import NotificationPopup from "../Notification";
-
+import NotificationPopup from "../NotificationPopup";
 
 const Update = ({
   data,

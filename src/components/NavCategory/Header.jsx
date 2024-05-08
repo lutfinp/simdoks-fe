@@ -1,11 +1,11 @@
 import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
-import NotificationPopup from "../Notification";
+import NotificationPopup from "../NotificationPopup";
 import { useState } from "react";
 import TambahDokumen from "../Tambah/TambahDokumen";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
-import TambahFolder from "../Tambah/tambahFolder";
-import TambahSubFolder from "../Tambah/tambahSubFolder";
+import TambahFolder from "../Tambah/TambahFolder";
+import TambahSubFolder from "../Tambah/TambahSubFolder";
 
 const Header = ({ judul, add, subid, id, coba, api, direct }) => {
   const [showNotifications, setShowNotifications] = useState(false);
