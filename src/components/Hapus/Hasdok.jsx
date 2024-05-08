@@ -179,7 +179,7 @@ const Hasdok = ({
                   className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
                 >
                   <td className="text-center p-3 border-r-2 border-gray-300">
-                    {index + 1}.
+                  {(index + 1)+(pageHapus-1)*7}.
                   </td>
                   <td className="p-3 border-r-2 border-gray-300">
                     {hapus.file_name}
