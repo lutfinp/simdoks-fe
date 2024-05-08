@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Content from "./content";
+import Content from "./Content";
 
 const NotificationPopup = () => {
   const [notification, setNotification] = useState([]);
