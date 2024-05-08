@@ -6,7 +6,6 @@ import NavCategory from "@/components/NavCategory";
 import ListFolder from "@/components/ListFolder";
 import ListFile from "@/components/ListFile";
 import axios from "axios";
-import { set } from "date-fns";
 
 const Page = ({ params: { id } }) => {
   let jwt;
@@ -24,7 +23,7 @@ const Page = ({ params: { id } }) => {
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
     setSelectedFileId(fileId);
-
+  };
     const handleFolderClick = (event, folderId) => {
       event.preventDefault();
       setSelectedFolderId(folderId);
@@ -185,6 +184,5 @@ const Page = ({ params: { id } }) => {
       );
     }
   };
-};
 
 export default Page;
