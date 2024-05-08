@@ -22,7 +22,14 @@ const Page = () => {
 
   useEffect(() => {
     getToken();
-  }, [pageUpdate, pageHapus, filterUpload, filterDelete, searchUpload, searchDelete]);
+  }, [
+    pageUpdate,
+    pageHapus,
+    filterUpload,
+    filterDelete,
+    searchUpload,
+    searchDelete,
+  ]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -32,11 +39,11 @@ const Page = () => {
       }
     );
     jwt = token.data.accessToken;
-
+    
     if (searchUpload == 0) {
-      if (filterUpload == "desc" || "asc") {
+      if (filterUpload == "week") {
         const historyUpload = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUpload?page=${pageUpdate}&pageSize=10&order=${filterUpload}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/last7DaysUploads?page=${pageUpdate}&pageSize=7&order=desc`,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -46,7 +53,7 @@ const Page = () => {
         setUpdok(historyUpload);
       } else {
         const historyUpload = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/last7DaysUploads?page=${pageUpdate}&pageSize=10&order=asc`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUpload?page=${pageUpdate}&pageSize=7&order=${filterUpload}`,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -66,11 +73,11 @@ const Page = () => {
       );
       setUpdok(historyUpload);
     }
-
+    
     if (searchDelete == 0) {
-      if (filterDelete == "desc" || "asc") {
+      if (filterDelete == "week") {
         const historyDelete = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyDelete?page=${pageHapus}&pageSize=10&order=${filterDelete}`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/last7DaysDeletes?page=${pageHapus}&pageSize=7&order=asc`,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -80,7 +87,7 @@ const Page = () => {
         setDeldok(historyDelete);
       } else {
         const historyDelete = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/last7DaysDeletes?page=${pageHapus}&pageSize=10&order=asc`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyDelete?page=${pageHapus}&pageSize=7&order=${filterDelete}`,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -89,7 +96,7 @@ const Page = () => {
         );
         setDeldok(historyDelete);
       }
-    }else {
+    } else {
       const historyDelete = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchHistoryDeletes?search=${keywordDelete}&order=${filterDelete}`,
         {
@@ -102,7 +109,7 @@ const Page = () => {
     }
 
     const allPage = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/totalPages?pageSize=10`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/totalPages?pageSize=7`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
