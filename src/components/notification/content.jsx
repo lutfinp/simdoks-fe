@@ -6,8 +6,10 @@ const Content = ({ data, onClose }) => {
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [jwt, setJwt] = useState("");
   const [isMarkingAllRead, setIsMarkingAllRead] = useState(false);
-
-
+  
+  const hasUnreadNotifications = useMemo(() => {
+    return data.some(notification => notification.isRead === 0);
+  }, [data]);
 
   useEffect(() => {
     const getToken = async () => {

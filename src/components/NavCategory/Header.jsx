@@ -5,7 +5,7 @@ import TambahDokumen from "../Tambah/TambahDokumen";
 import { useRouter } from "next/navigation";
 import TambahFolder from "../Tambah/tambahFolder";
 import TambahSubFolder from "../Tambah/tambahSubFolder";
-import c from "dom-to-image-more";
+import DomToImage from "dom-to-image"; 
 
 const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile, filteron, setFilter}) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -27,12 +27,9 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
       if (event.key === "Enter") {
         event.preventDefault();
         if (typeof judul === "string") {
-          // Jika `judul` adalah string, arahkan ke rute '/search<judul>/<keyword>'
           router.push(`/search${judul}/${keyword}`);
         } 
-        // Kondisi kedua: Cek apakah `judul` memiliki properti `subtype_name`
         else if (judul && judul.type_name) {
-          // Jika `judul` memiliki `subtype_name`, arahkan ke rute '/searchSub<coba>/<cobaId>/<keyword>'
           router.push(`/searchSub${coba}/${cobaId}/${keyword}`);
         }
         else if (judul && judul.subtype_name)
@@ -93,10 +90,10 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
     if ((id != null && subid != null)||(id != null && donthassubfolder =="true")||(id == null && donthassubfolder =="true")) {
       contentToDisplay = (
         <TambahDokumen
-          id={id} //folder
-          subid={subid} //sub folder
-          api={api} //endpoint
-          direct={direct} //window
+          id={id}
+          subid={subid}
+          api={api}
+          direct={direct}
           onClose={handleCloseTambahDokumen}
         />
       );
