@@ -65,6 +65,7 @@ const Page = () => {
               api="accreditation"
               fileID={selectedFolderId}
               direct="akreditasi"
+              hassubfolder={true}
             />
           </div>
         </div>

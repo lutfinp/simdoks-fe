@@ -60,11 +60,11 @@ const Page = ({ params: { keyword } }) => {
           <div className="pt-2">
             <ListFolder
               data={folKeuangan.data}
-              sub="subkeuangan"
               handleFolderClick={handleFolderClick}
               api="finance"
               fileID={selectedFolderId}
               direct="keuangan"
+              sub="filekeuangan"
             />
           </div>
         </div>

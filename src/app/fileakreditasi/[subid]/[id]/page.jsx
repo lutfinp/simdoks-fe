@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
 import NavCategory from "@/components/NavCategory";
-import ListFile from "@/components/ListFile/index.jsx";
+import ListFile from "@/components/ListFile";
 import axios from "axios";
+import { set } from "date-fns";
 
 const Page = ({ params: { subid, id } }) => {
   let jwt;
@@ -14,17 +15,17 @@ const Page = ({ params: { subid, id } }) => {
   const [folakre, setFolakre] = useState("");
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
-
+  const [fileName, setFileName] = useState("");
+  const [filter, setFilter] = useState("all");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
     setSelectedFileId(fileId);
   };
 
-
   useEffect(() => {
     getToken();
-  }, [selectedFileId]);
+  }, [selectedFileId, filter]);
   const getToken = async () => {
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -44,15 +45,41 @@ const Page = ({ params: { subid, id } }) => {
     );
     setFolakre(folderAkre);
 
-    const file = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setFile(file);
+    if(filter == "all"){
+      const file = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(file);
+
+    }
+    else if(filter == "Semua" )
+    {  
+      const Filter = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(Filter);
+    }
+    else{
+        const Filter = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditations/filter?typeId=${id}&subtypeId=${subid}&years=${filter}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          setFile(Filter);
+    }
 
     const folderSubAkre = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtype/${subid}`,
@@ -63,20 +90,20 @@ const Page = ({ params: { subid, id } }) => {
       }
     );
     setFolsubakre(folderSubAkre);
-    
 
-    if(selectedFileId){    
+    if (selectedFileId) {
       const fileUrlResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditation/${selectedFileId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-          
-    setFileUrl(fileUrlResponse.data.file_url);
-  };
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditation/${selectedFileId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+
+      setFileUrl(fileUrlResponse.data.file_url);
+      setFileName(fileUrlResponse.data.file_name);
+    }
   };
   return (
     <div className="flex flex-row gap-2">
@@ -87,11 +114,31 @@ const Page = ({ params: { subid, id } }) => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory judul={folsubakre.data} add="true" id={id} subid={subid} api="accreditation" direct="akreditasi" />
+              <NavCategory
+                judul={folsubakre.data}
+                add="true"
+                filteron="true"
+                setFilter={setFilter}
+                id={id}
+                subid={subid}
+                api="accreditation"
+                searchfile="Akre"
+                direct="akreditasi"
+              />
             </div>
           </section>
           <div className="pt-2">
-            <ListFile data={file.data} id={id} subid={subid} handleFileClick={handleFileClick} fileUrl={fileUrl} api="accreditation" fileID={selectedFileId}/>
+            <ListFile
+              data={file.data}
+              id={id}
+              subid={subid}
+              handleFileClick={handleFileClick}
+              fileUrl={fileUrl}
+              fileName={fileName}
+              api="accreditation"
+              direct="akreditasi"
+              fileID={selectedFileId}
+            />
           </div>
         </div>
       </div>

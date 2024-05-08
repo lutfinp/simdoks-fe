@@ -1,13 +1,19 @@
 import axios from "axios";
 import { useState, useRef } from "react";
+import ConfirmationPopUp from "../ConfrimEdit/ConfirmationPopUp";
+import { generateBarcodeUrl } from "../ConfrimAdd/Untils";
 
 
-const EditFile = ({onClose, api, selectedFileId, subid, id}) => {
+const EditFile = ({onClose, api, selectedFileId, subid, id, direct}) => {
   
   let jwt;
   const [nama, setNama] = useState("");
   const [startDate, setStartDate] = useState("");
   const [file, setFile] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const barcodeRef = useRef(null);
+  const [BarcodeUrl, setBarcodeUrl] = useState("");
+  const [BarcodeData, setBarcodeData] = useState("");
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -19,8 +25,13 @@ const EditFile = ({onClose, api, selectedFileId, subid, id}) => {
       alert("Please fill in all fields");
       return;
     }
-    else
-    {
+    setShowConfirmation(true);
+    generateBarcode();
+    };
+
+    const handleConfirmation =  async () =>{
+    if(confirm){
+      if(id != null && subid != null){
       try {
         const response_token = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
@@ -53,19 +64,103 @@ const EditFile = ({onClose, api, selectedFileId, subid, id}) => {
             withCredentials: true,
           }
         );
-        // console.log(api)
-        // console.log("link"+direct)
-        // console.log("Document added successfully:", response.data);
-        //window.location.href = `/file${direct}/${subid}/${id}`;
-        window.location.reload();
         onClose();
+        window.location.href = `/file${direct}/${subid}/${id}`;
       } catch (error) {
         console.log("Error adding document:", error);
       }
-
     }
-  };
-   
+    else if(id != null && subid == null)
+    {
+      try {
+        const response_token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response_token.data && response_token.data.accessToken) {
+          jwt = response_token.data.accessToken;
+        } else {
+          console.error("Invalid response format:", response_token);
+          return;
+        }
+  
+        const formData = new FormData();
+        formData.append("nama", nama);
+        formData.append("startDate", startDate);
+        formData.append("typeId", id);
+        formData.append("file", file);
+  
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/${selectedFileId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
+        onClose();
+        window.location.href = `/${direct}/${id}`;
+      } catch (error) {
+        console.log("Error adding document:", error);
+      }
+    }
+    else if(id == null && subid == null){
+      try {
+        const response_token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response_token.data && response_token.data.accessToken) {
+          jwt = response_token.data.accessToken;
+        } else {
+          console.error("Invalid response format:", response_token);
+          return;
+        }
+  
+        const formData = new FormData();
+        formData.append("nama", nama);
+        formData.append("startDate", startDate);
+        formData.append("file", file);
+  
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/${selectedFileId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
+        onClose();
+        window.location.href = `/file${direct}`;
+      } catch (error) {
+        console.log("Error adding document:", error);
+      }
+    }
+
+};
+};
+
+const generateBarcode = () => {
+  try {
+    setBarcodeData(`http://localhost:8000/file/${api}s/${nama}`);
+    const Data = generateBarcodeUrl(BarcodeData);
+    setBarcodeUrl(Data);
+    console.log("barcode data "+BarcodeData)
+    console.log("barcode url "+BarcodeUrl)
+  } catch (error) {
+    console.error("Error generating dummy barcode:", error);
+  }
+}; 
 
 return(
     <div>
@@ -121,6 +216,14 @@ return(
         </form>
       </div>
     </div>
+    {showConfirmation && (
+      <ConfirmationPopUp
+        onConfirm={handleConfirmation}
+        onCancel={() => setShowConfirmation(false)}
+        BarcodeUrl={BarcodeUrl}
+        barcodeRef={barcodeRef}
+      />
+    )}
     </div>
 );
 };

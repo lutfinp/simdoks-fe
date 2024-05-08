@@ -1,6 +1,6 @@
 import Updok from "./Updok";
 import { Bell } from "@phosphor-icons/react/dist/ssr";
-import { useState } from "react";
+import { useState } from "react"; 
 import NotificationPopup from "../NotificationPopup";
 
 const Update = ({
@@ -27,10 +27,7 @@ const Update = ({
       <div className="flex-row flex justify-between text-2xl font-bold text-gray-700">
         <div>Histori</div>
         <div className="hover:scale-105">
-          <button
-            className="self-center hover:scale-105"
-            onClick={handleNotificationClick}
-          >
+          <button className="self-center " onClick={handleNotificationClick}>
             <Bell size={27} weight="fill" />
           </button>
           <div className="h-0">
@@ -44,7 +41,7 @@ const Update = ({
         </div>
       </div>
       <div>
-        <Updok
+      <Updok
           data={data}
           pageUpdate={pageUpdate}
           total={total}
@@ -57,5 +54,6 @@ const Update = ({
     </div>
   );
 };
+
 
 export default Update;

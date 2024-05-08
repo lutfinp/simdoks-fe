@@ -43,7 +43,7 @@ const Page = () => {
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="keuangan" />
+        <SideBar activePage="Keuangan" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
@@ -60,11 +60,11 @@ const Page = () => {
           <div className="pt-2">
             <ListFolder
               data={folKeuangan.data}
-              sub="subkeuangan"
               handleFolderClick={handleFolderClick}
               api="finance"
               fileID={selectedFolderId}
               direct="keuangan"
+              sub="filekeuangan"
             />
           </div>
         </div>

@@ -64,6 +64,7 @@ const Page = ({ params: { keyword } }) => {
               api="staff"
               fileID={selectedFolderId}
               direct="kepegawaian"
+              sub="filekepegawaian"
             />
           </div>
         </div>

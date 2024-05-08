@@ -65,6 +65,7 @@ const Page = () => {
               api="archive"
               fileID={selectedFolderId}
               direct="arsip"
+              file="filearsip"
             />
           </div>
         </div>
