@@ -6,7 +6,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import HapusFile from "../Deleted/HapusFile";
-import EditFile from "../Edit/EditFIle";
+import EditFile from "../Edit/EditFile";
 import DownloadBarcode from "../Barcode/DownloadBarcode";
 
 
