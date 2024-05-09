@@ -1,7 +1,6 @@
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import ConfirmationPopUp from "../ConfrimEdit/ConfirmationPopUp";
-import { generateBarcodeUrl } from "../ConfrimAdd/Untils";
 
 
 const EditFile = ({onClose, api, selectedFileId, subid, id, direct}) => {
@@ -11,9 +10,8 @@ const EditFile = ({onClose, api, selectedFileId, subid, id, direct}) => {
   const [startDate, setStartDate] = useState("");
   const [file, setFile] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const barcodeRef = useRef(null);
   const [BarcodeUrl, setBarcodeUrl] = useState("");
-  const [BarcodeData, setBarcodeData] = useState("");
+  
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -25,8 +23,8 @@ const EditFile = ({onClose, api, selectedFileId, subid, id, direct}) => {
       alert("Please fill in all fields");
       return;
     }
-    setShowConfirmation(true);
     generateBarcode();
+    setShowConfirmation(true);
     };
 
     const handleConfirmation =  async () =>{
@@ -152,16 +150,12 @@ const EditFile = ({onClose, api, selectedFileId, subid, id, direct}) => {
 
 const generateBarcode = () => {
   try {
-    setBarcodeData(`http://localhost:8000/file/${api}s/${nama}`);
-    const Data = generateBarcodeUrl(BarcodeData);
-    setBarcodeUrl(Data);
-    console.log("barcode data "+BarcodeData)
-    console.log("barcode url "+BarcodeUrl)
+    const barcodeData = `http://localhost:8000/file/${api}s/${nama}.jpeg`;
+    setBarcodeUrl(barcodeData);
   } catch (error) {
-    console.error("Error generating dummy barcode:", error);
+    console.error("Error generating barcode:", error);
   }
-}; 
-
+};
 return(
     <div>
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md">
@@ -221,7 +215,6 @@ return(
         onConfirm={handleConfirmation}
         onCancel={() => setShowConfirmation(false)}
         BarcodeUrl={BarcodeUrl}
-        barcodeRef={barcodeRef}
       />
     )}
     </div>

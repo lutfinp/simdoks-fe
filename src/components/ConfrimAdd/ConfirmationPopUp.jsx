@@ -7,7 +7,6 @@ const ConfirmationPopUp = ({ onConfirm, onCancel, BarcodeUrl }) => {
       <div className="bg-white p-8 rounded-2xl shadow-md">
         <p>Apakah anda yakin akan menambah File ini?</p>
         <QRCode value={BarcodeUrl} className="w-40 h-40 mx-auto mt-4" />
-          <p>{BarcodeUrl}</p>
         <div className="flex justify-center space-x-10 mt-4">
           <button
             className="bg-red-500 text-white py-2 px-4 rounded"

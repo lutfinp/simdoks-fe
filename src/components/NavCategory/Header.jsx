@@ -7,7 +7,6 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import TambahFolder from "../Tambah/TambahFolder";
 import TambahSubFolder from "../Tambah/TambahSubFolder";
-import DomToImage from "dom-to-image"; 
 
 const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile, filteron, setFilter, keyword}) => {
   const [showNotifications, setShowNotifications] = useState(false);
