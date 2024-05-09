@@ -76,6 +76,7 @@ const Page = ({ params: { id, keyword } }) => {
               id={id}
               handleFolderClick={handleFolderClick}
               api="archiveSub"
+              file="arsip"
               fileID={selectedFolderId}
               direct="subarsip"
             />

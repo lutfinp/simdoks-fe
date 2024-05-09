@@ -11,7 +11,8 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
         .then(function (dataUrl) {
           const link = document.createElement('a');
           link.href = dataUrl;
-          link.download = `${fileName}`;
+          const baseFileName = fileName.split('.')[0];  
+          link.download = `${baseFileName}.jpeg`;
           link.click();
         })
         .catch(function (error) {

@@ -51,7 +51,6 @@ const Page = () => {
             <div>
               <NavCategory
                 judul="Arsip"
-                add={true}
                 api="archive"
                 direct="arsip"
               />

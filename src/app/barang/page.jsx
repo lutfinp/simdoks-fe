@@ -51,7 +51,6 @@ const Page = () => {
             <div>
               <NavCategory
                 judul="Barang"
-                add={true}
                 api="item"
                 direct="barang"
               />

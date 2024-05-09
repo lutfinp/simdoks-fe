@@ -2,6 +2,7 @@ import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import PaginationUpdate from "../Utilities/PaginationUpdate";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { set } from "date-fns";
 
 const Updok = ({
   data,
@@ -15,7 +16,15 @@ const Updok = ({
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const dropdownRef = useRef(null);
+  const [pilihActive, setPilihActive] = useState("");
   const searchRef = useRef();
+
+  const filterMappings = {
+    "Terlama": "asc",
+    "Terbaru": "desc",
+    "7 Hari Terakhir": "week"
+  };
+
 
   const formatDate = (dateString) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -40,19 +49,12 @@ const Updok = ({
       setShowFilterDropdown(false);
     }
   };
-
-  const handleClickAsc = () => {
-    setFilterUpload("asc");
+  const updatepPilih = (pilih) => {
+    const filterValue = filterMappings[pilih];
+    setFilterUpload(filterValue);
+    setPilihActive(pilih);
+    setShowFilterDropdown(false);
   };
-
-  const handleClickDsc = () => {
-    setFilterUpload("desc");
-  };
-
-  const handleClickWeek = () => {
-    setFilterUpload("week");
-  };
-
   const handleSearch = (event) => {
     const keyword = searchRef.current.value;
 
@@ -88,7 +90,7 @@ const Updok = ({
               aria-expanded="true"
               aria-haspopup="true"
             >
-              Filter
+              {pilihActive || "Filter"}
               <svg
                 className={`ml-1 h-5 w-5 transition-transform ${
                   showFilterDropdown ? "transform rotate-180" : ""
@@ -115,24 +117,16 @@ const Updok = ({
                 className="bg-white shadow-lg rounded-lg p-2"
               >
                 <ul className="text-sm font-normal text-gray-700">
+                  {/* {["Terlama", "Terbaru", "7 Hari Terakhir"].map((pilih) => ( */}
+                  {Object.keys(filterMappings).map((pilih) => (
                   <li
+                  key={pilih}
                     className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickDsc}
+                    onClick={() => updatepPilih(pilih)}
                   >
-                    Terbaru
+                    {pilih}
                   </li>
-                  <li
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickAsc}
-                  >
-                    Terlama
-                  </li>
-                  <li
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickWeek}
-                  >
-                    7 Hari Terakhir
-                  </li>
+                  ))}
                 </ul>
               </div>
             )}

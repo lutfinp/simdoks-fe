@@ -76,6 +76,7 @@ const Page = ({ params: { id, keyword } }) => {
               id={id}
               handleFolderClick={handleFolderClick}
               api="itemSub"
+              file="barang"
               fileID={selectedFolderId}
               direct="subbarang"
             />
