@@ -144,7 +144,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
 
   const generateBarcode = () => {
     try {
-      const barcodeData = `http://localhost:8000/file/${api}s/${nama}.jpeg`;
+      const barcodeData = `${process.env.NEXT_PUBLIC_API_BASE_URL}/file/${api}s/${nama}.jpeg`;
       setBarcodeUrl(barcodeData);
     } catch (error) {
       console.error("Error generating barcode:", error);
