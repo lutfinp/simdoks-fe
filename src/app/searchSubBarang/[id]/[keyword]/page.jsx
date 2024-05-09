@@ -67,6 +67,7 @@ const Page = ({ params: { id, keyword } }) => {
                 vardumb="Barang"
                 api="itemSub"
                 direct="subbarang"
+                keyword={keyword}
               />
             </div>
           </section>

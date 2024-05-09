@@ -67,6 +67,7 @@ const Page = ({ params: { id, keyword } }) => {
                 vardumb="Arsip"
                 api="archiveSub"
                 direct="subarsip"
+                keyword={keyword}
               />
             </div>
           </section>

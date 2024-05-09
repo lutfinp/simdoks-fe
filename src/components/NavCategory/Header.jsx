@@ -9,7 +9,7 @@ import TambahFolder from "../Tambah/TambahFolder";
 import TambahSubFolder from "../Tambah/TambahSubFolder";
 import DomToImage from "dom-to-image"; 
 
-const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile, filteron, setFilter}) => {
+const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile, filteron, setFilter, keyword}) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showTambahDokumen, setShowTambahDokumen] = useState(false);
@@ -19,6 +19,10 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   const searchRef = useRef();
   const router = useRouter();
   const dropdownRef = useRef(null);
+  let decodeKeyword = decodeURI(keyword);
+  if (decodeKeyword === "undefined") {
+    decodeKeyword = "Search";
+  }
   let cobaId = judul?.id;
 
     const handleSearch = (event) => {
@@ -183,7 +187,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           </span>
           <input
             className="w-[384px] placeholder:text-gray-500 bg-white border border-gray-300 rounded-md py-2 pl-9 pr-3 text-xs focus:outline-none text-gray-500"
-            placeholder="Search"
+            placeholder={decodeKeyword}
             type="text"
             name="search"
             ref={searchRef}

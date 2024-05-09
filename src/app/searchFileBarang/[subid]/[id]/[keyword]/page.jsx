@@ -94,6 +94,7 @@ const Page = ({ params: { subid, id, keyword } }) => {
                 api="item"
                 direct="barang"
                 add={true}
+                keyword={keyword}
               />
             </div>
           </section>

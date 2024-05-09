@@ -54,6 +54,7 @@ const Page = ({ params: { keyword } }) => {
                 add={true}
                 api="accreditation"
                 direct="akreditasi"
+                keyword={keyword}
               />
             </div>
           </section>

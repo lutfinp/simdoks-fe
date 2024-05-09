@@ -83,6 +83,7 @@ const Page = ({ params: { id, keyword } }) => {
                 direct="filekepegawaian"
                 add={true}
                 donthassubfolder="true"
+                keyword={keyword}
               />
             </div>
           </section>

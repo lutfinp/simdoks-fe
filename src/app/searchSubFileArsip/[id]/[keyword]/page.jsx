@@ -83,6 +83,7 @@ const Page = ({ params: { id, keyword } }) => {
                 direct="subarsip"
                 add={true}
                 donthassubfolder="true"
+                keyword={keyword}
               />
             </div>
           </section>

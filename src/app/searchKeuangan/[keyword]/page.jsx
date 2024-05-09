@@ -54,6 +54,7 @@ const Page = ({ params: { keyword } }) => {
                 add={true}
                 api="finance"
                 direct="keuangan"
+                keyword={keyword}
               />
             </div>
           </section>

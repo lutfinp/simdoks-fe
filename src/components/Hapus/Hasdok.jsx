@@ -3,6 +3,7 @@ import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import PaginationHapus from "../Utilities/PaginationHapus";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Update from "../Update";
 
 const Hasdok = ({
   data,
@@ -15,6 +16,7 @@ const Hasdok = ({
 }) => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [pilihActive, setPilihActive] = useState("");
   const dropdownRef = useRef(null);
   const searchRef = useRef();
 
@@ -42,16 +44,10 @@ const Hasdok = ({
     }
   };
 
-  const handleClickAsc = () => {
-    setFilterDelete("asc");
-  };
-
-  const handleClickDsc = () => {
-    setFilterDelete("desc");
-  };
-
-  const handleClickWeek = () => {
-    setFilterDelete("week");
+  const filterMappings = {
+    "Terlama": "asc",
+    "Terbaru": "desc",
+    "7 Hari Terakhir": "week"
   };
 
   const handleSearch = (event) => {
@@ -67,6 +63,13 @@ const Hasdok = ({
       }
     }
   };
+  const updatePilih = (pilih) => {  
+    const filterValue = filterMappings[pilih];
+    setFilterDelete(filterValue);
+    setPilihActive(pilih);
+    setShowFilterDropdown(false);
+
+  }
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -89,7 +92,7 @@ const Hasdok = ({
               aria-expanded="true"
               aria-haspopup="true"
             >
-              Filter
+              {pilihActive || "Filter"}
               <svg
                 className={`ml-1 h-5 w-5 transition-transform ${
                   showFilterDropdown ? "transform rotate-180" : ""
@@ -116,24 +119,15 @@ const Hasdok = ({
                 className="bg-white shadow-lg rounded-lg p-2"
               >
                 <ul className="text-sm font-normal text-gray-700">
+                  {Object.keys(filterMappings).map((pilih) => (
                   <li
+                    key={pilih}
                     className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickDsc}
+                    onClick={()=> updatePilih(pilih)}
                   >
-                    Terbaru
+                    {pilih}
                   </li>
-                  <li
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickAsc}
-                  >
-                    Terlama
-                  </li>
-                  <li
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleClickWeek}
-                  >
-                    7 Hari Terakhir
-                  </li>
+                ))}
                 </ul>
               </div>
             )}

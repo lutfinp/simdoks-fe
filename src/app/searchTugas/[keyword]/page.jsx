@@ -71,6 +71,7 @@ const Page = ({ params: { keyword } }) => {
                 api="task"
                 direct="tugas"
                 donthassubfolder="true"
+                keyword={keyword}
               />
             </div>
           </section>

@@ -67,6 +67,7 @@ const Page = ({ params: { id, keyword } }) => {
                 api="accreditationSub"
                 direct="subakreditasi"
                 add={true}
+                keyword={keyword}
               />
             </div>
           </section>

@@ -117,7 +117,6 @@ const Updok = ({
                 className="bg-white shadow-lg rounded-lg p-2"
               >
                 <ul className="text-sm font-normal text-gray-700">
-                  {/* {["Terlama", "Terbaru", "7 Hari Terakhir"].map((pilih) => ( */}
                   {Object.keys(filterMappings).map((pilih) => (
                   <li
                   key={pilih}

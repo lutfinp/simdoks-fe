@@ -54,6 +54,7 @@ const Page = ({ params: { keyword } }) => {
                 add={true}
                 api="archive"
                 direct="arsip"
+                keyword={keyword}
               />
             </div>
           </section>
