@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 const TambahFolder = ({ onClose, direct, api }) => {
-  
   let jwt;
 
   const [typeName, settypeName] = useState("");
@@ -37,7 +36,7 @@ const TambahFolder = ({ onClose, direct, api }) => {
           withCredentials: true,
         }
       );
-      
+
       window.location.href = `/${direct}`;
       onClose();
     } catch (error) {

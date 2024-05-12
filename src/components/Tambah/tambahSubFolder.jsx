@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 const TambahSubFolder = ({ onClose, direct, api, id }) => {
-  
   let jwt;
 
   const [subtypeName, setsubtypeName] = useState("");
-
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -31,7 +29,6 @@ const TambahSubFolder = ({ onClose, direct, api, id }) => {
       const formData = new FormData();
       formData.append("typeId", id);
       formData.append("subtypeName", subtypeName);
-      
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}Type`,
@@ -44,7 +41,7 @@ const TambahSubFolder = ({ onClose, direct, api, id }) => {
           withCredentials: true,
         }
       );
-      
+
       window.location.href = `/${direct}/${id}`;
       onClose();
     } catch (error) {
