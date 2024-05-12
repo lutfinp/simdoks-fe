@@ -9,9 +9,16 @@ import HapusFile from "../Deleted/HapusFile";
 import EditFile from "../Edit/EditFile";
 import DownloadBarcode from "../Barcode/DownloadBarcode";
 
-
-
-const Allfile = ({ data, id, subid, handleFileClick, fileUrl, fileName, api, direct}) => {
+const Allfile = ({
+  data,
+  id,
+  subid,
+  handleFileClick,
+  fileUrl,
+  fileName,
+  api,
+  direct,
+}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [selectedFile, setSelectedFile] = useState("");
@@ -20,7 +27,8 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, fileName, api, dir
   const [showConfirmationEdit, setShowConfirmationEdit] = useState(false);
   const [fileUrlBarcode, setFileUrlBarcode] = useState("");
   const dropdownRef = useRef(null);
-  const [showConfirmationDownloadBarcode, setShowConfirmationDownloadBarcode] = useState(false);
+  const [showConfirmationDownloadBarcode, setShowConfirmationDownloadBarcode] =
+    useState(false);
 
   const handleDotsClick = (event, file, fileId) => {
     event.preventDefault();
@@ -59,7 +67,6 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, fileName, api, dir
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-
   }, []);
 
   const truncateTitle = (title) => {
@@ -72,20 +79,29 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, fileName, api, dir
   return (
     <div className="flex-row flex flex-wrap gap-3">
       {data?.map((file, index) => {
-        if (id != null || id == null ) {
-          if (file.typeId == id && file.subtypeId == subid)  {
-            const newUrl = fileUrl ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}` : undefined;
+        if (id != null || id == null) {
+          if (file.typeId == id && file.subtypeId == subid) {
+            const newUrl = fileUrl
+              ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}`
+              : undefined;
             return (
-                <div className="h-[217px] w-[230px] bg-white flex items-center justify-center"  onClick={(e) => handleFileClick(e, file.id)}>
-                   <Link
-                      xkey={index}
-                      href={fileUrl && fileUrl !== "http://localhost:8000/" ? newUrl : "#"}
-                      className={`transition-all ${
-                        fileUrl && fileUrl !== "http://localhost:8000/"
-                          ? "hover:cursor-pointer"
-                          : ""
-                      }`}
-                    >
+              <div
+                className="h-[217px] w-[230px] bg-white flex items-center justify-center"
+                onClick={(e) => handleFileClick(e, file.id)}
+              >
+                <Link
+                  key={index}
+                  href={
+                    fileUrl && fileUrl !== "http://localhost:8000/"
+                      ? newUrl
+                      : "#"
+                  }
+                  className={`transition-all ${
+                    fileUrl && fileUrl !== "http://localhost:8000/"
+                      ? "hover:cursor-pointer"
+                      : ""
+                  }`}
+                >
                   <div className="flex-col flex">
                     <Image
                       className="mt-4"
@@ -102,17 +118,17 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, fileName, api, dir
                           size={20}
                           weight="fill"
                           onClick={(e) => handleDotsClick(e, file, file.id)}
-                          />
+                        />
                       </div>
                     </div>
                   </div>
-                  </Link>
-                </div>
+                </Link>
+              </div>
             );
           }
-        } 
+        }
       })}
-        {showDropdown && (
+      {showDropdown && (
         <div
           style={{
             position: "absolute",
@@ -123,9 +139,24 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, fileName, api, dir
           className="bg-white shadow-lg rounded-lg p-2"
         >
           <ul>
-            <li className="p-2 hover:bg-gray-100 cursor-pointer"onClick={handleClickEdit} >Edit Dokumen</li>
-            <li className="p-2 hover:bg-gray-100 cursor-pointer"onClick={handleClickDelete}>Hapus Dokumen</li>
-            <li className="p-2 hover:bg-gray-100 cursor-pointer"onClick={handleClikcDownloadBarcode}>Download Barcode</li>
+            <li
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={handleClickEdit}
+            >
+              Edit Dokumen
+            </li>
+            <li
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={handleClickDelete}
+            >
+              Hapus Dokumen
+            </li>
+            <li
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={handleClikcDownloadBarcode}
+            >
+              Download Barcode
+            </li>
           </ul>
         </div>
       )}
@@ -152,19 +183,16 @@ const Allfile = ({ data, id, subid, handleFileClick, fileUrl, fileName, api, dir
         />
       )}
       {showConfirmationDownloadBarcode && (
-      
         <DownloadBarcode
           fileUrlBarcode={fileUrlBarcode}
           fileName={fileName}
           onClose={() => {
             setShowConfirmationDownloadBarcode(false);
           }}
-          />
+        />
       )}
     </div>
   );
 };
 
-
 export default Allfile;
-

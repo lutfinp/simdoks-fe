@@ -12,14 +12,16 @@ import { jwtDecode } from "jwt-decode";
 export default function Page() {
   const [nama, setNama] = useState("");
   const [cat, setcat] = useState("");
-  const [hapus, setHapus] = useState("")
-  const [pageHapus, setPageHapus] = useState(1)
-  let jwt
-  
+  const [hapus, setHapus] = useState("");
+  const [pageHapus, setPageHapus] = useState(1);
+  const [totalPage, setTotalPage] = useState("");
+  const [searchDelete, setSearchDelete] = useState(0);
+  const [keywordDelete, setKeywordDelete] = useState("");
+  let jwt;
 
   useEffect(() => {
     getToken();
-  }, [pageHapus]);
+  }, [pageHapus, searchDelete]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -28,17 +30,14 @@ export default function Page() {
         withCredentials: true,
       }
     );
-    jwt = token.data.accessToken
-    
-    const info = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/me`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setNama(info)
+    jwt = token.data.accessToken;
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    setNama(info);
 
     const category = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories`,
@@ -48,17 +47,41 @@ export default function Page() {
         },
       }
     );
-    setcat(category)
+    setcat(category);
 
-    const deleted = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/getAllFilesDeletedIn7Days`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setHapus(deleted)
+    if (searchDelete == 0) {
+      const deleted = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/getAllFilesDeletedIn7Days?page=${pageHapus}&pageSize=7`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setHapus(deleted?.data.data);
+
+      const allPage = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/getTotalPagesDeletedIn7Days?pageSize=7`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setTotalPage(allPage?.data.totalPages);
+    }else {
+      setPageHapus(1)
+      const deleted = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchFileDeletedIn7Days?page=${pageHapus}&pageSize=7&search=${keywordDelete}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setHapus(deleted?.data.data);
+      setTotalPage(deleted?.data.totalPages);
+    }
   };
 
   return (
@@ -81,7 +104,14 @@ export default function Page() {
               <Category data={cat?.data} />
             </div>
             <div>
-              <Deleted data={hapus.data?.data}/>
+              <Deleted
+                data={hapus}
+                totalPage={totalPage}
+                pageHapus={pageHapus}
+                setPageHapus={setPageHapus}
+                setSearchDelete={setSearchDelete}
+                setKeywordDelete={setKeywordDelete}
+              />
             </div>
             <div></div>
           </div>

@@ -2,13 +2,12 @@ import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import PaginationUpdate from "../Utilities/PaginationUpdate";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { set } from "date-fns";
 
 const Updok = ({
   data,
   pageUpdate,
   setPageUpdate,
-  total,
+  totalPageUpload,
   setFilterUpload,
   setSearchUpload,
   setKeywordUpload,
@@ -20,11 +19,10 @@ const Updok = ({
   const searchRef = useRef();
 
   const filterMappings = {
-    "Terlama": "asc",
-    "Terbaru": "desc",
-    "7 Hari Terakhir": "week"
+    Terlama: "asc",
+    Terbaru: "desc",
+    "7 Hari Terakhir": "week",
   };
-
 
   const formatDate = (dateString) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -118,13 +116,13 @@ const Updok = ({
               >
                 <ul className="text-sm font-normal text-gray-700">
                   {Object.keys(filterMappings).map((pilih) => (
-                  <li
-                  key={pilih}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => updatepPilih(pilih)}
-                  >
-                    {pilih}
-                  </li>
+                    <li
+                      key={pilih}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => updatepPilih(pilih)}
+                    >
+                      {pilih}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -175,7 +173,7 @@ const Updok = ({
                 return (
                   <tr key={index} className="bg-gray-50 odd:bg-white">
                     <td className="text-center p-3 border-r-2 border-gray-300">
-                      {(index + 1)+(pageUpdate-1)*7}.
+                      {index + 1 + (pageUpdate - 1) * 7}.
                     </td>
                     <td className="p-3 border-r-2 border-gray-300">
                       {upload.file_name}
@@ -226,7 +224,7 @@ const Updok = ({
       {data && data.length > 0 ? (
         <div className="flex justify-end">
           <PaginationUpdate
-            total={total}
+            totalPageUpload={totalPageUpload}
             pageUpdate={pageUpdate}
             setPageUpdate={setPageUpdate}
           />

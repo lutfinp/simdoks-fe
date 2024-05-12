@@ -1,6 +1,6 @@
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
-const Pagination7Days = ({ total, pageHapus, setPageHapus }) => {
+const Pagination7Days = ({ pageHapus, setPageHapus, totalPage }) => {
   const handleNextPage = () => {
     setPageHapus((prevState) => prevState + 1);
   };
@@ -20,7 +20,7 @@ const Pagination7Days = ({ total, pageHapus, setPageHapus }) => {
         </button>
       )}
       <p className="text-sm">{pageHapus}</p>
-      {pageHapus >= total?.totalPageUpload ? null : (
+      {pageHapus >= totalPage ? null : (
         <button
           onClick={handleNextPage}
           className="transition-all hover:text-color-accent hover:text-blue-500"

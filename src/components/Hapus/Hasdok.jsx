@@ -3,11 +3,10 @@ import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import PaginationHapus from "../Utilities/PaginationHapus";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import Update from "../Update";
 
 const Hasdok = ({
   data,
-  total,
+  totalPageHapus,
   pageHapus,
   setPageHapus,
   setFilterDelete,
@@ -45,9 +44,9 @@ const Hasdok = ({
   };
 
   const filterMappings = {
-    "Terlama": "asc",
-    "Terbaru": "desc",
-    "7 Hari Terakhir": "week"
+    Terlama: "asc",
+    Terbaru: "desc",
+    "7 Hari Terakhir": "week",
   };
 
   const handleSearch = (event) => {
@@ -63,13 +62,12 @@ const Hasdok = ({
       }
     }
   };
-  const updatePilih = (pilih) => {  
+  const updatePilih = (pilih) => {
     const filterValue = filterMappings[pilih];
     setFilterDelete(filterValue);
     setPilihActive(pilih);
     setShowFilterDropdown(false);
-
-  }
+  };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -120,14 +118,14 @@ const Hasdok = ({
               >
                 <ul className="text-sm font-normal text-gray-700">
                   {Object.keys(filterMappings).map((pilih) => (
-                  <li
-                    key={pilih}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={()=> updatePilih(pilih)}
-                  >
-                    {pilih}
-                  </li>
-                ))}
+                    <li
+                      key={pilih}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => updatePilih(pilih)}
+                    >
+                      {pilih}
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -173,7 +171,7 @@ const Hasdok = ({
                   className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
                 >
                   <td className="text-center p-3 border-r-2 border-gray-300">
-                  {(index + 1)+(pageHapus-1)*7}.
+                    {index + 1 + (pageHapus - 1) * 7}.
                   </td>
                   <td className="p-3 border-r-2 border-gray-300">
                     {hapus.file_name}
@@ -215,7 +213,7 @@ const Hasdok = ({
       {data && data.length > 0 ? (
         <div className="flex justify-end">
           <PaginationHapus
-            total={total}
+            totalPageHapus={totalPageHapus}
             pageHapus={pageHapus}
             setPageHapus={setPageHapus}
           />

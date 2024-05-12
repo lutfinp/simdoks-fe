@@ -2,7 +2,7 @@ import Hasdok from "./Hasdok";
 
 const Hapus = ({
   data,
-  total,
+  totalPageHapus,
   pageHapus,
   setPageHapus,
   setFilterDelete,
@@ -14,7 +14,7 @@ const Hapus = ({
       <div>
         <Hasdok
           data={data}
-          total={total}
+          totalPageHapus={totalPageHapus}
           pageHapus={pageHapus}
           setPageHapus={setPageHapus}
           setFilterDelete={setFilterDelete}

@@ -7,7 +7,7 @@ const Update = ({
   data,
   setPageUpdate,
   pageUpdate,
-  total,
+  totalPageUpload,
   setFilterUpload,
   setSearchUpload,
   setKeywordUpload
@@ -45,7 +45,7 @@ const Update = ({
       <Updok
           data={data}
           pageUpdate={pageUpdate}
-          total={total}
+          totalPageUpload={totalPageUpload}
           setPageUpdate={setPageUpdate}
           setFilterUpload={setFilterUpload}
           setSearchUpload={setSearchUpload}

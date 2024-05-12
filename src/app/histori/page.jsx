@@ -10,7 +10,8 @@ const Page = () => {
   let jwt;
   const [updok, setUpdok] = useState("");
   const [deldok, setDeldok] = useState("");
-  const [totalPage, setTotalPage] = useState("");
+  const [totalPageUpload, setTotalPageUpload] = useState("");
+  const [totalPageHapus, setTotalPageHapus] = useState("");
   const [pageUpdate, setPageUpdate] = useState(1);
   const [pageHapus, setPageHapus] = useState(1);
   const [filterUpload, setFilterUpload] = useState("desc");
@@ -39,7 +40,7 @@ const Page = () => {
       }
     );
     jwt = token.data.accessToken;
-    
+
     if (searchUpload == 0) {
       if (filterUpload == "week") {
         const historyUpload = await axios.get(
@@ -50,7 +51,17 @@ const Page = () => {
             },
           }
         );
-        setUpdok(historyUpload);
+        setUpdok(historyUpload?.data);
+
+        const allPage = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/getTotalpagesUploadsDeletesLast7Days?pageSize=7`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setTotalPageUpload(allPage?.data.totalPageUpload);
       } else {
         const historyUpload = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyUpload?page=${pageUpdate}&pageSize=7&order=${filterUpload}`,
@@ -60,20 +71,32 @@ const Page = () => {
             },
           }
         );
-        setUpdok(historyUpload);
+        setUpdok(historyUpload?.data);
+
+        const allPage = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/totalPages?pageSize=7`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setTotalPageUpload(allPage?.data.totalPageUpload);
       }
     } else {
+      setPageUpdate(1)
       const historyUpload = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchHistoryUploads?search=${keywordUpload}&order=${filterUpload}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchHistoryUploads?search=${keywordUpload}&order=desc&page=${pageUpdate}&pageSize=7`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         }
       );
-      setUpdok(historyUpload);
+      setUpdok(historyUpload?.data.data);
+      setTotalPageUpload(historyUpload?.data.totalPages);
     }
-    
+
     if (searchDelete == 0) {
       if (filterDelete == "week") {
         const historyDelete = await axios.get(
@@ -84,7 +107,17 @@ const Page = () => {
             },
           }
         );
-        setDeldok(historyDelete);
+        setDeldok(historyDelete?.data);
+
+        const allPage = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/getTotalpagesUploadsDeletesLast7Days?pageSize=7`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setTotalPageHapus(allPage?.data.totalPageDelete);
       } else {
         const historyDelete = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/historyDelete?page=${pageHapus}&pageSize=7&order=${filterDelete}`,
@@ -94,29 +127,31 @@ const Page = () => {
             },
           }
         );
-        setDeldok(historyDelete);
+        setDeldok(historyDelete?.data);
+
+        const allPage = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/totalPages?pageSize=7`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setTotalPageHapus(allPage?.data.totalPageDelete);
       }
     } else {
+      setPageUpdate(1)
       const historyDelete = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchHistoryDeletes?search=${keywordDelete}&order=${filterDelete}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchHistoryDeletes?search=${keywordDelete}&order=desc&page=${pageHapus}&pageSize=7`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         }
       );
-      setDeldok(historyDelete);
+      setDeldok(historyDelete?.data.data);
+      setTotalPageHapus(historyDelete?.data.totalPages);
     }
-
-    const allPage = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/totalPages?pageSize=7`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
-    setTotalPage(allPage);
   };
 
   return (
@@ -126,8 +161,8 @@ const Page = () => {
       </div>
       <div className="w-full bg-gray-50 divide-y-2">
         <Update
-          data={updok.data}
-          total={totalPage.data}
+          data={updok}
+          totalPageUpload={totalPageUpload}
           pageUpdate={pageUpdate}
           setPageUpdate={setPageUpdate}
           setFilterUpload={setFilterUpload}
@@ -135,8 +170,8 @@ const Page = () => {
           setKeywordUpload={setKeywordUpload}
         />
         <Hapus
-          data={deldok.data}
-          total={totalPage.data}
+          data={deldok}
+          totalPageHapus={totalPageHapus}
           pageHapus={pageHapus}
           setPageHapus={setPageHapus}
           setFilterDelete={setFilterDelete}

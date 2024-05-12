@@ -1,6 +1,6 @@
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
-const PaginationUpdate = ({ total, pageUpdate, setPageUpdate }) => {
+const PaginationUpdate = ({ totalPageUpload, pageUpdate, setPageUpdate }) => {
   const handleNextPage = () => {
     setPageUpdate((prevState) => prevState + 1);
   };
@@ -20,7 +20,7 @@ const PaginationUpdate = ({ total, pageUpdate, setPageUpdate }) => {
         </button>
       )}
       <p className="text-sm">{pageUpdate}</p>
-      {pageUpdate >= total?.totalPageUpload ? null : (
+      {pageUpdate >= totalPageUpload ? null : (
         <button
           onClick={handleNextPage}
           className="transition-all hover:text-color-accent hover:text-blue-500"

@@ -1,8 +1,41 @@
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Pagination7Days from "../Utilities/Pagination7Days";
+import {useRef} from "react";
 
-const Deldok = ({ data }) => {
+const Deldok = ({
+  data,
+  pageHapus,
+  setPageHapus,
+  totalPage,
+  setSearchDelete,
+  setKeywordDelete,
+}) => {
+  const searchRef = useRef();
+
+  const formatDate = (dateString) => {
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "id-ID",
+      options
+    );
+    return formattedDate;
+  };
+
+  const handleSearch = (event) => {
+    const keyword = searchRef.current.value;
+
+    if (!keyword || keyword.trim() == "") return;
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      {
+        setSearchDelete((prevState) => prevState + 1);
+        setKeywordDelete(keyword);
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row justify-between mt-4">
@@ -19,58 +52,68 @@ const Deldok = ({ data }) => {
             placeholder="Search"
             type="text"
             name="search"
+            ref={searchRef}
+            onKeyDown={handleSearch}
           />
         </label>
       </div>
-      {/* <div className="flex items-center justify-center w-full h-[83px] bg-red-100 rounded-md text-center">
-        search not found
-      </div> */}
-      <table className="w-full outline outline-2 outline-gray-300 rounded-md">
-        <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
-          <tr>
-            <th className="text-center p-3 border-r-2 border-gray-300">NO.</th>
-            <th className="text-left p-3 border-r-2 border-gray-300">
-              NAMA DOKUMEN
-            </th>
-            <th className="p-3 border-r-2 border-gray-300">BERLAKU MULAI</th>
-            <th className="p-3">BERLAKU HINGGA</th>
-          </tr>
-        </thead>
-        <tbody className="text-xs text-gray-700">
-          {data?.map((hapus, index) => {
-            return (
-              <tr key={index} className=" bg-gray-50 odd:bg-white">
-                <td className="text-center p-3 border-r-2 border-gray-300">
-                  1
-                </td>
-                <td className="p-3 border-r-2 border-gray-300">
-                  {hapus.file_name}
-                </td>
-                <td className="text-center p-3 border-r-2 border-gray-300">
-                  {hapus.start_date}
-                </td>
-                <td className="text-center p-3">{hapus.end_date}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      {/* <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
-        <div>
-          <Image
-            className="mt-2"
-            src="/assets/Frame52.png"
-            alt="Tidak ada dokumen yang akan terhapus"
-            width={400}
-            height={173}
+      {data && data.length > 0 ? (
+        <table className="w-full outline outline-2 outline-gray-300 rounded-md">
+          <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
+            <tr>
+              <th className="text-center p-3 border-r-2 border-gray-300">
+                NO.
+              </th>
+              <th className="text-left p-3 border-r-2 border-gray-300">
+                NAMA DOKUMEN
+              </th>
+              <th className="p-3 border-r-2 border-gray-300">BERLAKU MULAI</th>
+              <th className="p-3">BERLAKU HINGGA</th>
+            </tr>
+          </thead>
+          <tbody className="text-xs text-gray-700">
+            {data?.map((hapus, index) => {
+              return (
+                <tr key={index} className=" bg-gray-50 odd:bg-white">
+                  <td className="text-center p-3 border-r-2 border-gray-300">
+                    1
+                  </td>
+                  <td className="p-3 border-r-2 border-gray-300">
+                    {hapus.file_name}
+                  </td>
+                  <td className="text-center p-3 border-r-2 border-gray-300">
+                    {formatDate(hapus.start_date)}
+                  </td>
+                  <td className="text-center p-3">
+                    {formatDate(hapus.end_date)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
+          <div>
+            <Image
+              className="mt-2"
+              src="/assets/Frame52.png"
+              alt="Tidak ada dokumen yang akan terhapus"
+              width={400}
+              height={173}
+            />
+          </div>
+        </div>
+      )}
+      {data && data.length > 0 ? (
+        <div className="flex justify-end">
+          <Pagination7Days
+            pageHapus={pageHapus}
+            setPageHapus={setPageHapus}
+            totalPage={totalPage}
           />
         </div>
-      </div> */}
-      <div className="flex justify-end">
-        <Pagination7Days
-
-        />
-      </div>
+      ) : null}
     </div>
   );
 };
