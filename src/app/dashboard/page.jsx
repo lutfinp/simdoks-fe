@@ -7,7 +7,6 @@ import Navbar from "@/components/Navbar";
 import Reminder from "@/components/Reminder";
 import SideBar from "@/components/SideBar";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 
 export default function Page() {
   const [nama, setNama] = useState("");

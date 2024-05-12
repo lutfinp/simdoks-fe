@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import {
-  FolderNotchOpen,
   DotsThreeOutlineVertical,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";

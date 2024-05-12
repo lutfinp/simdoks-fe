@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState} from "react";
 
 const EditFolder = ({ onClose, api, selectedFolderId, direct, subid, id }) => {
   let jwt;

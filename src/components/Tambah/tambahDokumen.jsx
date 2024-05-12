@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import ConfirmationPopUp from "../ConfrimAdd/ConfirmationPopUp";
 
@@ -10,7 +10,6 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
   const [file, setFile] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [BarcodeUrl, setBarcodeUrl] = useState("");
-
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);

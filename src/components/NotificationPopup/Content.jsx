@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Content = ({ data, onClose }) => {
+const Content = ({ data }) => {
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [jwt, setJwt] = useState("");
   const [isMarkingAllRead, setIsMarkingAllRead] = useState(false);
