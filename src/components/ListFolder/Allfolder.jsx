@@ -10,7 +10,7 @@ import EditFolder from "../Edit/EditFolder";
 import HapusSubFolder from "../Deleted/HapusSubFolder";
 import EditSubFolder from "../Edit/EditSubFolder";
 
-const Allfolder = ({ data, id, file, sub, api, direct }) => {
+const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [selectedFolder, setSelectedFolder] = useState("");
@@ -18,6 +18,7 @@ const Allfolder = ({ data, id, file, sub, api, direct }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showConfirmationEdit, setShowConfirmationEdit] = useState(false);
   const dropdownRef = useRef(null);
+  let permission
 
   const handleDotsClick = (event, folder, folderId) => {
     event.preventDefault();
@@ -60,6 +61,20 @@ const Allfolder = ({ data, id, file, sub, api, direct }) => {
     }
     return title;
   };
+
+  if(access == "true"){
+    const MyCustomDotsComponent = (
+      <DotsThreeOutlineVertical
+        className="hover:text-yellow-600 cursor-pointer"
+        size={20}
+        weight="fill"
+        onClick={(e) => handleDotsClick(e, folder, folder.id)}
+      />
+    );
+    permission = MyCustomDotsComponent
+  } else {
+    permission = null
+  }
   
   return (
     <div className="flex-row flex flex-wrap gap-3">
@@ -84,12 +99,7 @@ const Allfolder = ({ data, id, file, sub, api, direct }) => {
                     <div className="w-full mb-7 h-[30px] bg-gray-100 rounded-md">
                       <div className="flex flex-row p-1 text-sm font-semibold text-gray-700 justify-between">
                         <p>{truncateTitle(folder.subtype_name)}</p>
-                        <DotsThreeOutlineVertical
-                          className="hover:text-yellow-600 cursor-pointer"
-                          size={20}
-                          weight="fill"
-                          onClick={(e) => handleDotsClick(e, folder, folder.id)}
-                        />
+                        {permission}
                       </div>
                     </div>
                   </div>
@@ -116,12 +126,7 @@ const Allfolder = ({ data, id, file, sub, api, direct }) => {
                   <div className="w-full mb-7 h-[30px] bg-gray-100 rounded-md">
                     <div className="flex flex-row p-1 text-sm font-semibold text-gray-700 justify-between">
                       <p>{truncateTitle(folder.type_name)}</p>
-                      <DotsThreeOutlineVertical
-                        className="hover:text-yellow-600 cursor-pointer"
-                        size={20}
-                        weight="fill"
-                        onClick={(e) => handleDotsClick(e, folder, folder.id)}
-                      />
+                      {permission}
                     </div>
                   </div>
                 </div>

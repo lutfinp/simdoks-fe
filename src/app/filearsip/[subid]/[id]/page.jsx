@@ -16,6 +16,7 @@ const Page = ({ params: { id, subid } }) => {
   const [fileName, setFileName] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [filter, setFilter] = useState("all");
+  const [access, setAccess] = useState("false");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -44,7 +45,15 @@ const Page = ({ params: { id, subid } }) => {
     );
     setFolarsip(folderArsip);
 
-
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "surat") {
+      setAccess("true");
+    }
 
     if(filter == "all"){
       const file = await axios.get(
@@ -139,6 +148,7 @@ const Page = ({ params: { id, subid } }) => {
               api="archive"
               direct="arsip"
               fileID={selectedFileId}
+              access={access}
             />
           </div>
         </div>

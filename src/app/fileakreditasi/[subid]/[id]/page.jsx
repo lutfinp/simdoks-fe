@@ -16,6 +16,7 @@ const Page = ({ params: { subid, id } }) => {
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [filter, setFilter] = useState("all");
+  const [access, setAccess] = useState("false");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -43,6 +44,16 @@ const Page = ({ params: { subid, id } }) => {
       }
     );
     setFolakre(folderAkre);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "Akreditasi") {
+      setAccess("true");
+    }
 
     if(filter == "all"){
       const file = await axios.get(
@@ -137,6 +148,7 @@ const Page = ({ params: { subid, id } }) => {
               api="accreditation"
               direct="akreditasi"
               fileID={selectedFileId}
+              access={access}
             />
           </div>
         </div>

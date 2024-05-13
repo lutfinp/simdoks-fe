@@ -10,6 +10,7 @@ const Page = () => {
   let jwt;
   const [folKepegawaian, setFolKepegawaian] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [access, setAccess] = useState("false");
 
   const handleFolderClick = (event, folderId) => {
     event.preventDefault();
@@ -38,12 +39,22 @@ const Page = () => {
       }
     );
     setFolKepegawaian(folderKepegawaian);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "kepegawaian") {
+      setAccess("true");
+    }
   };
 
   return (
     <div className="flex flex-row gap-2">
       <div className="text-gray-700 h-screen w-[249px]">
-        <SideBar activePage="Kepegawaian" />
+        <SideBar activePage="kepegawaian" />
       </div>
       <div className="w-full bg-gray-50">
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
@@ -64,8 +75,9 @@ const Page = () => {
               api="staff"
               fileID={selectedFolderId}
               direct="kepegawaian"
-              sub="filekepegawaian" 
+              sub="filekepegawaian"
               hassubfolder={false}
+              access={access}
             />
           </div>
         </div>

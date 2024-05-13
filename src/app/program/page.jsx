@@ -10,7 +10,8 @@ const Page = () => {
   let jwt;
   const [folProgram, setFolProgram] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState("");
-
+  const [access, setAccess] = useState("false");
+  
   const handleFolderClick = (event, folderId) => {
     event.preventDefault();
     setSelectedFolderId(folderId);
@@ -38,6 +39,16 @@ const Page = () => {
       }
     );
     setFolProgram(folderProgram);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "program") {
+      setAccess("true");
+    }
   };
 
   return (
@@ -65,6 +76,7 @@ const Page = () => {
               api="program"
               fileID={selectedFolderId}
               direct="program"
+              access={access}
             />
           </div>
         </div>

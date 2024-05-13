@@ -14,6 +14,7 @@ const Page = ({ params: { subid, id, keyword } }) => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState(""); 
+  const [access, setAccess] = useState("false");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -42,6 +43,16 @@ const Page = ({ params: { subid, id, keyword } }) => {
       }
     );
     setFolprogram(folderProgram);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "program") {
+      setAccess("true");
+    }
 
     const folderSubProgram = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/programSubtype/${subid}`,
@@ -109,6 +120,7 @@ const Page = ({ params: { subid, id, keyword } }) => {
               api="program"
               direct="program"
               fileID={selectedFileId}
+              access={access}
             />
           </div>
         </div>

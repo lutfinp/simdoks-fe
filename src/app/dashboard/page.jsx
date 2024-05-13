@@ -16,11 +16,14 @@ export default function Page() {
   const [totalPage, setTotalPage] = useState("");
   const [searchDelete, setSearchDelete] = useState(0);
   const [keywordDelete, setKeywordDelete] = useState("");
+  const [reminder, setReminder] = useState("");
+  const [pageReminder, setPageReminder] = useState(1);
+  const [totalPageReminder, setTotalPageReminder] = useState("");
   let jwt;
 
   useEffect(() => {
     getToken();
-  }, [pageHapus, searchDelete]);
+  }, [pageHapus, searchDelete, pageReminder]);
 
   const getToken = async () => {
     const token = await axios.get(
@@ -37,6 +40,17 @@ export default function Page() {
       },
     });
     setNama(info);
+
+    const dataReminder = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/getReminderTotalFileDeletePerDaysIn7Days?indexQuery=${pageReminder}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    setReminder(dataReminder?.data.totalFile);
+    setTotalPageReminder(dataReminder?.data.totalIndex);
 
     const category = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories`,
@@ -68,8 +82,8 @@ export default function Page() {
         }
       );
       setTotalPage(allPage?.data.totalPages);
-    }else {
-      setPageHapus(1)
+    } else {
+      setPageHapus(1);
       const deleted = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/searchFileDeletedIn7Days?page=${pageHapus}&pageSize=7&search=${keywordDelete}`,
         {
@@ -95,9 +109,16 @@ export default function Page() {
               <Navbar data={nama?.data} />
             </div>
           </section>
-          {/* <div>
-            <Reminder total={hapus.data?.totalFile} date={hapus.data?.data} />
-          </div> */}
+          <div>
+            {reminder && reminder.length > 0 ? (
+              <Reminder
+                data={reminder}
+                totalPageReminder={totalPageReminder}
+                pageReminder={pageReminder}
+                setPageReminder={setPageReminder}
+              />
+            ) : null}
+          </div>
           <div className="flex flex-col gap-7 divide-y-2">
             <div>
               <Category data={cat?.data} />
@@ -112,7 +133,6 @@ export default function Page() {
                 setKeywordDelete={setKeywordDelete}
               />
             </div>
-            <div></div>
           </div>
         </div>
       </div>

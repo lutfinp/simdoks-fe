@@ -9,7 +9,8 @@ const ListFolder = ({
   handleFileClick,
   selectedFileId,
   api,
-  direct
+  direct,
+  access
 }) => {
   return (
     <>
@@ -22,6 +23,7 @@ const ListFolder = ({
         selectedFileIdFileId={selectedFileId}
         api={api}
         direct={direct} 
+        access={access}
       />
     </>
   );

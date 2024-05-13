@@ -13,6 +13,7 @@ const Page = () => {
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [filter, setFilter] = useState("all");
+  const [access, setAccess] = useState("false");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -31,6 +32,16 @@ const Page = () => {
       }
     );
     jwt = token.data.accessToken;
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "tugas") {
+      setAccess("true");
+    }
 
     if(filter == "all"){
       const file = await axios.get(
@@ -112,6 +123,7 @@ const Page = () => {
               api="task"
               fileID={selectedFileId}
               direct="tugas"
+              access={access}
             />
           </div>
         </div>

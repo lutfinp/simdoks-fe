@@ -11,6 +11,7 @@ const Page = ({ params: { id, keyword } }) => {
   const [folsubArsip, setFolsubArsip] = useState("");
   const [folArsip, setFolArsip] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [access, setAccess] = useState("false");
 
   const handleFolderClick = (event, folderId) => {
     event.preventDefault();
@@ -49,6 +50,16 @@ const Page = ({ params: { id, keyword } }) => {
       }
     );
     setFolsubArsip(folderSubArsip);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "surat") {
+      setAccess("true");
+    }
   };
 
   return (
@@ -80,6 +91,7 @@ const Page = ({ params: { id, keyword } }) => {
               file="arsip"
               fileID={selectedFolderId}
               direct="subarsip"
+              access={access}
             />
           </div>
         </div>

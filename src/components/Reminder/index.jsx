@@ -1,9 +1,19 @@
 import Announc from "./Announc";
 
-const Reminder = ({ total, date }) => {
+const Reminder = ({
+  data,
+  totalPageReminder,
+  pageReminder,
+  setPageReminder
+}) => {
   return (
     <>
-      <Announc total={total} date={date} />
+      <Announc
+        data={data}
+        totalPageReminder={totalPageReminder}
+        pageReminder={pageReminder}
+        setPageReminder={setPageReminder}
+      />
     </>
   );
 };

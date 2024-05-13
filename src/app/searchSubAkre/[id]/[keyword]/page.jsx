@@ -11,6 +11,7 @@ const Page = ({ params: { id, keyword } }) => {
   const [folsubakre, setFolsubakre] = useState("");
   const [folakre, setFolakre] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [access, setAccess] = useState("false")
 
   const handleFolderClick = (event, folderId) => {
     event.preventDefault();
@@ -39,7 +40,16 @@ const Page = ({ params: { id, keyword } }) => {
       }
     );
     setFolakre(folderAkre);
-    
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "Akreditasi") {
+      setAccess("true");
+    }
 
     const folderSubAkre = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationSubtypes/search?typeId=${id}&search=${keyword}`,
@@ -80,6 +90,7 @@ const Page = ({ params: { id, keyword } }) => {
               api="accreditationSub"
               fileID={selectedFolderId}
               direct="subakreditasi"
+              access={access}
             />
           </div>
         </div>

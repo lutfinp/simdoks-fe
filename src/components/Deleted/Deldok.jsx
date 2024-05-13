@@ -76,7 +76,7 @@ const Deldok = ({
               return (
                 <tr key={index} className=" bg-gray-50 odd:bg-white">
                   <td className="text-center p-3 border-r-2 border-gray-300">
-                    1
+                  {index + 1 + (pageHapus - 1) * 7}.
                   </td>
                   <td className="p-3 border-r-2 border-gray-300">
                     {hapus.file_name}

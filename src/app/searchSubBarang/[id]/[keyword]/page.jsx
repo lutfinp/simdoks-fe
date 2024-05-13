@@ -11,6 +11,7 @@ const Page = ({ params: { id, keyword } }) => {
   const [folsubBarang, setFolsubBarang] = useState("");
   const [folBarang, setFolBarang] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [access, setAccess] = useState("false");
 
   const handleFolderClick = (event, folderId) => {
     event.preventDefault();
@@ -49,6 +50,16 @@ const Page = ({ params: { id, keyword } }) => {
       }
     );
     setFolsubBarang(folderSubBarang);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "barang") {
+      setAccess("true");
+    }
   };
 
   return (
@@ -80,6 +91,7 @@ const Page = ({ params: { id, keyword } }) => {
               file="barang"
               fileID={selectedFolderId}
               direct="subbarang"
+              access={access}
             />
           </div>
         </div>

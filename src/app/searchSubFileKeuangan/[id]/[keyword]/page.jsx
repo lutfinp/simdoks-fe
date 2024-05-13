@@ -13,6 +13,7 @@ const Page = ({ params: { id, keyword } }) => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
+  const [access, setAccess] = useState("false");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -41,6 +42,16 @@ const Page = ({ params: { id, keyword } }) => {
       }
     );
     setFolkeuangan(folderKeuangan);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "keuangan") {
+      setAccess("true");
+    }
 
     const file = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/finances/search?typeId=${id}&search=${keyword}`,
@@ -97,6 +108,7 @@ const Page = ({ params: { id, keyword } }) => {
               api="finance"
               fileID={selectedFileId}
               direct="filekeuangan"
+              access={access}
             />
           </div>
         </div>

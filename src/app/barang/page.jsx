@@ -10,6 +10,7 @@ const Page = () => {
   let jwt;
   const [folBarang, setFolBarang] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [access, setAccess] = useState("false");
 
   const handleFolderClick = (event, folderId) => {
     event.preventDefault();
@@ -38,6 +39,16 @@ const Page = () => {
       }
     );
     setFolBarang(folderBarang);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "barang") {
+      setAccess("true");
+    }
   };
 
   return (
@@ -49,11 +60,7 @@ const Page = () => {
         <div className="ml-[32px] mr-[32px] my-4 flex flex-col gap-3">
           <section>
             <div>
-              <NavCategory
-                judul="Barang"
-                api="item"
-                direct="barang"
-              />
+              <NavCategory judul="Barang" api="item" direct="barang" />
             </div>
           </section>
           <div className="pt-2">
@@ -64,6 +71,7 @@ const Page = () => {
               api="item"
               fileID={selectedFolderId}
               direct="barang"
+              access={access}
             />
           </div>
         </div>

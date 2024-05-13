@@ -10,7 +10,8 @@ const Page = ({ params: { keyword } }) => {
   let jwt;
   const [folKeuangan, setFolKeuangan] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState("");
-
+  const [access, setAccess] = useState("false");
+  
   const handleFolderClick = (event, folderId) => {
     event.preventDefault();
     setSelectedFolderId(folderId);
@@ -38,6 +39,16 @@ const Page = ({ params: { keyword } }) => {
       }
     );
     setFolKeuangan(folderKeuangan);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "keuangan") {
+      setAccess("true");
+    }
   };
 
   return (
@@ -66,6 +77,7 @@ const Page = ({ params: { keyword } }) => {
               fileID={selectedFolderId}
               direct="keuangan"
               sub="filekeuangan"
+              access={access}
             />
           </div>
         </div>

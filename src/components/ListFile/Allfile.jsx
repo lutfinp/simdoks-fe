@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  DotsThreeOutlineVertical,
-} from "@phosphor-icons/react/dist/ssr";
+import { DotsThreeOutlineVertical } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import HapusFile from "../Deleted/HapusFile";
@@ -17,6 +15,7 @@ const Allfile = ({
   fileName,
   api,
   direct,
+  access,
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -28,6 +27,7 @@ const Allfile = ({
   const dropdownRef = useRef(null);
   const [showConfirmationDownloadBarcode, setShowConfirmationDownloadBarcode] =
     useState(false);
+  let permission;
 
   const handleDotsClick = (event, file, fileId) => {
     event.preventDefault();
@@ -75,6 +75,20 @@ const Allfile = ({
     return title;
   };
 
+  if (access == "true") {
+    const MyCustomDotsComponent = (
+      <DotsThreeOutlineVertical
+        className="hover:text-yellow-600 cursor-pointer"
+        size={20}
+        weight="fill"
+        onClick={(e) => handleDotsClick(e, folder, folder.id)}
+      />
+    );
+    permission = MyCustomDotsComponent;
+  } else {
+    permission = null;
+  }
+
   return (
     <div className="flex-row flex flex-wrap gap-3">
       {data?.map((file, index) => {
@@ -112,12 +126,7 @@ const Allfile = ({
                     <div className="w-full mb-7 h-[30px] bg-gray-100 rounded-md">
                       <div className="flex flex-row p-1 text-sm font-semibold text-gray-700 justify-between">
                         <p>{truncateTitle(file.file_name)}</p>
-                        <DotsThreeOutlineVertical
-                          className="hover:text-yellow-600 cursor-pointer"
-                          size={20}
-                          weight="fill"
-                          onClick={(e) => handleDotsClick(e, file, file.id)}
-                        />
+                        {permission}
                       </div>
                     </div>
                   </div>

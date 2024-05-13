@@ -16,7 +16,7 @@ const Page = ({ params: { subid, id } }) => {
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [filter, setFilter] = useState("all");
-
+  const [access, setAccess] = useState("false");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -45,6 +45,16 @@ const Page = ({ params: { subid, id } }) => {
     );
     setFolakre(folderAkre);
 
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "barang") {
+      setAccess("true");
+    }
+
     if (filter == "all") {
       const file = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/items`,
@@ -55,8 +65,7 @@ const Page = ({ params: { subid, id } }) => {
         }
       );
       setFile(file);
-    }
-    else if (filter == "Semua") {
+    } else if (filter == "Semua") {
       const Filter = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/items`,
         {
@@ -66,18 +75,17 @@ const Page = ({ params: { subid, id } }) => {
         }
       );
       setFile(Filter);
-    }
-    else {
+    } else {
       const Filter = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/getitem/year?typeId=${id}&subtypeId=${subid}&years=${filter}`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-        setFile(Filter);
-      }
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setFile(Filter);
+    }
 
     const folderSubAkre = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/itemSubtype/${subid}`,
@@ -136,6 +144,7 @@ const Page = ({ params: { subid, id } }) => {
               api="item"
               fileID={selectedFileId}
               direct="barang"
+              access={access}
             />
           </div>
         </div>

@@ -13,6 +13,7 @@ const Page = ({ params: { id, keyword } }) => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
+  const [access, setAccess] = useState("false");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -41,6 +42,16 @@ const Page = ({ params: { id, keyword } }) => {
       }
     );
     setFolarsip(folderArsip);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "surat") {
+      setAccess("true");
+    }
 
     const file = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/archives/search?typeId=${id}&search=${keyword}`,
@@ -97,6 +108,7 @@ const Page = ({ params: { id, keyword } }) => {
               api="archive"
               direct="subarsip"
               fileID={selectedFileId}
+              access={access}
             />
           </div>
         </div>

@@ -10,6 +10,7 @@ const Page = () => {
   let jwt;
   const [folArsip, setFolArsip] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [access, setAccess] = useState("false");
 
   const handleFolderClick = (event, folderId) => {
     event.preventDefault();
@@ -38,6 +39,16 @@ const Page = () => {
       }
     );
     setFolArsip(folderArsip);
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "surat") {
+      setAccess("true");
+    }
   };
 
   return (
@@ -65,6 +76,7 @@ const Page = () => {
               fileID={selectedFolderId}
               direct="arsip"
               file="filearsip"
+              access={access}
             />
           </div>
         </div>

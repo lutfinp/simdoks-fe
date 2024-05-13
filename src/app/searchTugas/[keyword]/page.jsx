@@ -12,6 +12,7 @@ const Page = ({ params: { keyword } }) => {
   const [selectedFileId, setSelectedFileId] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [fileName, setFileName] = useState("");
+  const [access, setAccess] = useState("false");
 
   const handleFileClick = (event, fileId) => {
     event.preventDefault();
@@ -30,6 +31,16 @@ const Page = ({ params: { keyword } }) => {
       }
     );
     jwt = token.data.accessToken;
+
+    const info = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    const username = info?.data.username;
+    if (username == "tugas") {
+      setAccess("true");
+    }
 
     const file = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks/search?search=${keyword}`,
@@ -84,6 +95,7 @@ const Page = ({ params: { keyword } }) => {
               api="task"
               fileID={selectedFileId}
               direct="tugas"
+              access={access}
             />
           </div>
         </div>
