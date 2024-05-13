@@ -1,8 +1,6 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
-import {
-  DotsThreeOutlineVertical,
-} from "@phosphor-icons/react/dist/ssr";
+import { DotsThreeOutlineVertical } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import HapusFolder from "../Deleted/HapusFolder";
@@ -18,7 +16,6 @@ const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showConfirmationEdit, setShowConfirmationEdit] = useState(false);
   const dropdownRef = useRef(null);
-  let permission
 
   const handleDotsClick = (event, folder, folderId) => {
     event.preventDefault();
@@ -62,20 +59,21 @@ const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
     return title;
   };
 
-  if(access == "true"){
-    const MyCustomDotsComponent = (
-      <DotsThreeOutlineVertical
-        className="hover:text-yellow-600 cursor-pointer"
-        size={20}
-        weight="fill"
-        onClick={(e) => handleDotsClick(e, folder, folder.id)}
-      />
-    );
-    permission = MyCustomDotsComponent
-  } else {
-    permission = null
-  }
-  
+  const manageAccess = (folder) => {
+    if (access == "true") {
+      return (
+        <DotsThreeOutlineVertical
+          className="hover:text-yellow-600 cursor-pointer"
+          size={20}
+          weight="fill"
+          onClick={(e) => handleDotsClick(e, folder, folder.id)}
+        />
+      );
+    } else {
+      null;
+    }
+  };
+
   return (
     <div className="flex-row flex flex-wrap gap-3">
       {data?.map((folder, index) => {
@@ -99,7 +97,7 @@ const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
                     <div className="w-full mb-7 h-[30px] bg-gray-100 rounded-md">
                       <div className="flex flex-row p-1 text-sm font-semibold text-gray-700 justify-between">
                         <p>{truncateTitle(folder.subtype_name)}</p>
-                        {permission}
+                        {manageAccess(folder)}
                       </div>
                     </div>
                   </div>
@@ -126,7 +124,7 @@ const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
                   <div className="w-full mb-7 h-[30px] bg-gray-100 rounded-md">
                     <div className="flex flex-row p-1 text-sm font-semibold text-gray-700 justify-between">
                       <p>{truncateTitle(folder.type_name)}</p>
-                      {permission}
+                      {manageAccess(folder)}
                     </div>
                   </div>
                 </div>

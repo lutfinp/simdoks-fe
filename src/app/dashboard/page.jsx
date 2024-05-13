@@ -29,7 +29,6 @@ export default function Page() {
 
   const getToken = async () => {
     const cookies = Cookies.get();
-    console.log(cookies);
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
       {
