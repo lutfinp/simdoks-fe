@@ -7,6 +7,8 @@ import Navbar from "@/components/Navbar";
 import Reminder from "@/components/Reminder";
 import SideBar from "@/components/SideBar";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { Cookie } from "next/font/google";
 
 export default function Page() {
   const [nama, setNama] = useState("");
@@ -26,6 +28,8 @@ export default function Page() {
   }, [pageHapus, searchDelete, pageReminder]);
 
   const getToken = async () => {
+    const cookies = Cookies.get();
+    console.log(cookies);
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
       {

@@ -24,6 +24,7 @@ const FormLogin = () => {
         }
       );
       Cookies.set("token", response.data.accessToken);
+      // Cookies.set("refreshToken", response.data.refreshToken);
       window.location.href = "./dashboard";
     } catch (error) {
       if (
