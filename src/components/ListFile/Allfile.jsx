@@ -3,8 +3,8 @@ import { DotsThreeOutlineVertical } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import HapusFile from "../Deleted/HapusFile";
-import EditFile from "../Edit/EditFile";
 import DownloadBarcode from "../Barcode/DownloadBarcode";
+import EditFile from "../Edit/EditFile";
 
 const Allfile = ({
   data,
