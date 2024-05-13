@@ -116,7 +116,7 @@ const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
                 <div className="flex-col flex">
                   <Image
                     className="mt-4"
-                    src="/assets/foldersub.png"
+                    src="/assets/Foldersub.png"
                     alt="logo"
                     width={180}
                     height={70}
