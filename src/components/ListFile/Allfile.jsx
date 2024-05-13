@@ -118,7 +118,7 @@ const Allfile = ({
                   <div className="flex-col flex">
                     <Image
                       className="mt-4"
-                      src="/assets/files.png"
+                      src="/assets/Files.png"
                       alt="logo"
                       width={120}
                       height={50}
