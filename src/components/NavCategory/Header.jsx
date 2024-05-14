@@ -120,7 +120,15 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   const handleCancelSearch = () => {
     setSearchValue('');
     searchRef.current.value = '';
-    router.back();
+    if(subid != null && id != null)
+      {router.push(`/file${direct}/${subid}/${id}`);}
+    else if(id != null)
+      {
+        router.push(`/${direct}/${id}`);
+      }
+    else{
+      router.push(`/${direct}`);
+    }
   };
 
 
