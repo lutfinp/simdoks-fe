@@ -257,7 +257,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
         ) : null}
         <div>
         {hasNotification && unreadCount > 0 && (
-              <span className="relative inline-block w-3.5 h-3.5 bg-red-600 rounded-full"></span>
+              <span className="inline-block w-3.5 h-3.5 bg-red-600 rounded-full"></span>
             )}
           <button
             className="self-center hover:scale-105 mt-[6px]"
