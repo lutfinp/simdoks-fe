@@ -193,7 +193,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
             onKeyDown={handleSearch}
           />
         </label>
-        {add ? (
+        {add == "true" ? (
           <div className="hover:scale-105 self-center text-blue-600">
             <button
               className="flex items-center"
