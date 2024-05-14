@@ -54,7 +54,6 @@ const Header = ({ name }) => {
       <div>Hai, {name?.role}!</div>
       <div>
         <button
-          className="self-center hover:scale-105"
           onClick={handleNotificationClick}
         >
               <Bell size={27} weight="fill" />
