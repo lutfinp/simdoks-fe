@@ -6,6 +6,8 @@ import axios from 'axios';
 import TambahDokumen from "../Tambah/TambahDokumen";
 import TambahFolder from "../Tambah/TambahFolder";
 import TambahSubFolder from "../Tambah/TambahSubFolder";
+import Cookies from "js-cookie";
+import { Cookie } from "next/font/google";
 
 const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile, filteron, setFilter, keyword }) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -31,6 +33,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
     };
   }, []);
   const getToken = async () => {
+    const cookies = Cookies.get();
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
       {
@@ -48,8 +51,8 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           },
         }
       );
-      setHasNotification(response.data.hasNotification);
-      setUnreadCount(response.data.unreadCount); // Update unreadCount state
+      setHasNotification(checkNotfication.data.hasNotification);
+      setUnreadCount(checkNotfication.data.unreadCount); // Update unreadCount state
       console.log("response.data.hasNotification", response.data);
   };
 };
