@@ -19,7 +19,7 @@ const EditFile = ({onClose, api, selectedFileId, subid, id, direct}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!nama || !startDate || !file) {
+    if (!nama || !startDate ) {
       alert("Please fill in all fields");
       return;
     }
