@@ -2,6 +2,7 @@ import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 import NotificationPopup from "../NotificationPopup";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import axios from 'axios';
 import TambahDokumen from "../Tambah/TambahDokumen";
 import TambahFolder from "../Tambah/TambahFolder";
 import TambahSubFolder from "../Tambah/TambahSubFolder";
@@ -13,6 +14,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [filterActive, setFilterActive] = useState("Semua");
   const [hasNotification, setHasNotification] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0); // Add unreadCount state
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [searchValue, setSearchValue] = useState(decodeURI(keyword) !== "undefined" ? decodeURI(keyword) : '');
   const searchRef = useRef();
@@ -46,7 +48,8 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
             withCredentials: true,
           }
         );
-        setHasNotification(response.data);
+        setHasNotification(response.data.hasNotification);
+        setUnreadCount(response.data.unreadCount); // Update unreadCount state
         console.log("response.data.hasNotification", response.data);
       } catch (error) {
         console.error("Error checking notification:", error);
@@ -259,9 +262,9 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
             onClick={handleNotificationClick}
           >
             <Bell size={27} weight="fill" />
-            {hasNotification && (
+            {hasNotification && unreadCount > 0 && (
               <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-600 rounded-full"></span>
-           )}
+            )}
           </button>
           <div className="h-0">
             {showNotifications && (
