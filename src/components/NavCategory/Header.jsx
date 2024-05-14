@@ -23,41 +23,41 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   const router = useRouter();
   const dropdownRef = useRef(null);
 
-  let jwt;
   let cobaId = judul?.id;
   useEffect(() => {
-    getToken();
+    const getTokenAndCheckNotification = async () => {
+      try {
+        const token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        const jwt = token.data.accessToken;
+
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        setHasNotification(response.data.hasNotification);
+        setUnreadCount(response.data.unreadCount); // Update unreadCount state
+        console.log("response.data.hasNotification", response.data.hasNotification);
+        console.log("response.data.unreadCount", response.data.unreadCount);
+      } catch (error) {
+        console.error("Error fetching token or checking notification:", error);
+      }
+    };
+
+    getTokenAndCheckNotification();
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  const getToken = async () => {
-    const cookies = Cookies.get();
-    const token = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
-      {
-        withCredentials: true,
-      }
-    );
-    jwt = token.data.accessToken;
-
-  const checkNotfication = async () => {  
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      setHasNotification(checkNotfication.data.hasNotification);
-      setUnreadCount(checkNotfication.data.unreadCount); // Update unreadCount state
-      console.log("response.data.hasNotification", response.data);
-  };
-};
-
-
 
   const handleSearch = (event) => {
     const keyword = searchRef.current.value;
@@ -125,7 +125,13 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
     router.back();
   };
 
-
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  
   let contentToDisplay;
   if (showTambahDokumen) {
     if ((id != null && subid != null) || (id != null && donthassubfolder === "true") || (id == null && donthassubfolder === "true")) {
