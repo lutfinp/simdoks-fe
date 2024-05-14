@@ -37,27 +37,23 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
         console.error("Error fetching token:", error);
       }
     };
-    const checkNotfication = async () => {  
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-        setHasNotification(response.data.hasNotification);
-        setUnreadCount(response.data.unreadCount); // Update unreadCount state
-        console.log("response.data.hasNotification", response.data);
-      } catch (error) {
-        console.error("Error checking notification:", error);
-      }
-    };
-
     getToken();
     checkNotfication();
   }, [],);
+  const checkNotfication = async () => {  
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setHasNotification(response.data.hasNotification);
+      setUnreadCount(response.data.unreadCount); // Update unreadCount state
+      console.log("response.data.hasNotification", response.data);
+  };
+
 
 
   const handleSearch = (event) => {
