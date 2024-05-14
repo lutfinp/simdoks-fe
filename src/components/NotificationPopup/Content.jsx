@@ -5,7 +5,6 @@ const Content = ({ data }) => {
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [jwt, setJwt] = useState("");
   const [isMarkingAllRead, setIsMarkingAllRead] = useState(false);
-  const [checknotfication, setCheckNotfication] = useState(false);
   useEffect(() => {
     const getToken = async () => {
       try {
@@ -59,19 +58,6 @@ const Content = ({ data }) => {
   } finally {
     setIsMarkingAllRead(false);
   }
-  };
-
-  const checkNotfication = async () => {  
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-        withCredentials: true,
-      }
-    );
-    setCheckNotfication(response.data.hasnotification);
   };
 
   const markNotificationAsRead = async (notificationId) => {

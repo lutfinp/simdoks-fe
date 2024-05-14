@@ -47,6 +47,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           }
         );
         setHasNotification(response.data.hasNotification);
+        console.log("response.data.hasNotification", response.data.hasNotification);
       } catch (error) {
         console.error("Error checking notification:", error);
       }
