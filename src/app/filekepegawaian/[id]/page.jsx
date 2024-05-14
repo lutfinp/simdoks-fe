@@ -115,7 +115,7 @@ const Page = ({ params: { id } }) => {
             <div>
               <NavCategory
                 judul={folkepegawain.data}
-                add="true"
+                add={access}
                 filteron="true"
                 setFilter={setFilter}
                 id={id}

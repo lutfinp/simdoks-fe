@@ -105,7 +105,7 @@ const Page = () => {
             <div>
               <NavCategory
                 judul="Tugas"
-                add="true"
+                add={access}
                 filteron="true"
                 setFilter={setFilter}
                 api="task"

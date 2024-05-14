@@ -104,7 +104,7 @@ const Page = ({ params: { subid, id, keyword } }) => {
                 searchfile="Barang"
                 api="item"
                 direct="barang"
-                add={true}
+                add={access}
                 keyword={keyword}
               />
             </div>

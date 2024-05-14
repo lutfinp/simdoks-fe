@@ -104,7 +104,7 @@ const Page = ({ params: { subid, id, keyword } }) => {
                 searchfile="Arsip"
                 api="archive"
                 direct="arsip"
-                add={true}
+                add={access}
                 keyword={keyword}
               />
             </div>

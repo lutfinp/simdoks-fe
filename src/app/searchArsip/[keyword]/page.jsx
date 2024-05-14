@@ -62,7 +62,7 @@ const Page = ({ params: { keyword } }) => {
             <div>
               <NavCategory
                 judul="Arsip"
-                add={true}
+                add={access}
                 api="archive"
                 direct="arsip"
                 keyword={keyword}

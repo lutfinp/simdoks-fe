@@ -92,7 +92,7 @@ const Page = ({ params: { id, keyword } }) => {
                 vardumb="FileKepegawaian"
                 api="staff"
                 direct="filekepegawaian"
-                add={true}
+                add={access}
                 donthassubfolder="true"
                 keyword={keyword}
               />

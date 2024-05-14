@@ -92,7 +92,7 @@ const Page = ({ params: { id, keyword } }) => {
                 vardumb="FileArsip"
                 api="archive"
                 direct="subarsip"
-                add={true}
+                add={access}
                 donthassubfolder="true"
                 keyword={keyword}
               />

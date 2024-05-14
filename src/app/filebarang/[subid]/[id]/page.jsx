@@ -122,7 +122,7 @@ const Page = ({ params: { subid, id } }) => {
             <div>
               <NavCategory
                 judul={folsubakre.data}
-                add="true"
+                add={access}
                 filteron="true"
                 setFilter={setFilter}
                 subid={subid}

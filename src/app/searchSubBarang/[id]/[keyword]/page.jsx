@@ -74,7 +74,7 @@ const Page = ({ params: { id, keyword } }) => {
               <NavCategory
                 judul={folBarang.data}
                 id={id}
-                add={true}
+                add={access}
                 vardumb="Barang"
                 api="itemSub"
                 direct="subbarang"

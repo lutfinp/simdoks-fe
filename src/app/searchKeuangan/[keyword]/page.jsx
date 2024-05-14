@@ -62,7 +62,7 @@ const Page = ({ params: { keyword } }) => {
             <div>
               <NavCategory
                 judul="Keuangan"
-                add={true}
+                add={access}
                 api="finance"
                 direct="keuangan"
                 keyword={keyword}

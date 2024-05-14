@@ -74,7 +74,7 @@ const Page = ({ params: { id, keyword } }) => {
               <NavCategory
                 judul={folArsip.data}
                 id={id}
-                add={true}
+                add={access}
                 vardumb="Arsip"
                 api="archiveSub"
                 direct="subarsip"

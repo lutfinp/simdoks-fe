@@ -78,7 +78,7 @@ const Page = ({ params: { keyword } }) => {
             <div>
               <NavCategory
                 judul="Tugas"
-                add={true}
+                add={access}
                 api="task"
                 direct="filetugas"
                 donthassubfolder="true"

@@ -62,7 +62,7 @@ const Page = () => {
             <div>
               <NavCategory
                 judul="Kepegawaian"
-                add={true}
+                add={access}
                 api="staff"
                 direct="kepegawaian"
               />

@@ -136,7 +136,7 @@ const Page = ({ params: { id } }) => {
                     vardumb="Arsip"
                     api="archiveSub"
                     direct="subarsip"
-                    add={true}
+                    add={access}
                   />
                 </div>
               </section>
@@ -168,7 +168,7 @@ const Page = ({ params: { id } }) => {
                 <div>
                   <NavCategory
                     judul={folarsip.data}
-                    add="true"
+                    add={access}
                     id={id}
                     filteron="true"
                     setFilter={setFilter}

@@ -77,7 +77,7 @@ const Page = ({ params: { id } }) => {
                 vardumb="Akre"
                 api="accreditationSub"
                 direct="subakreditasi"
-                add={true}
+                add={access}
               />
             </div>
           </section>

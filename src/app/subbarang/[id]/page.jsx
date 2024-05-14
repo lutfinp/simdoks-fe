@@ -136,7 +136,7 @@ const Page = ({ params: { id } }) => {
                   vardumb="Barang"
                   api="barangSub"
                   direct="subbarang"
-                  add={true}
+                  add={access}
                 />
               </div>
             </section>
@@ -168,7 +168,7 @@ const Page = ({ params: { id } }) => {
               <div>
                 <NavCategory
                   judul={folbarang.data}
-                  add="true"
+                  add={access}
                   filteron="true"
                   setFilter={setFilter}
                   id={id}
