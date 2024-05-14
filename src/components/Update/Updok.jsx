@@ -153,7 +153,7 @@ const Updok = ({
                  {searchRef.current && searchRef.current.value && (
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 flex items-center pr-2"
+                  className="absolute inset-y-0 right-0 flex items-center pr-4"
                   onClick={handleCancelSearch}
                 >
                   <span className="text-gray-500">&times;</span>
