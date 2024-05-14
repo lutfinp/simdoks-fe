@@ -261,7 +261,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           >
             <Bell size={27} weight="fill" />
             {hasNotification && unreadCount > 0 && (
-              <span className="absolute top-4 right-6 inline-block w-3.5 h-3.5 bg-red-600 rounded-full"></span>
+              <span className="absolute top-4 right-8 inline-block w-3.5 h-3.5 bg-red-600 rounded-full"></span>
             )}
           </button>
           <div className="h-0">
