@@ -51,7 +51,7 @@ const FormLogin = () => {
           <img src={imagePathAsset} alt="asset_login" className="w-72 h-auto" />
         </div>
         <div
-          className="w-full max-w-xl p-20 bg-white bg-opacity-30 rounded-l-[30px] shadow-md"
+          className="w-full max-w-xl p-16 bg-white bg-opacity-30 rounded-l-[30px] shadow-md"
           style={{ zIndex: 3 }}
         >
           <h1 className="text-2xl font-bold mb-4 text-white mt-14">
@@ -94,7 +94,7 @@ const FormLogin = () => {
           </form>
         </div>
         <div className="w-full max-w-xl p-40 bg-white rounded-r-[30px] shadow-md">
-          <div className="relative mb-78">
+          <div className="relative mb-18 mt-10">
             <img src={imagePathLogo} alt="simdoks_logo" />
           </div>
         </div>
