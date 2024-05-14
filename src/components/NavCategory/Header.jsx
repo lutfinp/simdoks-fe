@@ -12,13 +12,50 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   const [showTambahDokumen, setShowTambahDokumen] = useState(false);
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [filterActive, setFilterActive] = useState("Semua");
+  const [hasNotification, setHasNotification] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [searchValue, setSearchValue] = useState(decodeURI(keyword) !== "undefined" ? decodeURI(keyword) : '');
   const searchRef = useRef();
   const router = useRouter();
   const dropdownRef = useRef(null);
 
+  let jwt;
   let cobaId = judul?.id;
+  useEffect(() => {
+    const getToken = async () => {
+      try {
+        const token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        jwt = token.data.accessToken;
+      } catch (error) {
+        console.error("Error fetching token:", error);
+      }
+    };
+    const checkNotfication = async () => {  
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+            withCredentials: true,
+          }
+        );
+        setHasNotification(response.data.hasNotification);
+      } catch (error) {
+        console.error("Error checking notification:", error);
+      }
+    };
+
+    getToken();
+    checkNotfication();
+  }, [],);
+
 
   const handleSearch = (event) => {
     const keyword = searchRef.current.value;
@@ -221,6 +258,9 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
             onClick={handleNotificationClick}
           >
             <Bell size={27} weight="fill" />
+            {hasNotification && (
+              <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-600 rounded-full"></span>
+           )}
           </button>
           <div className="h-0">
             {showNotifications && (
