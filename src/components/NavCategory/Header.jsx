@@ -255,16 +255,16 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
             </button>
           </div>
         ) : null}
-        <div>
-        {hasNotification && unreadCount > 0 && (
-              <span className="inline-block w-3.5 h-3.5 bg-red-600 rounded-full"></span>
-            )}
+        <div className="relative">
           <button
             className="self-center hover:scale-105 mt-[6px]"
             onClick={handleNotificationClick}
           >
             <Bell size={27} weight="fill" />
           </button>
+          {hasNotification && unreadCount > 0 && (
+              <span className="relative inline-block w-3.5 h-3.5 bg-red-600 rounded-full"></span>
+            )}
           <div className="h-0">
             {showNotifications && (
               <NotificationPopup
