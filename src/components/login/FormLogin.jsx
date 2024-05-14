@@ -93,7 +93,8 @@ const FormLogin = () => {
             </button>
           </form>
         </div>
-        <div className="w-full max-w-xl p-40 bg-white rounded-r-[30px] shadow-md">
+        <div className="w-full max-w-xl p-40 bg-white rounded-r-[30px] shadow-md"
+        style={{ zIndex: 3 }}>
           <div className="relative mb-18 mt-10">
             <img src={imagePathLogo} alt="simdoks_logo" />
           </div>
