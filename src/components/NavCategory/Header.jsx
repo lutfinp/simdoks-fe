@@ -6,8 +6,6 @@ import axios from 'axios';
 import TambahDokumen from "../Tambah/TambahDokumen";
 import TambahFolder from "../Tambah/TambahFolder";
 import TambahSubFolder from "../Tambah/TambahSubFolder";
-import Cookies from "js-cookie";
-import { Cookie } from "next/font/google";
 
 const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile, filteron, setFilter, keyword }) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -125,12 +123,6 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
     router.back();
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   let contentToDisplay;
   if (showTambahDokumen) {
@@ -163,7 +155,6 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
       );
     }
   }
-  console.log("have notifikasi", hasNotification)
 
   return (
     <div className="flex-row flex justify-between text-2xl text-gray-700">
