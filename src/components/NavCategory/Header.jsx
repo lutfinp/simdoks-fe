@@ -45,7 +45,6 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
             headers: {
               Authorization: `Bearer ${jwt}`,
             },
-            withCredentials: true,
           }
         );
         setHasNotification(response.data.hasNotification);
