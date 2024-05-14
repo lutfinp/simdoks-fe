@@ -16,6 +16,7 @@ const Updok = ({
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const dropdownRef = useRef(null);
   const [pilihActive, setPilihActive] = useState("");
+  const [searchValue, setSearchValue] = useState(''); 
   const searchRef = useRef();
 
   const filterMappings = {
@@ -66,6 +67,13 @@ const Updok = ({
       }
     }
   };
+  const handleCancelSearch = () => {
+    setSearchValue('');
+    searchRef.current.value = '';
+    setSearchUpload((prevState) => prevState + 1);
+    setKeywordUpload('');
+  };
+
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -138,6 +146,8 @@ const Updok = ({
                 type="text"
                 name="search"
                 ref={searchRef}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={handleSearch}
               />
             </label>
