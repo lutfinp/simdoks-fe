@@ -157,6 +157,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
       );
     }
   }
+  console.log("have notifikasi", hasNotification)
 
   return (
     <div className="flex-row flex justify-between text-2xl text-gray-700">
