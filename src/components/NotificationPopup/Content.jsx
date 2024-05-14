@@ -119,7 +119,7 @@ const Content = ({ data }) => {
                   }`}
                 >
                   <p>
-                    Dokumen ({notification.file_name}) berhasil di{notification.action} (
+                    Dokumen ({notification.file_name}) berhasil di {notification.action} (
                       {formatDate(notification.createdAt)})
                   </p>
                 </div>

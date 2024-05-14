@@ -148,7 +148,7 @@ const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
               className="p-2 hover:bg-gray-100 cursor-pointer"
               onClick={handleClickEdit}
             >
-              Edit Folder
+              Rename Folder
             </li>
             <li
               className="p-2 hover:bg-gray-100 cursor-pointer"

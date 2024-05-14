@@ -308,7 +308,7 @@
               />
             </label>
             <label className="block mb-4">
-              Awal Berlaku DOkumen
+              Awal Berlaku Dokumen
               <input
                 className="border rounded w-full py-2 px-3"
                 type="date"
