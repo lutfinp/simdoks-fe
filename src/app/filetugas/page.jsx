@@ -110,7 +110,7 @@ const Page = () => {
                 setFilter={setFilter}
                 api="task"
                 donthassubfolder="true"
-                direct="tugas"
+                direct="filetugas"
               />
             </div>
           </section>
