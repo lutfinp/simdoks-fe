@@ -23,7 +23,7 @@ const PaginationReminder = ({
           <CaretLeft size={17} />
         </button>
       )}
-      <p className="text-sm">{pageReminder < 2 ? null : pageReminder}</p>
+      <p className="text-sm">{totalPageReminder < 2 ? null : pageReminder}</p>
       {pageReminder >= totalPageReminder ? null : (
         <button
           onClick={handleNextPage}

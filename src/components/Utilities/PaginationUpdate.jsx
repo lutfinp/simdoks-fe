@@ -19,7 +19,7 @@ const PaginationUpdate = ({ totalPageUpload, pageUpdate, setPageUpdate }) => {
           <CaretLeft size={17} />
         </button>
       )}
-      <p className="text-sm">{pageUpdate < 2 ? null : pageUpdate}</p>
+      <p className="text-sm">{totalPageUpload < 2 ? null : pageUpdate}</p>
       {pageUpdate >= totalPageUpload ? null : (
         <button
           onClick={handleNextPage}
