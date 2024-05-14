@@ -150,6 +150,15 @@ const Updok = ({
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={handleSearch}
               />
+                 {searchRef.current && searchRef.current.value && (
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center pr-2"
+                  onClick={handleCancelSearch}
+                >
+                  <span className="text-gray-500">&times;</span>
+                </button>
+              )}
             </label>
           </div>
         </div>
