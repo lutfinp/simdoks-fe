@@ -19,7 +19,7 @@ const Pagination7Days = ({ pageHapus, setPageHapus, totalPage }) => {
           <CaretLeft size={17} />
         </button>
       )}
-      <p className="text-sm">{totalPageHapus < 2 ? null : pageHapus}</p>
+      <p className="text-sm">{totalPage < 2 ? null : pageHapus}</p>
       {pageHapus >= totalPage ? null : (
         <button
           onClick={handleNextPage}
