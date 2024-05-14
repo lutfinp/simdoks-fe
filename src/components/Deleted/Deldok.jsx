@@ -1,7 +1,7 @@
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Pagination7Days from "../Utilities/Pagination7Days";
-import {useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 
 const Deldok = ({
   data,
