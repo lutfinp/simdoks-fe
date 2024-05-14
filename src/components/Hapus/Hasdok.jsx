@@ -16,6 +16,7 @@ const Hasdok = ({
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [pilihActive, setPilihActive] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const dropdownRef = useRef(null);
   const searchRef = useRef();
 
@@ -61,6 +62,12 @@ const Hasdok = ({
         setKeywordDelete(keyword);
       }
     }
+  };
+  const handleCancelSearch = () => {
+    setSearchValue('');
+    searchRef.current.value = '';
+    setSearchDelete((prevState) => prevState + 1);
+    setKeywordDelete('');
   };
   const updatePilih = (pilih) => {
     const filterValue = filterMappings[pilih];
@@ -140,8 +147,19 @@ const Hasdok = ({
                 type="text"
                 name="search"
                 ref={searchRef}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={handleSearch}
               />
+                 {searchRef.current && searchRef.current.value && (
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center pr-2"
+                  onClick={handleCancelSearch}
+                >
+                  <span className="text-gray-500">&times;</span>
+                </button>
+              )}
             </label>
           </div>
         </div>
