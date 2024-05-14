@@ -260,10 +260,10 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
             className="self-center hover:scale-105 mt-[6px]"
             onClick={handleNotificationClick}
           >
-            <Bell size={27} weight="fill" />
-            {hasNotification && unreadCount > 0 && (
+                       {hasNotification && unreadCount > 0 && (
               <span className="relative inline-block w-2.5 h-2.5 bg-red-600 rounded-full"></span>
             )}
+            <Bell size={27} weight="fill" />
           </button>
           <div className="h-0">
             {showNotifications && (
