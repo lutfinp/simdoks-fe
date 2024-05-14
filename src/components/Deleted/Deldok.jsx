@@ -39,8 +39,8 @@ const Deldok = ({
   const handleCancelSearch = () => {
     setSearchValue('');
     searchRef.current.value = '';
-    setSearchUpload((prevState) => prevState + 1);
-    setKeywordUpload('');
+    setSearchDelete((prevState) => prevState + 1);
+    setKeywordDelete('');
   };
 
 
