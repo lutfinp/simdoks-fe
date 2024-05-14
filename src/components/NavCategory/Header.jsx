@@ -24,22 +24,21 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   let jwt;
   let cobaId = judul?.id;
   useEffect(() => {
-    const getToken = async () => {
-      try {
-        const token = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
-          {
-            withCredentials: true,
-          }
-        );
-        jwt = token.data.accessToken;
-      } catch (error) {
-        console.error("Error fetching token:", error);
-      }
-    };
     getToken();
-    checkNotfication();
-  }, [],);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  const getToken = async () => {
+    const token = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+      {
+        withCredentials: true,
+      }
+    );
+    jwt = token.data.accessToken;
+
   const checkNotfication = async () => {  
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,
@@ -53,6 +52,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
       setUnreadCount(response.data.unreadCount); // Update unreadCount state
       console.log("response.data.hasNotification", response.data);
   };
+};
 
 
 
@@ -122,12 +122,6 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
     router.back();
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   let contentToDisplay;
   if (showTambahDokumen) {
