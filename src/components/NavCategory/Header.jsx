@@ -131,7 +131,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   let contentToDisplay;
   if (showTambahDokumen) {
     if ((id != null && subid != null) || (id != null && donthassubfolder === "true") || (id == null && donthassubfolder === "true")) {
@@ -262,7 +262,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           >
             <Bell size={27} weight="fill" />
             {hasNotification && unreadCount > 0 && (
-              <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-600 rounded-full"></span>
+              <span className="relative inline-block w-2.5 h-2.5 bg-red-600 rounded-full"></span>
             )}
           </button>
           <div className="h-0">
