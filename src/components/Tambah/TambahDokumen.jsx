@@ -132,7 +132,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
               withCredentials: true,
             }
           );
-          window.location.href = `/file${direct}`;
+          window.location.href = `/${direct}`;
           onClose();
         } catch (error) {
           console.log("Error adding document:", error);

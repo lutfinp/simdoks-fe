@@ -5,7 +5,6 @@ const Content = ({ data }) => {
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [jwt, setJwt] = useState("");
   const [isMarkingAllRead, setIsMarkingAllRead] = useState(false);
-
   useEffect(() => {
     const getToken = async () => {
       try {
@@ -59,7 +58,6 @@ const Content = ({ data }) => {
   } finally {
     setIsMarkingAllRead(false);
   }
-
   };
 
   const markNotificationAsRead = async (notificationId) => {

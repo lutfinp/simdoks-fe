@@ -1,7 +1,7 @@
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Pagination7Days from "../Utilities/Pagination7Days";
-import {useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 
 const Deldok = ({
   data,
@@ -12,6 +12,7 @@ const Deldok = ({
   setKeywordDelete,
 }) => {
   const searchRef = useRef();
+  const [searchValue, setSearchValue] = useState('');
 
   const formatDate = (dateString) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -35,6 +36,13 @@ const Deldok = ({
       }
     }
   };
+  const handleCancelSearch = () => {
+    setSearchValue('');
+    searchRef.current.value = '';
+    setSearchDelete((prevState) => prevState + 1);
+    setKeywordDelete('');
+  };
+
 
   return (
     <div className="flex flex-col gap-3">
@@ -53,8 +61,19 @@ const Deldok = ({
             type="text"
             name="search"
             ref={searchRef}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={handleSearch}
           />
+             {searchRef.current && searchRef.current.value && (
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 flex items-center pr-2"
+              onClick={handleCancelSearch}
+            >
+              <span className="text-gray-500">&times;</span>
+            </button>
+          )}
         </label>
       </div>
       {data && data.length > 0 ? (

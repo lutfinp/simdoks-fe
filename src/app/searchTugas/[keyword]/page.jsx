@@ -80,7 +80,7 @@ const Page = ({ params: { keyword } }) => {
                 judul="Tugas"
                 add={true}
                 api="task"
-                direct="tugas"
+                direct="filetugas"
                 donthassubfolder="true"
                 keyword={keyword}
               />
