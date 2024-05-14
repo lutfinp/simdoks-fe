@@ -256,13 +256,13 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           </div>
         ) : null}
         <div>
+        {hasNotification && unreadCount > 0 && (
+              <span className="relative inline-block w-3.5 h-3.5 bg-red-600 rounded-full"></span>
+            )}
           <button
             className="self-center hover:scale-105 mt-[6px]"
             onClick={handleNotificationClick}
           >
-                       {hasNotification && unreadCount > 0 && (
-              <span className="relative inline-block w-2.5 h-2.5 bg-red-600 rounded-full"></span>
-            )}
             <Bell size={27} weight="fill" />
           </button>
           <div className="h-0">
