@@ -162,9 +162,6 @@ const Updok = ({
             </label>
           </div>
         </div>
-        {/* <div className="flex items-center justify-center w-full h-[83px] bg-red-100 rounded-md text-center">
-          search not found
-      </div> */}
         {data && data.length > 0 ? (
           <table className="w-full outline outline-2 outline-gray-300 rounded-md">
             <thead className="text-sm text-gray-700 font-semibold bg-blue-100">
@@ -174,6 +171,9 @@ const Updok = ({
                 </th>
                 <th className="text-left p-3 border-r-2 border-gray-300">
                   NAMA DOKUMEN
+                </th>
+                <th className="p-3 border-r-2 border-gray-300">
+                  NAMA KATEGORI
                 </th>
                 <th className="p-3 border-r-2 border-gray-300">
                   BERLAKU MULAI
@@ -196,6 +196,9 @@ const Updok = ({
                     </td>
                     <td className="p-3 border-r-2 border-gray-300">
                       {upload.file_name}
+                    </td>
+                    <td className="text-center p-3 border-r-2 border-gray-300">
+                      {upload.category_name}
                     </td>
                     <td className="text-center p-3 border-r-2 border-gray-300">
                       {formatDate(upload.start_date)}
