@@ -131,7 +131,7 @@ const Deldok = ({
               <th className="text-left p-3 border-r-2 border-gray-300">
                 NAMA DOKUMEN
               </th>
-              <th className="p-3 border-r-2 border-gray-300">NAMA KATEGORI</th>
+              <th className="p-3 border-r-2 border-gray-300">KATEGORI</th>
               <th className="p-3 border-r-2 border-gray-300">BERLAKU MULAI</th>
               <th className="p-3">BERLAKU HINGGA</th>
             </tr>

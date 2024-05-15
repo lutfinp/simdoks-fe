@@ -218,7 +218,7 @@ const Updok = ({
                   NAMA DOKUMEN
                 </th>
                 <th className="p-3 border-r-2 border-gray-300">
-                  NAMA KATEGORI
+                  KATEGORI
                 </th>
                 <th className="p-3 border-r-2 border-gray-300">
                   BERLAKU MULAI
