@@ -66,7 +66,7 @@ const Hasdok = ({
   const handleCancelSearch = () => {
     setSearchValue('');
     searchRef.current.value = '';
-    setSearchDelete((prevState) => prevState + 1);
+    setSearchDelete(0);
     setKeywordDelete('');
   };
   const updatePilih = (pilih) => {
