@@ -174,6 +174,9 @@ const Hasdok = ({
                   NAMA DOKUMEN
                 </th>
                 <th className="p-3 border-r-2 border-gray-300">
+                  NAMA KATEGORI
+                </th>
+                <th className="p-3 border-r-2 border-gray-300">
                   TANGGAL PENGHAPUSAN
                 </th>
                 <th className="p-3">SISTEM PENGHAPUSAN</th>
@@ -190,6 +193,9 @@ const Hasdok = ({
                   </td>
                   <td className="p-3 border-r-2 border-gray-300">
                     {hapus.file_name}
+                  </td>
+                  <td className="text-center p-3 border-r-2 border-gray-300">
+                    {hapus.category_name}
                   </td>
                   <td className="text-center p-3 border-r-2 border-gray-300">
                     {formatDate(hapus.createdAt)}
