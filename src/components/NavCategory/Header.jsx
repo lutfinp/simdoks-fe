@@ -14,7 +14,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [filterActive, setFilterActive] = useState("Semua");
   const [hasNotification, setHasNotification] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0); // Add unreadCount state
+  const [unreadCount, setUnreadCount] = useState(0);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [searchValue, setSearchValue] = useState(decodeURI(keyword) !== "undefined" ? decodeURI(keyword) : '');
   const searchRef = useRef();
@@ -42,9 +42,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           }
         );
         setHasNotification(response.data.hasNotification);
-        setUnreadCount(response.data.unreadCount); // Update unreadCount state
-        console.log("response.data.hasNotification", response.data.hasNotification);
-        console.log("response.data.unreadCount", response.data.unreadCount);
+        setUnreadCount(response.data.unreadCount);
       } catch (error) {
         console.error("Error fetching token or checking notification:", error);
       }

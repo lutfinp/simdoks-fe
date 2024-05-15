@@ -5,6 +5,7 @@ import Link from "next/link";
 import HapusFile from "../Deleted/HapusFile";
 import DownloadBarcode from "../Barcode/DownloadBarcode";
 import EditFile from "../Edit/EditFile";
+import Rename from "../Rename/Rename";
 import { set } from "date-fns";
 
 const Allfile = ({
