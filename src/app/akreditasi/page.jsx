@@ -36,7 +36,7 @@ const Page = () => {
       },
     });
     const username = info?.data.username;
-    if (username == "Akreditasi") {
+    if (username == "akreditasi") {
       setAccess("true");
     }
 

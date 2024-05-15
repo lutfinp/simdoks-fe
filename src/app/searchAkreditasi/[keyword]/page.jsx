@@ -46,7 +46,7 @@ const Page = ({ params: { keyword } }) => {
       },
     });
     const username = info?.data.username
-    if(username == "Akreditasi"){
+    if(username == "akreditasi"){
       setAccess("true")
     }
   };
