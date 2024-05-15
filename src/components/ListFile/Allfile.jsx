@@ -5,6 +5,7 @@ import Link from "next/link";
 import HapusFile from "../Deleted/HapusFile";
 import DownloadBarcode from "../Barcode/DownloadBarcode";
 import EditFile from "../Edit/EditFile";
+import { set } from "date-fns";
 
 const Allfile = ({
   data,
@@ -23,6 +24,7 @@ const Allfile = ({
   const [selectedFileId, setSelectedFileId] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showConfirmationEdit, setShowConfirmationEdit] = useState(false);
+  const [showConfirmationRename, setShowConfirmationRename] = useState(false);
   const [fileUrlBarcode, setFileUrlBarcode] = useState("");
   const dropdownRef = useRef(null);
   const [showConfirmationDownloadBarcode, setShowConfirmationDownloadBarcode] =
@@ -59,6 +61,12 @@ const Allfile = ({
     setFileUrlBarcode(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}`);
     setShowConfirmationDownloadBarcode(true);
   };
+  const handleClikcRename = () => {
+    setShowDropdown(false);
+    setShowConfirmationRename(true);
+    setShow
+  };
+
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -155,6 +163,12 @@ const Allfile = ({
             </li>
             <li
               className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={handleClikcRename}
+            >
+              Rename Dokumen
+            </li>
+            <li
+              className="p-2 hover:bg-gray-100 cursor-pointer"
               onClick={handleClickDelete}
             >
               Hapus Dokumen
@@ -197,6 +211,18 @@ const Allfile = ({
           onClose={() => {
             setShowConfirmationDownloadBarcode(false);
           }}
+        />
+      )}
+      {showConfirmationRename && (
+        <Rename
+        id={id}
+        subid={subid}
+        api={api}
+        selectedFileId={selectedFileId}
+        direct={direct}
+        onClose={() => {
+          setShowConfirmationRename(false);
+        }}
         />
       )}
     </div>
