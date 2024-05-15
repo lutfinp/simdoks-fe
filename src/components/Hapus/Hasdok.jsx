@@ -83,6 +83,52 @@ const Hasdok = ({
     };
   }, []);
 
+  const category = (category) => {
+    if (category == "Tugas") {
+      return (
+        <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Barang") {
+      return (
+        <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Keuangan") {
+      return (
+        <div className="bg-green-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-green-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Program") {
+      return (
+        <div className="bg-red-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-red-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Arsip") {
+      return (
+        <div className="bg-blue-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-blue-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Akreditasi") {
+      return (
+        <div className="bg-teal-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-teal-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Kepegawaian") {
+      return (
+        <div className="bg-orange-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-orange-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-3">
@@ -194,8 +240,8 @@ const Hasdok = ({
                   <td className="p-3 border-r-2 border-gray-300">
                     {hapus.file_name}
                   </td>
-                  <td className="text-center p-3 border-r-2 border-gray-300">
-                    {hapus.category_name}
+                  <td className="text-center flex items-center justify-center p-3 border-r-2 border-gray-300">
+                    {category(hapus.category_name)}
                   </td>
                   <td className="text-center p-3 border-r-2 border-gray-300">
                     {formatDate(hapus.createdAt)}

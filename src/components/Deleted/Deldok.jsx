@@ -1,7 +1,7 @@
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Pagination7Days from "../Utilities/Pagination7Days";
-import {useState, useRef, useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 
 const Deldok = ({
   data,
@@ -12,7 +12,7 @@ const Deldok = ({
   setKeywordDelete,
 }) => {
   const searchRef = useRef();
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const formatDate = (dateString) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -37,12 +37,57 @@ const Deldok = ({
     }
   };
   const handleCancelSearch = () => {
-    setSearchValue('');
-    searchRef.current.value = '';
+    setSearchValue("");
+    searchRef.current.value = "";
     setSearchDelete(0);
-    setKeywordDelete('');
+    setKeywordDelete("");
   };
 
+  const category = (category) => {
+    if (category == "Tugas") {
+      return (
+        <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Barang") {
+      return (
+        <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Keuangan") {
+      return (
+        <div className="bg-green-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-green-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Program") {
+      return (
+        <div className="bg-red-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-red-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Arsip") {
+      return (
+        <div className="bg-blue-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-blue-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Akreditasi") {
+      return (
+        <div className="bg-teal-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-teal-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Kepegawaian") {
+      return (
+        <div className="bg-orange-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-orange-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -65,7 +110,7 @@ const Deldok = ({
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={handleSearch}
           />
-             {searchRef.current && searchRef.current.value && (
+          {searchRef.current && searchRef.current.value && (
             <button
               type="button"
               className="absolute inset-y-0 right-0 flex items-center pr-2"
@@ -86,6 +131,7 @@ const Deldok = ({
               <th className="text-left p-3 border-r-2 border-gray-300">
                 NAMA DOKUMEN
               </th>
+              <th className="p-3 border-r-2 border-gray-300">NAMA KATEGORI</th>
               <th className="p-3 border-r-2 border-gray-300">BERLAKU MULAI</th>
               <th className="p-3">BERLAKU HINGGA</th>
             </tr>
@@ -95,10 +141,13 @@ const Deldok = ({
               return (
                 <tr key={index} className=" bg-gray-50 odd:bg-white">
                   <td className="text-center p-3 border-r-2 border-gray-300">
-                  {index + 1 + (pageHapus - 1) * 7}.
+                    {index + 1 + (pageHapus - 1) * 7}.
                   </td>
                   <td className="p-3 border-r-2 border-gray-300">
                     {hapus.file_name}
+                  </td>
+                  <td className="text-center flex items-center justify-center p-3 border-r-2 border-gray-300">
+                    {category(hapus.category_name)}
                   </td>
                   <td className="text-center p-3 border-r-2 border-gray-300">
                     {formatDate(hapus.start_date)}

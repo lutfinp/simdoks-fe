@@ -112,6 +112,18 @@ const Updok = ({
           {category}
         </div>
       );
+    } else if (category == "Akreditasi") {
+      return (
+        <div className="bg-teal-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-teal-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Kepegawaian") {
+      return (
+        <div className="bg-orange-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-orange-800 text-xs font-medium">
+          {category}
+        </div>
+      );
     }
   };
 
