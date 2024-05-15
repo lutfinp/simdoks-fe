@@ -230,7 +230,7 @@ const Updok = ({
                     <td className="p-3 border-r-2 border-gray-300">
                       {upload.file_name}
                     </td>
-                    <td className="text-center p-3 border-r-2 border-gray-300">
+                    <td className="flex items-center p-3 border-r-2 border-gray-300">
                       {category(upload.category_name)}
                     </td>
                     <td className="text-center p-3 border-r-2 border-gray-300">
