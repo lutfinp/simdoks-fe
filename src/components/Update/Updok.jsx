@@ -70,7 +70,7 @@ const Updok = ({
   const handleCancelSearch = () => {
     setSearchValue('');
     searchRef.current.value = '';
-    setSearchUpload((prevState) => prevState + 1);
+    setSearchUpload(0);
     setKeywordUpload('');
   };
 
