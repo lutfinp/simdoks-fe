@@ -16,7 +16,7 @@ const Updok = ({
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const dropdownRef = useRef(null);
   const [pilihActive, setPilihActive] = useState("");
-  const [searchValue, setSearchValue] = useState(''); 
+  const [searchValue, setSearchValue] = useState("");
   const searchRef = useRef();
 
   const filterMappings = {
@@ -68,12 +68,11 @@ const Updok = ({
     }
   };
   const handleCancelSearch = () => {
-    setSearchValue('');
-    searchRef.current.value = '';
+    setSearchValue("");
+    searchRef.current.value = "";
     setSearchUpload(0);
-    setKeywordUpload('');
+    setKeywordUpload("");
   };
-
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -81,6 +80,40 @@ const Updok = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const category = (category) => {
+    if (category == "Tugas") {
+      return (
+        <div className="bg-yellow-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-yellow-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Barang") {
+      return (
+        <div className="bg-purple-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-purple-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Keuangan") {
+      return (
+        <div className="bg-green-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-green-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Program") {
+      return (
+        <div className="bg-red-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-red-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    } else if (category == "Arsip") {
+      return (
+        <div className="bg-blue-100 w-[100px] h-[24px] flex items-center justify-center rounded-md text-blue-800 text-xs font-medium">
+          {category}
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -150,7 +183,7 @@ const Updok = ({
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={handleSearch}
               />
-                 {searchRef.current && searchRef.current.value && (
+              {searchRef.current && searchRef.current.value && (
                 <button
                   type="button"
                   className="absolute inset-y-0 right-0 flex items-center pr-4"
@@ -198,7 +231,7 @@ const Updok = ({
                       {upload.file_name}
                     </td>
                     <td className="text-center p-3 border-r-2 border-gray-300">
-                      {upload.category_name}
+                      {category(upload.category_name)}
                     </td>
                     <td className="text-center p-3 border-r-2 border-gray-300">
                       {formatDate(upload.start_date)}

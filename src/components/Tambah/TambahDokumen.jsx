@@ -185,7 +185,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
                 />
               </label>
               <label className="block mb-4">
-                Start Date:
+                Awal Berlaku Dokumen
                 <input
                   className="border rounded w-full py-2 px-3"
                   type="date"
