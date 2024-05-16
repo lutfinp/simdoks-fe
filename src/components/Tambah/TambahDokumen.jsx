@@ -62,7 +62,13 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           window.location.href = `/file${direct}/${subid}/${id}`;
           onClose();
         } catch (error) {
-          console.log("Error adding document:", error);
+          if (error.response && error.response.status === 400) {
+            alert("Gagal untuk mengupload dokumen masa berlaku sudah habis");
+            onClose();
+            window.location.href = `/${direct}`;
+          } else {
+            console.log("Error adding document:", error);
+          }
         }
       } else if (id != null && subid == null) {
         try {
@@ -99,7 +105,13 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           window.location.href = `/${direct}/${id}`;
           onClose();
         } catch (error) {
-          console.log("Error adding document:", error);
+          if (error.response && error.response.status === 400) {
+            alert("Gagal untuk mengupload dokumen masa berlaku sudah habis");
+            onClose();
+            window.location.href = `/${direct}`;
+          } else {
+            console.log("Error adding document:", error);
+          }
         }
       } else if (id == null && subid == null) {
         try {
@@ -135,7 +147,13 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           window.location.href = `/${direct}`;
           onClose();
         } catch (error) {
-          console.log("Error adding document:", error);
+          if (error.response && error.response.status === 400) {
+            alert("Gagal untuk mengupload dokumen masa berlaku sudah habis");
+            onClose();
+            window.location.href = `/${direct}`;
+          } else {
+            console.log("Error adding document:", error);
+          }
         }
       }
     }
@@ -185,7 +203,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
                 />
               </label>
               <label className="block mb-4">
-                Awal Berlaku Dokumen
+                Start Date:
                 <input
                   className="border rounded w-full py-2 px-3"
                   type="date"

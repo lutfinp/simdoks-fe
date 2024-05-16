@@ -27,12 +27,8 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
               return;
             }
       
-            const formData = new FormData();
-            formData.append("nama", nama);
-      
             const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/rename?id=${selectedFileId}&nama=${nama}`,
-              formData,
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
               {
                 headers: {
                   Authorization: `Bearer ${jwt}`,
@@ -43,7 +39,7 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
             onClose();
             window.location.href = `/file${direct}/${subid}/${id}`;
           } catch (error) {
-            console.log("Error adding document:", error);
+            console.log("Error rename document:", error);
           }
     }
 
@@ -62,12 +58,8 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
               return;
             }
       
-            const formData = new FormData();
-            formData.append("nama", nama);
-      
             const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/rename?id=${selectedFileId}&nama=${nama}`,
-              formData,
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
               {
                 headers: {
                   Authorization: `Bearer ${jwt}`,
@@ -78,7 +70,7 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
             onClose();
             window.location.href = `/${direct}/${id}`;
           } catch (error) {
-            console.log("Error adding document:", error);
+            console.log("Error rename document:", error);
           }
     }
     else if(id == null && subid == null){
@@ -96,12 +88,10 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
               return;
             }
       
-            const formData = new FormData();
-            formData.append("nama", nama);
-      
+
+            console.log("ini jwt : ", jwt)
             const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/rename?id=${selectedFileId}&nama=${nama}`,
-              formData,
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
               {
                 headers: {
                   Authorization: `Bearer ${jwt}`,
@@ -112,7 +102,7 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
             onClose();
             window.location.href = `/${direct}`;
           } catch (error) {
-            console.log("Error adding document:", error);
+            console.log("Error rename document:", error);
           }
     }
   };

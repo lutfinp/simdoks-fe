@@ -122,7 +122,7 @@ const Page = () => {
               fileName={fileName}
               api="task"
               fileID={selectedFileId}
-              direct="tugas"
+              direct="filetugas"
               access={access}
             />
           </div>

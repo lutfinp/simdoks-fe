@@ -256,7 +256,7 @@
             }
           );
           onClose();
-          window.location.href = `/file${direct}`;
+          window.location.href = `/${direct}`;
         } catch (error) {
           console.log("Error adding document:", error);
         }
