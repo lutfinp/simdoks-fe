@@ -1,3 +1,4 @@
+'use client';
 import axios from "axios";
 import { useState} from "react";
 
@@ -29,13 +30,12 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
             const formData = new FormData();
             formData.append("nama", nama);
       
-            const response = await axios.patch(
+            const response = await axios.get(
               `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/rename?id=${selectedFileId}&nama=${nama}`,
               formData,
               {
                 headers: {
                   Authorization: `Bearer ${jwt}`,
-                  "Content-Type": "multipart/form-data",
                 },
                 withCredentials: true,
               }
@@ -65,13 +65,12 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
             const formData = new FormData();
             formData.append("nama", nama);
       
-            const response = await axios.patch(
+            const response = await axios.get(
               `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/rename?id=${selectedFileId}&nama=${nama}`,
               formData,
               {
                 headers: {
                   Authorization: `Bearer ${jwt}`,
-                  "Content-Type": "multipart/form-data",
                 },
                 withCredentials: true,
               }
@@ -106,7 +105,6 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
               {
                 headers: {
                   Authorization: `Bearer ${jwt}`,
-                  "Content-Type": "multipart/form-data",
                 },
                 withCredentials: true,
               }

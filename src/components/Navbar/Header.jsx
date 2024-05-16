@@ -30,9 +30,7 @@ const Header = ({ name }) => {
           }
         );
         setHasNotification(response.data.hasNotification);
-        setUnreadCount(response.data.unreadCount); // Update unreadCount state
-        console.log("response.data.hasNotification", response.data.hasNotification);
-        console.log("response.data.unreadCount", response.data.unreadCount);
+        setUnreadCount(response.data.unreadCount);
       } catch (error) {
         console.error("Error fetching token or checking notification:", error);
       }
