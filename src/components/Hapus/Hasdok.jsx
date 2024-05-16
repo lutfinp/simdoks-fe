@@ -16,7 +16,7 @@ const Hasdok = ({
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [pilihActive, setPilihActive] = useState("");
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const dropdownRef = useRef(null);
   const searchRef = useRef();
 
@@ -64,10 +64,10 @@ const Hasdok = ({
     }
   };
   const handleCancelSearch = () => {
-    setSearchValue("");
-    searchRef.current.value = "";
+    setSearchValue('');
+    searchRef.current.value = '';
     setSearchDelete(0);
-    setKeywordDelete("");
+    setKeywordDelete('');
   };
   const updatePilih = (pilih) => {
     const filterValue = filterMappings[pilih];
@@ -197,7 +197,7 @@ const Hasdok = ({
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={handleSearch}
               />
-              {searchRef.current && searchRef.current.value && (
+                 {searchRef.current && searchRef.current.value && (
                 <button
                   type="button"
                   className="absolute inset-y-0 right-0 flex items-center pr-2"
@@ -219,7 +219,9 @@ const Hasdok = ({
                 <th className="text-left p-3 border-r-2 border-gray-300">
                   NAMA DOKUMEN
                 </th>
-                <th className="p-3 border-r-2 border-gray-300">KATEGORI</th>
+                <th className="p-3 border-r-2 border-gray-300">
+                  KATEGORI
+                </th>
                 <th className="p-3 border-r-2 border-gray-300">
                   TANGGAL PENGHAPUSAN
                 </th>
@@ -266,10 +268,10 @@ const Hasdok = ({
             <div>
               <Image
                 className="mt-2"
-                src="/assets/search-tabel.png"
+                src="/assets/dihapus.png"
                 alt="Tidak ada dokumen yang akan dihapus"
-                width={420}
-                height={193}
+                width={400}
+                height={173}
               />
             </div>
           </div>

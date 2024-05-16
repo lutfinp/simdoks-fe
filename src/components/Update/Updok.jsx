@@ -217,7 +217,9 @@ const Updok = ({
                 <th className="text-left p-3 border-r-2 border-gray-300">
                   NAMA DOKUMEN
                 </th>
-                <th className="p-3 border-r-2 border-gray-300">KATEGORI</th>
+                <th className="p-3 border-r-2 border-gray-300">
+                  KATEGORI
+                </th>
                 <th className="p-3 border-r-2 border-gray-300">
                   BERLAKU MULAI
                 </th>
@@ -277,10 +279,10 @@ const Updok = ({
             <div>
               <Image
                 className="mt-2"
-                src="/assets/search-tabel.png"
+                src="/assets/diupload.png"
                 alt="Tidak ada dokumen yang akan diupload"
-                width={420}
-                height={193}
+                width={400}
+                height={173}
               />
             </div>
           </div>

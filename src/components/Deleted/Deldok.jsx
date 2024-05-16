@@ -165,10 +165,10 @@ const Deldok = ({
           <div>
             <Image
               className="mt-2"
-              src="/assets/search-tabel.png"
+              src="/assets/Frame52.png"
               alt="Tidak ada dokumen yang akan terhapus"
-              width={420}
-              height={193}
+              width={400}
+              height={173}
             />
           </div>
         </div>
