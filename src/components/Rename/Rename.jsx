@@ -30,7 +30,7 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
             formData.append("nama", nama);
       
             const response = await axios.patch(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/${selectedFileId}`,
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/rename?id=${selectedFileId}&nama=${nama}`,
               formData,
               {
                 headers: {
@@ -66,7 +66,7 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
             formData.append("nama", nama);
       
             const response = await axios.patch(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/${selectedFileId}`,
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/rename?id=${selectedFileId}&nama=${nama}`,
               formData,
               {
                 headers: {
@@ -101,7 +101,7 @@ const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
             formData.append("nama", nama);
       
             const response = await axios.patch(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/${selectedFileId}`,
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/rename?id=${selectedFileId}&nama=${nama}`,
               formData,
               {
                 headers: {
