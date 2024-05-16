@@ -169,7 +169,7 @@
           formData.append("typeId", id);
           formData.append("file", file);
     
-          const response = await axios.get(
+          const response = await axios.patch(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}/${selectedFileId}`,
             formData,
             {
