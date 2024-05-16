@@ -64,7 +64,6 @@ const Allfile = ({
   const handleClikcRename = () => {
     setShowDropdown(false);
     setShowConfirmationRename(true);
-    setShow;
   };
 
   useEffect(() => {

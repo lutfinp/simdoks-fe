@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const imagePathLogo = "/assets/simdoks baru-01.png";
+const imagePathLogo = "/assets/simdoks_baru_pake _barcode-01.png";
 const imagePathAsset = "/assets/asset_login.png";
 
 const FormLogin = () => {
