@@ -92,6 +92,7 @@ const Page = ({ params: { id, keyword } }) => {
               fileID={selectedFolderId}
               direct="subprogram"
               access={access}
+              keyword={keyword}
             />
           </div>
         </div>

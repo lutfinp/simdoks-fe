@@ -10,7 +10,8 @@ const ListFolder = ({
   selectedFileId,
   api,
   direct,
-  access
+  access,
+  keyword
 }) => {
   return (
     <>
@@ -24,6 +25,7 @@ const ListFolder = ({
         api={api}
         direct={direct} 
         access={access}
+        keyword={keyword}
       />
     </>
   );

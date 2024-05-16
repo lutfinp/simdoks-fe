@@ -78,6 +78,7 @@ const Page = ({ params: { keyword } }) => {
               direct="kepegawaian"
               sub="filekepegawaian"
               access={access}
+              keyword={keyword}
             />
           </div>
         </div>

@@ -96,6 +96,7 @@ const Page = ({ params: { keyword } }) => {
               fileID={selectedFileId}
               direct="filetugas"
               access={access}
+              keyword={keyword}
             />
           </div>
         </div>

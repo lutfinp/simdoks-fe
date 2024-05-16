@@ -121,6 +121,7 @@ const Page = ({ params: { subid, id, keyword } }) => {
               direct="akreditasi"
               fileID={selectedFileId}
               access={access}
+              keyword={keyword}
             />
           </div>
         </div>

@@ -91,6 +91,7 @@ const Page = ({ params: { id, keyword } }) => {
               fileID={selectedFolderId}
               direct="subakreditasi"
               access={access}
+              keyword={keyword}
             />
           </div>
         </div>

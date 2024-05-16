@@ -109,6 +109,7 @@ const Page = ({ params: { id, keyword } }) => {
               direct="subarsip"
               fileID={selectedFileId}
               access={access}
+              keyword={keyword}
             />
           </div>
         </div>

@@ -8,7 +8,7 @@ import EditFolder from "../Edit/EditFolder";
 import HapusSubFolder from "../Deleted/HapusSubFolder";
 import EditSubFolder from "../Edit/EditSubFolder";
 
-const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
+const Allfolder = ({ data, id, file, sub, api, direct, access, keyword }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [selectedFolder, setSelectedFolder] = useState("");
@@ -134,13 +134,25 @@ const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
             );
           }
         })
-      ) : (
+      ) : data && data.length < 1 && keyword ? (
         <div className="w-full h-[500px] flex items-center justify-center">
           <div>
             <Image
               className="mt-2"
               src="/assets/search-folder.png"
               alt="Search not found"
+              width={500}
+              height={273}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="w-full h-[500px] flex items-center justify-center">
+          <div>
+            <Image
+              className="mt-2"
+              src="/assets/folder-kosong.png"
+              alt="Kosong"
               width={500}
               height={273}
             />

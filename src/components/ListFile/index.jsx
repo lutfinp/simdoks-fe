@@ -12,6 +12,7 @@ const ListFile = ({
   api,
   direct,
   access,
+  keyword
 }) => {
   return (
     <>
@@ -26,6 +27,7 @@ const ListFile = ({
         api={api}
         direct={direct}
         access={access}
+        keyword={keyword}
       />
     </>
   );

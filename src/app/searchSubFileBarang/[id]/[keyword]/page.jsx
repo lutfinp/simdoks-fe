@@ -109,6 +109,7 @@ const Page = ({ params: { id, keyword } }) => {
               fileID={selectedFileId}
               direct="subbarang"
               access={access}
+              keyword={keyword}
             />
           </div>
         </div>

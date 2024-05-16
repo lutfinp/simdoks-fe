@@ -78,6 +78,7 @@ const Page = ({ params: { keyword } }) => {
               fileID={selectedFolderId}
               direct="program"
               access={access}
+              keyword={keyword}
             />
           </div>
         </div>
