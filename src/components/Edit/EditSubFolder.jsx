@@ -40,11 +40,7 @@ const EditSubFolder = ({ onClose, api, selectedFolderId, direct, subid, id }) =>
             withCredentials: true,
           }
         );
-        // console.log(api)
-        // console.log("link"+direct)
-        // console.log("Document added successfully:", response.data);
         window.location.href = `/${direct}/${id}`;
-        // window.location.reload();
         onClose();
       } catch (error) {
         console.log("Error adding document:", error);
@@ -57,7 +53,7 @@ const EditSubFolder = ({ onClose, api, selectedFolderId, direct, subid, id }) =>
       <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md">
         <div className="bg-white p-8 rounded-2xl shadow-md">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold">Edit Folder</h1>
+            <h1 className="text-3xl font-bold">Rename Folder</h1>
             <button onClick={onClose}>
               <img
                 src="/assets/close.png"

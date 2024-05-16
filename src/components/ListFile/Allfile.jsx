@@ -145,14 +145,14 @@ const Allfile = ({
           }
         })
       ) : (
-        <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
+        <div className="w-full h-[500px] flex items-center justify-center">
           <div>
             <Image
               className="mt-2"
               src="/assets/search.png"
               alt="Search not found"
-              width={400}
-              height={173}
+              width={500}
+              height={273}
             />
           </div>
         </div>

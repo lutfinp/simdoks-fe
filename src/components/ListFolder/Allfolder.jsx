@@ -135,14 +135,14 @@ const Allfolder = ({ data, id, file, sub, api, direct, access }) => {
           }
         })
       ) : (
-        <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
+        <div className="w-full h-[500px] flex items-center justify-center">
           <div>
             <Image
               className="mt-2"
-              src="/assets/search.png"
+              src="/assets/search-folder.png"
               alt="Search not found"
-              width={400}
-              height={173}
+              width={500}
+              height={273}
             />
           </div>
         </div>
