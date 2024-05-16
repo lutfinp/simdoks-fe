@@ -24,7 +24,6 @@ const FormLogin = () => {
         }
       );
       Cookies.set("token", response.data.accessToken);
-      // Cookies.set("refreshToken", response.data.refreshToken);
       window.location.href = "./dashboard";
     } catch (error) {
       if (
@@ -54,7 +53,7 @@ const FormLogin = () => {
           className="w-full max-w-xl p-16 bg-white bg-opacity-30 rounded-l-[30px] shadow-md"
           style={{ zIndex: 3 }}
         >
-          <h1 className="text-2xl font-bold mb-4 text-white mt-14">
+          <h1 className="text-2xl font-bold mb-4 text-white mt-16">
             Selamat Datang
           </h1>
           <p className="text-sm text-white mb-10">
@@ -87,15 +86,15 @@ const FormLogin = () => {
             </div>
             <button
               type="submit"
-              className="w-full p-2 bg-blue-500 text-white rounded-md mb-16 hover:bg-white hover:text-black"
+              className="w-full p-2 bg-blue-500 text-white rounded-md mb-16 mt-2 hover:bg-white hover:text-black"
             >
               Masuk
             </button>
           </form>
         </div>
-        <div className="w-full max-w-xl p-40 bg-white rounded-r-[30px] shadow-md"
+        <div className="w-full max-w-xl p-20 bg-white rounded-r-[30px] shadow-md"
         style={{ zIndex: 3 }}>
-          <div className="relative mb-18 mt-10">
+          <div className="relative mb-18 mt-14">
             <img src={imagePathLogo} alt="simdoks_logo" />
           </div>
         </div>
