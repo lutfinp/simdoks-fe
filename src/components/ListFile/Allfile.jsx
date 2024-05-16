@@ -6,7 +6,6 @@ import HapusFile from "../Deleted/HapusFile";
 import DownloadBarcode from "../Barcode/DownloadBarcode";
 import EditFile from "../Edit/EditFile";
 import Rename from "../Rename/Rename";
-import { set } from "date-fns";
 
 const Allfile = ({
   data,
@@ -65,9 +64,8 @@ const Allfile = ({
   const handleClikcRename = () => {
     setShowDropdown(false);
     setShowConfirmationRename(true);
-    setShow
+    setShow;
   };
-
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -100,51 +98,65 @@ const Allfile = ({
 
   return (
     <div className="flex-row flex flex-wrap gap-3">
-      {data?.map((file, index) => {
-        if (id != null || id == null) {
-          if (file.typeId == id && file.subtypeId == subid) {
-            const newUrl = fileUrl
-              ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}`
-              : undefined;
-            return (
-              <div
-                className="h-[217px] w-[230px] bg-white flex items-center justify-center"
-                onClick={(e) => handleFileClick(e, file.id)}
-              >
-                <Link
-                  key={index}
-                  href={
-                    fileUrl && fileUrl !== "http://localhost:8000/"
-                      ? newUrl
-                      : "#"
-                  }
-                  className={`transition-all ${
-                    fileUrl && fileUrl !== "http://localhost:8000/"
-                      ? "hover:cursor-pointer"
-                      : ""
-                  }`}
+      {data && data.length > 0 ? (
+        data?.map((file, index) => {
+          if (id != null || id == null) {
+            if (file.typeId == id && file.subtypeId == subid) {
+              const newUrl = fileUrl
+                ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileUrl}`
+                : undefined;
+              return (
+                <div
+                  className="h-[217px] w-[230px] bg-white flex items-center justify-center"
+                  onClick={(e) => handleFileClick(e, file.id)}
                 >
-                  <div className="flex-col flex">
-                    <Image
-                      className="mt-4"
-                      src="/assets/Files.png"
-                      alt="logo"
-                      width={120}
-                      height={50}
-                    />
-                    <div className="w-full mb-7 h-[30px] bg-gray-100 rounded-md">
-                      <div className="flex flex-row p-1 text-sm font-semibold text-gray-700 justify-between">
-                        <p>{truncateTitle(file.file_name)}</p>
-                        {manageAccess(file)}
+                  <Link
+                    key={index}
+                    href={
+                      fileUrl && fileUrl !== "http://localhost:8000/"
+                        ? newUrl
+                        : "#"
+                    }
+                    className={`transition-all ${
+                      fileUrl && fileUrl !== "http://localhost:8000/"
+                        ? "hover:cursor-pointer"
+                        : ""
+                    }`}
+                  >
+                    <div className="flex-col flex">
+                      <Image
+                        className="mt-4"
+                        src="/assets/Files.png"
+                        alt="logo"
+                        width={120}
+                        height={50}
+                      />
+                      <div className="w-full mb-7 h-[30px] bg-gray-100 rounded-md">
+                        <div className="flex flex-row p-1 text-sm font-semibold text-gray-700 justify-between">
+                          <p>{truncateTitle(file.file_name)}</p>
+                          {manageAccess(file)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              </div>
-            );
+                  </Link>
+                </div>
+              );
+            }
           }
-        }
-      })}
+        })
+      ) : (
+        <div className="bg-white outline outline-2 outline-gray-300 rounded-md h-[310px] flex items-center justify-center">
+          <div>
+            <Image
+              className="mt-2"
+              src="/assets/search.png"
+              alt="Search not found"
+              width={400}
+              height={173}
+            />
+          </div>
+        </div>
+      )}
       {showDropdown && (
         <div
           style={{
@@ -216,14 +228,14 @@ const Allfile = ({
       )}
       {showConfirmationRename && (
         <Rename
-        id={id}
-        subid={subid}
-        api={api}
-        selectedFileId={selectedFileId}
-        direct={direct}
-        onClose={() => {
-          setShowConfirmationRename(false);
-        }}
+          id={id}
+          subid={subid}
+          api={api}
+          selectedFileId={selectedFileId}
+          direct={direct}
+          onClose={() => {
+            setShowConfirmationRename(false);
+          }}
         />
       )}
     </div>
