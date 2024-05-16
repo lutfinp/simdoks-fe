@@ -65,7 +65,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           if (error.response && error.response.status === 400) {
             alert("Gagal untuk mengupload dokumen masa berlaku sudah habis");
             onClose();
-            window.location.href = `/${direct}`;
+            window.location.href = `/file${direct}/${subid}/${id}`;
           } else {
             console.log("Error adding document:", error);
           }
@@ -108,7 +108,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
           if (error.response && error.response.status === 400) {
             alert("Gagal untuk mengupload dokumen masa berlaku sudah habis");
             onClose();
-            window.location.href = `/${direct}`;
+            window.location.href = `/${direct}/${id}`;
           } else {
             console.log("Error adding document:", error);
           }
