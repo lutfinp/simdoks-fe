@@ -14,7 +14,7 @@ const Logout = () => {
     const logout = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/logout`)
 
     if(logout) {
-      window.location.href = "/"
+      console.log(logout)
     }
   }
 
