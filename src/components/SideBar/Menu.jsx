@@ -132,7 +132,7 @@ const Menu = ({ page }) => {
         <div className="border-t-2 border-gray-200 my-[32px]"></div>
 
         <Link
-          href="/logout"
+          href="/"
           className="p-2 mr-2 bg-red-600 text-white hover:bg-red-900 rounded-lg transition-all"
         >
           <p className="text-center">Logout</p>
