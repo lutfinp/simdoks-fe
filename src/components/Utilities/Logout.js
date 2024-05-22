@@ -19,7 +19,7 @@ const Logout = () => {
     );
     jwt = token.data.accessToken;
 
-    const logout = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/logout`, {
+    const logout = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/logout`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
