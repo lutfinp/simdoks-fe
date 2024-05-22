@@ -26,7 +26,7 @@ const Logout = () => {
     });
 
     if(logout) {
-      console.log(logout)
+      window.location.href = "/"
     }
   }
 
