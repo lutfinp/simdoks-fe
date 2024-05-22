@@ -11,7 +11,19 @@ const Logout = () => {
   }, []);
 
   const getToken = async () => {
-    const logout = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/logout`)
+    const token = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+      {
+        withCredentials: true,
+      }
+    );
+    jwt = token.data.accessToken;
+
+    const logout = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/logout`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
 
     if(logout) {
       console.log(logout)
