@@ -2,12 +2,25 @@ import { Bell, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 import NotificationPopup from "../NotificationPopup";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from 'axios';
+import axios from "axios";
 import TambahDokumen from "../Tambah/TambahDokumen";
 import TambahFolder from "../Tambah/TambahFolder";
 import TambahSubFolder from "../Tambah/TambahSubFolder";
 
-const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, searchfile, filteron, setFilter, keyword }) => {
+const Header = ({
+  judul,
+  add,
+  subid,
+  id,
+  coba,
+  api,
+  direct,
+  donthassubfolder,
+  searchfile,
+  filteron,
+  setFilter,
+  keyword,
+}) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showTambahDokumen, setShowTambahDokumen] = useState(false);
@@ -16,7 +29,9 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   const [hasNotification, setHasNotification] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-  const [searchValue, setSearchValue] = useState(decodeURI(keyword) !== "undefined" ? decodeURI(keyword) : '');
+  const [searchValue, setSearchValue] = useState(
+    decodeURI(keyword) !== "undefined" ? decodeURI(keyword) : ""
+  );
   const searchRef = useRef();
   const router = useRouter();
   const dropdownRef = useRef(null);
@@ -25,13 +40,17 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   useEffect(() => {
     const getTokenAndCheckNotification = async () => {
       try {
+        const accessToken = localStorage.getItem("accessToken");
         const token = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
           {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
             withCredentials: true,
           }
         );
-        const jwt = token.data.accessToken;
+        jwt = token.data.accessToken;
 
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,
@@ -64,11 +83,9 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
       event.preventDefault();
       if (typeof judul === "string") {
         router.push(`/search${judul}/${keyword}`);
-      } 
-      else if (judul && judul.type_name) {
+      } else if (judul && judul.type_name) {
         router.push(`/searchSub${coba}/${cobaId}/${keyword}`);
-      } 
-      else if (judul && judul.subtype_name) {
+      } else if (judul && judul.subtype_name) {
         router.push(`/searchFile${searchfile}/${subid}/${id}/${keyword}`);
       }
     }
@@ -116,23 +133,24 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
   };
 
   const handleCancelSearch = () => {
-    setSearchValue('');
-    searchRef.current.value = '';
-    if(subid != null && id != null)
-      {router.push(`/file${direct}/${subid}/${id}`);}
-    else if(id != null)
-      {
-        router.push(`/${direct}/${id}`);
-      }
-    else{
+    setSearchValue("");
+    searchRef.current.value = "";
+    if (subid != null && id != null) {
+      router.push(`/file${direct}/${subid}/${id}`);
+    } else if (id != null) {
+      router.push(`/${direct}/${id}`);
+    } else {
       router.push(`/${direct}`);
     }
   };
 
-
   let contentToDisplay;
   if (showTambahDokumen) {
-    if ((id != null && subid != null) || (id != null && donthassubfolder === "true") || (id == null && donthassubfolder === "true")) {
+    if (
+      (id != null && subid != null) ||
+      (id != null && donthassubfolder === "true") ||
+      (id == null && donthassubfolder === "true")
+    ) {
       contentToDisplay = (
         <TambahDokumen
           id={id}
@@ -181,7 +199,9 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           >
             {filterActive}
             <svg
-              className={`ml-1 h-5 w-5 transition-transform ${showFilterDropdown ? "transform rotate-180" : ""}`}
+              className={`ml-1 h-5 w-5 transition-transform ${
+                showFilterDropdown ? "transform rotate-180" : ""
+              }`}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -205,15 +225,17 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
             className="bg-white shadow-lg rounded-lg p-2"
           >
             <ul className="text-sm font-normal text-gray-700">
-              {["Semua", "2019", "2020", "2021", "2022", "2023", "2024"].map((year) => (
-                <li
-                  key={year}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => updateFilter(year)}
-                >
-                  {year}
-                </li>
-              ))}
+              {["Semua", "2019", "2020", "2021", "2022", "2023", "2024"].map(
+                (year) => (
+                  <li
+                    key={year}
+                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => updateFilter(year)}
+                  >
+                    {year}
+                  </li>
+                )
+              )}
             </ul>
           </div>
         )}
@@ -224,7 +246,9 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           </span>
           <input
             className="w-[384px] placeholder:text-gray-500 bg-white border border-gray-300 rounded-md py-2 pl-9 pr-3 text-xs focus:outline-none text-gray-500"
-            placeholder={decodeURI(keyword) !== "undefined" ? decodeURI(keyword) : 'Search'}
+            placeholder={
+              decodeURI(keyword) !== "undefined" ? decodeURI(keyword) : "Search"
+            }
             type="text"
             name="search"
             ref={searchRef}
@@ -253,9 +277,7 @@ const Header = ({ judul, add, subid, id, coba, api, direct, donthassubfolder, se
           </div>
         ) : null}
         <div>
-          <button
-            onClick={handleNotificationClick}
-          >
+          <button onClick={handleNotificationClick}>
             <Bell size={27} weight="fill" />
             {hasNotification && unreadCount > 0 && (
               <span className="absolute top-4 right-8 inline-block w-3.5 h-3.5 bg-red-600 rounded-full"></span>

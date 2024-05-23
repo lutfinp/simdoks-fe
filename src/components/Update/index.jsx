@@ -24,10 +24,13 @@ const Update = ({
         const token = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
           {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
             withCredentials: true,
           }
         );
-        const jwt = token.data.accessToken;
+        jwt = token.data.accessToken;
 
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkIfHaveNotification`,

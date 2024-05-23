@@ -28,10 +28,13 @@ export default function Page() {
   }, [pageHapus, searchDelete, pageReminder]);
 
   const getToken = async () => {
-    const cookies = Cookies.get();
+    const accessToken = localStorage.getItem('accessToken');
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
       {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
         withCredentials: true,
       }
     );

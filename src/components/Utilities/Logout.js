@@ -11,9 +11,13 @@ const Logout = () => {
   }, []);
 
   const getToken = async () => {
+    const accessToken = localStorage.getItem('accessToken');
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
       {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
         withCredentials: true,
       }
     );
@@ -24,8 +28,8 @@ const Logout = () => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-
     if(logout) {
+      localStorage.removeItem('accessToken');
       window.location.href = "/"
     }
   }

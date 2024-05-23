@@ -27,14 +27,17 @@ const Page = ({ params: { subid, id } }) => {
     getToken();
   }, [selectedFileId, filter]);
   const getToken = async () => {
+    const accessToken = localStorage.getItem('accessToken');
     const token = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
       {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
         withCredentials: true,
       }
     );
     jwt = token.data.accessToken;
-
     const folderAkre = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/accreditationType/${id}`,
       {

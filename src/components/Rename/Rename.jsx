@@ -1,109 +1,109 @@
-'use client';
+"use client";
 import axios from "axios";
-import { useState} from "react";
+import { useState } from "react";
 
-const Rename = ({ onClose, api, selectedFileId, subid, id, direct}) => {
-    let jwt;
-    const [nama, setNama] = useState("");
+const Rename = ({ onClose, api, selectedFileId, subid, id, direct }) => {
+  let jwt;
+  const [nama, setNama] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!nama) {
       alert("Please fill in all fields");
       return;
-    } 
-    if(id != null && subid != null){
-        try {
-            const response_token = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
-              {
-                withCredentials: true,
-              }
-            );
-            if (response_token.data && response_token.data.accessToken) {
-              jwt = response_token.data.accessToken;
-            } else {
-              console.error("Invalid response format:", response_token);
-              return;
-            }
-      
-            const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${jwt}`,
-                },
-                withCredentials: true,
-              }
-            );
-            onClose();
-            window.location.href = `/file${direct}/${subid}/${id}`;
-          } catch (error) {
-            console.log("Error rename document:", error);
-          }
     }
-
-    else if(id != null && subid == null){
-        try {
-            const response_token = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
-              {
-                withCredentials: true,
-              }
-            );
-            if (response_token.data && response_token.data.accessToken) {
-              jwt = response_token.data.accessToken;
-            } else {
-              console.error("Invalid response format:", response_token);
-              return;
-            }
-      
-            const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${jwt}`,
-                },
-                withCredentials: true,
-              }
-            );
-            onClose();
-            window.location.href = `/${direct}/${id}`;
-          } catch (error) {
-            console.log("Error rename document:", error);
+    if (id != null && subid != null) {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        const response_token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
           }
-    }
-    else if(id == null && subid == null){
-        try {
-            const response_token = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
-              {
-                withCredentials: true,
-              }
-            );
-            if (response_token.data && response_token.data.accessToken) {
-              jwt = response_token.data.accessToken;
-            } else {
-              console.error("Invalid response format:", response_token);
-              return;
-            }
-      
+        );
+        if (response_token.data && response_token.data.accessToken) {
+          jwt = response_token.data.accessToken;
+        } else {
+          console.error("Invalid response format:", response_token);
+          return;
+        }
 
-            console.log("ini jwt : ", jwt)
-            const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${jwt}`,
-                },
-                withCredentials: true,
-              }
-            );
-            onClose();
-            window.location.href = `/${direct}`;
-          } catch (error) {
-            console.log("Error rename document:", error);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+            withCredentials: true,
           }
+        );
+        onClose();
+        window.location.href = `/file${direct}/${subid}/${id}`;
+      } catch (error) {
+        console.log("Error rename document:", error);
+      }
+    } else if (id != null && subid == null) {
+      try {
+        const response_token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response_token.data && response_token.data.accessToken) {
+          jwt = response_token.data.accessToken;
+        } else {
+          console.error("Invalid response format:", response_token);
+          return;
+        }
+
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+            withCredentials: true,
+          }
+        );
+        onClose();
+        window.location.href = `/${direct}/${id}`;
+      } catch (error) {
+        console.log("Error rename document:", error);
+      }
+    } else if (id == null && subid == null) {
+      try {
+        const response_token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response_token.data && response_token.data.accessToken) {
+          jwt = response_token.data.accessToken;
+        } else {
+          console.error("Invalid response format:", response_token);
+          return;
+        }
+
+        console.log("ini jwt : ", jwt);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/${api}s/rename?id=${selectedFileId}&nama=${nama}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+            withCredentials: true,
+          }
+        );
+        onClose();
+        window.location.href = `/${direct}`;
+      } catch (error) {
+        console.log("Error rename document:", error);
+      }
     }
   };
 

@@ -23,7 +23,8 @@ const FormLogin = () => {
           withCredentials: true,
         }
       );
-      Cookies.set("token", response.data.accessToken);
+      const accessToken = response.data.accessToken;
+      localStorage.setItem('accessToken', accessToken);
       window.location.href = "./dashboard";
     } catch (error) {
       if (

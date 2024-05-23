@@ -12,9 +12,13 @@ const EditSubFolder = ({ onClose, api, selectedFolderId, direct, subid, id }) =>
       return;
     } else {
       try {
+        const accessToken = localStorage.getItem("accessToken");
         const response_token = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
           {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
             withCredentials: true,
           }
         );
