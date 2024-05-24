@@ -35,6 +35,7 @@ const Header = ({
   const searchRef = useRef();
   const router = useRouter();
   const dropdownRef = useRef(null);
+  let jwt;
 
   let cobaId = judul?.id;
   useEffect(() => {

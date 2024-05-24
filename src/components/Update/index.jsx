@@ -17,10 +17,12 @@ const Update = ({
   const [hasNotification, setHasNotification] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
+  let jwt;
   
   useEffect(() => {
     const getTokenAndCheckNotification = async () => {
       try {
+        const accessToken = localStorage.getItem("accessToken");
         const token = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
           {
