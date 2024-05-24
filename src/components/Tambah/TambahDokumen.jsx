@@ -10,9 +10,12 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
   const [file, setFile] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [BarcodeUrl, setBarcodeUrl] = useState("");
+  const [fileExtension, setFileExtension] = useState("");
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
+    const extension = event.target.files[0].name.split(".").pop();
+    setFileExtension(extension);
   };
 
   const handleSubmit = async (e) => {
@@ -165,7 +168,7 @@ const TambahDokumen = ({ onClose, id, subid, api, direct }) => {
 
   const generateBarcode = () => {
     try {
-      const barcodeData = `${process.env.NEXT_PUBLIC_API_BASE_URL}/file/${api}s/${nama}.jpeg`;
+      const barcodeData = `${process.env.NEXT_PUBLIC_API_BASE_URL}/file/${api}s/${nama}.${fileExtension}`;
       setBarcodeUrl(barcodeData);
     } catch (error) {
       console.error("Error generating barcode:", error);
