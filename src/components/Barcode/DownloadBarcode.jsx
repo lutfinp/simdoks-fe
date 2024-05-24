@@ -24,8 +24,8 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md">
-      <div className="bg-white p-8 rounded-2xl shadow-md relative ">
-        <div className="absolute top-0 right-0 mr-4 ">
+      <div className="bg-white p-8 rounded-2xl shadow-md relative">
+        <div className="absolute top-0 right-0 mr-4">
           <button onClick={onClose}>
             <img
               src="/assets/close.png"
@@ -34,9 +34,11 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
             />
           </button>
         </div>
-        <div className="flex justify-center space-x-10 w-[300px] h-[300px] bg-white p-4"  ref={barcodeRef}>
-          <QRCode value={fileUrlBarcode}/>
-          <p className="font-bold texxt-xl mb-4">{fileName}</p>
+        <div className="flex justify-center items-center w-[300px] h-[300px] bg-white p-4" ref={barcodeRef}>
+          <QRCode value={fileUrlBarcode} size={256}/>
+        </div>
+        <div className="flex justify-center mt-4">
+          <p className="font-bold text-xl mb-4">{fileName}</p>
         </div>
         <div className="flex justify-center mt-8"> 
           <button
