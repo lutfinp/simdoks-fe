@@ -7,7 +7,7 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
 
   const onClickDownloadBarcode = () => {
     if (barcodeRef.current) {
-      domtoimage.toJpeg(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 258, height: 258 })
+      domtoimage.toJpeg(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 400, height: 400, style: { padding: '70px'}})
         .then(function (dataUrl) {
           const link = document.createElement('a');
           link.href = dataUrl;
@@ -34,15 +34,13 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
             />
           </button>
         </div>
-        <div className="flex justify-center items-center w-[300px] h-[300px] bg-white p-4" ref={barcodeRef}>
-          <QRCode value={fileUrlBarcode} size={256}/>
+        <div className="flex flex-col justify-center items-center w-[300px] h-[300px] bg-white p-4" ref={barcodeRef} >
+          <QRCode value={fileUrlBarcode} size={256} className="mb-2"/>
+          <p className="font-bold text-2xl mt-2" style={{ alignItems: '80px', fontSize: '30px', fontWeight: 'bold' }}>{fileName}</p>
         </div>
-        <div className="flex justify-center mt-4">
-          <p className="font-bold text-xl mb-4">{fileName}</p>
-        </div>
-        <div className="flex justify-center mt-8"> 
+        <div className="flex justify-center"> 
           <button
-            className="bg-blue-500 text-white py-2 px-4 rounded"
+            className="bg-blue-500 text-white py-2 px-10 rounded"
             onClick={onClickDownloadBarcode}
           >
             Download Barcode
