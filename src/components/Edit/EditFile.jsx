@@ -9,9 +9,12 @@ const EditFile = ({ onClose, api, selectedFileId, subid, id, direct }) => {
   const [file, setFile] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [BarcodeUrl, setBarcodeUrl] = useState("");
+  const [fileExtension, setFileExtension] = useState("");
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
+    const extension = event.target.files[0].name.split(".").pop();
+    setFileExtension(extension);
   };
 
   const handleSubmit = async (e) => {
@@ -260,7 +263,7 @@ const EditFile = ({ onClose, api, selectedFileId, subid, id, direct }) => {
 
   const generateBarcode = () => {
     try {
-      const barcodeData = `http://localhost:8000/file/${api}s/${nama}.jpeg`;
+      const barcodeData = `http://localhost:8000/file/${api}s/${nama}.${fileExtension}`;
       setBarcodeUrl(barcodeData);
     } catch (error) {
       console.error("Error generating barcode:", error);

@@ -34,10 +34,11 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
             />
           </button>
         </div>
-        <div className="flex justify-center space-x-10 w-[256px] h-[256px]" ref={barcodeRef}>
+        <div className="flex justify-center space-x-10 w-[300px] h-[300px] bg-white p-4"  ref={barcodeRef}>
           <QRCode value={fileUrlBarcode}/>
         </div>
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-8"> 
+          <p>{fileName}</p>
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded"
             onClick={onClickDownloadBarcode}
