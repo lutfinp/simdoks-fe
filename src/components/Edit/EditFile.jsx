@@ -191,6 +191,7 @@ const EditFile = ({ onClose, api, selectedFileId, subid, id, direct }) => {
               }
             );
             onClose();
+            // console.log(direct);
             window.location.href = `/${direct}/${id}`;
           } catch (error) {
             console.log("Error adding document:", error);
