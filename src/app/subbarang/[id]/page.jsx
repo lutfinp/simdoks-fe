@@ -193,6 +193,7 @@ const Page = ({ params: { id } }) => {
                 api="item"
                 fileID={selectedFileId}
                 access={access}
+                direct="subbarang"
               />
             </div>
           </div>

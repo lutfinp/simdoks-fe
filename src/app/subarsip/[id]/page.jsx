@@ -193,6 +193,7 @@ const Page = ({ params: { id } }) => {
                   api="archive"
                   fileID={selectedFileId}
                   access={access}
+                  direct="subarsip"
                 />
               </div>
             </div>
