@@ -23,9 +23,34 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
   };
 
   const onClickShareToWhatsApp = () => {
-    const whatsappNumber = "6281398970701"; 
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Here%20is%20the%20QR%20code%20for%20${fileName}:%20${fileUrlBarcode}`;
-    window.open(whatsappUrl, "_blank");
+    if (barcodeRef.current) {
+      domtoimage.toBlob(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 400, height: 400, style: { padding: '70px' } })
+        .then(function (blob) {
+          const file = new File([blob], `${fileName}.jpeg`, { type: 'image/jpeg' });
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.files = dataTransfer.files;
+          input.accept = 'image/*';
+          input.style.display = 'none';
+
+          input.onchange = () => {
+            if (input.files.length > 0) {
+              const url = `https://wa.me/?text=Berikut adalah kode QR untuk ${fileName}`;
+              window.open(url, '_blank');
+            }
+          };
+
+          document.body.appendChild(input);
+          input.click();
+          document.body.removeChild(input);
+        })
+        .catch(function (error) {
+          console.error('Gagal mengonversi gambar:', error);
+        });
+    }
   };
 
   return (
