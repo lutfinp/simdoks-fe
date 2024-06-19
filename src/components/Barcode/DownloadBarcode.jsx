@@ -22,6 +22,12 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
     onClose();
   };
 
+  const onClickShareToWhatsApp = () => {
+    const whatsappNumber = "6281398970701"; 
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Here%20is%20the%20QR%20code%20for%20${fileName}:%20${fileUrlBarcode}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md">
       <div className="bg-white p-8 rounded-2xl shadow-md relative">
@@ -38,12 +44,18 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
           <QRCode value={fileUrlBarcode} size={256}/>
           <p style={{ alignItems:'center', paddingLeft:'20px', fontSize: '30px', fontWeight: 'bold' }}>{fileName}</p>
         </div>
-        <div className="flex justify-center"> 
+        <div className="flex justify-center space-x-4">
           <button
             className="bg-blue-500 text-white py-2 px-10 rounded"
             onClick={onClickDownloadBarcode}
           >
             Download Barcode
+          </button>
+          <button
+            className="bg-green-500 text-white py-2 px-10 rounded"
+            onClick={onClickShareToWhatsApp}
+          >
+            Share to WhatsApp
           </button>
         </div>
       </div>
