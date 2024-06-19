@@ -24,28 +24,11 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
 
   const onClickShareToWhatsApp = () => {
     if (barcodeRef.current) {
-      domtoimage.toBlob(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 400, height: 400, style: { padding: '70px' } })
-        .then(function (blob) {
-          const file = new File([blob], `${fileName}.jpeg`, { type: 'image/jpeg' });
-          const dataTransfer = new DataTransfer();
-          dataTransfer.items.add(file);
-
-          const input = document.createElement('input');
-          input.type = 'file';
-          input.files = dataTransfer.files;
-          input.accept = 'image/*';
-          input.style.display = 'none';
-
-          input.onchange = () => {
-            if (input.files.length > 0) {
-              const url = `https://wa.me/6281398970701?text=Berikut adalah kode QR untuk ${fileName}`;
-              window.open(url, '_blank');
-            }
-          };
-
-          document.body.appendChild(input);
-          input.click();
-          document.body.removeChild(input);
+      domtoimage.toJpeg(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 400, height: 400, style: { padding: '70px' } })
+        .then(function (dataUrl) {
+          const whatsappNumber = "6281398970701"; // Ganti dengan nomor WhatsApp Anda dalam format internasional
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Berikut%20adalah%20kode%20QR%20untuk%20${fileName}:%20${encodeURIComponent(dataUrl)}`;
+          window.open(whatsappUrl, "_blank");
         })
         .catch(function (error) {
           console.error('Gagal mengonversi gambar:', error);
