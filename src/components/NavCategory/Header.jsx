@@ -35,9 +35,12 @@ const Header = ({
   const searchRef = useRef();
   const router = useRouter();
   const dropdownRef = useRef(null);
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
   let jwt;
 
   let cobaId = judul?.id;
+  const years = Array.from({ length: 6 }, (_, index) => currentYear - index);
   useEffect(() => {
     const getTokenAndCheckNotification = async () => {
       try {
@@ -223,20 +226,18 @@ const Header = ({
               top: `${dropdownPosition.top}px`,
               left: `${dropdownPosition.left}px`,
             }}
-            className="bg-white shadow-lg rounded-lg p-2"
+            className="bg-white shadow-lg rounded-lg p-2 max-h-40 overflow-y-auto"
           >
             <ul className="text-sm font-normal text-gray-700">
-              {["Semua", "2019", "2020", "2021", "2022", "2023", "2024"].map(
-                (year) => (
-                  <li
-                    key={year}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => updateFilter(year)}
-                  >
-                    {year}
-                  </li>
-                )
-              )}
+              {["Semua", ...years].map((year) => (
+                <li
+                  key={year}
+                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => updateFilter(year)}
+                >
+                  {year}
+                </li>
+              ))}
             </ul>
           </div>
         )}
@@ -267,7 +268,7 @@ const Header = ({
             </button>
           )}
         </label>
-        {add == "true" ? (
+        {add === "true" && (
           <div className="hover:scale-105 self-center text-blue-600">
             <button
               className="flex items-center"
@@ -276,7 +277,7 @@ const Header = ({
               <Plus size={35} weight="fill" />
             </button>
           </div>
-        ) : null}
+        )}
         <div>
           <button onClick={handleNotificationClick}>
             <Bell size={27} weight="fill" />
@@ -300,3 +301,4 @@ const Header = ({
 };
 
 export default Header;
+
