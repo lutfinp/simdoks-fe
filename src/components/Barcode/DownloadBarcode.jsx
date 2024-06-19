@@ -38,7 +38,7 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
 
           input.onchange = () => {
             if (input.files.length > 0) {
-              const url = `https://wa.me/?text=Berikut adalah kode QR untuk ${fileName}`;
+              const url = `https://wa.me/6281398970701?text=Berikut adalah kode QR untuk ${fileName}`;
               window.open(url, '_blank');
             }
           };
