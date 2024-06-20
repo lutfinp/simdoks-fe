@@ -26,12 +26,23 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
     if (barcodeRef.current) {
       domtoimage.toJpeg(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 400, height: 400, style: { padding: '70px' } })
         .then(function (dataUrl) {
-          const whatsappNumber = "6281398970701"; // Ganti dengan nomor WhatsApp Anda dalam format internasional
-          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Berikut%20adalah%20kode%20QR%20untuk%20${fileName}:%20${encodeURIComponent(dataUrl)}`;
-          window.open(whatsappUrl, "_blank");
+          const whatsappNumber = "6281398970701"; // Replace with your WhatsApp number in international format
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          const baseFileName = fileName.split('.')[0];  
+          link.download = `${baseFileName}.jpeg`;
+
+          link.addEventListener('click', () => {
+            setTimeout(() => {
+              const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${fileName}:%20See%20attached%20QR%20Code%20image`;
+              window.open(whatsappUrl, "_blank");
+            }, 1000); // Adjust delay as necessary
+          });
+          
+          link.click();
         })
         .catch(function (error) {
-          console.error('Gagal mengonversi gambar:', error);
+          console.error('Failed to convert image:', error);
         });
     }
   };
