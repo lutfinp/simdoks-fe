@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Bell } from "@phosphor-icons/react/dist/ssr";
 import NotificationPopup from "../NotificationPopup";
 import axios from "axios";
@@ -9,6 +9,8 @@ const Header = ({ name }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   let jwt;
+  const notificationRef = useRef();
+
 
   useEffect(() => {
     const getTokenAndCheckNotification = async () => {
@@ -42,6 +44,21 @@ const Header = ({ name }) => {
 
     getTokenAndCheckNotification();
   }, []);
+  const handleClickOutsideNotification = (event) => {
+    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      handleCloseNotification();
+    }
+  };
+  useEffect(() => {
+    if (showNotifications) {
+      document.addEventListener("mousedown", handleClickOutsideNotification);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutsideNotification);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideNotification);
+    };
+  }, [showNotifications]);
 
   const handleNotificationClick = () => {
     setShowNotifications(!showNotifications);
@@ -63,10 +80,13 @@ const Header = ({ name }) => {
         </button>
         <div className="h-0">
           {showNotifications && (
+            <div ref={notificationRef}>
+
             <NotificationPopup
               notifications={notifications}
               onClose={handleCloseNotification}
             />
+            </div>
           )}
         </div>
       </div>

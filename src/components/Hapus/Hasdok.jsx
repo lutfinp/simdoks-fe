@@ -162,6 +162,7 @@ const Hasdok = ({
             </button>
             {showFilterDropdown && (
               <div
+                ref={dropdownRef}
                 style={{
                   position: "absolute",
                   top: `${dropdownPosition.top}px`,

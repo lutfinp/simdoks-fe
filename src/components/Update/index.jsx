@@ -1,6 +1,6 @@
 import Updok from "./Updok";
 import { Bell } from "@phosphor-icons/react/dist/ssr";
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useRef } from "react"; 
 import NotificationPopup from "../NotificationPopup";
 import axios from "axios";
 
@@ -18,6 +18,7 @@ const Update = ({
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   let jwt;
+  const notificationRef = useRef();
   
   useEffect(() => {
     const getTokenAndCheckNotification = async () => {
@@ -52,6 +53,21 @@ const Update = ({
     getTokenAndCheckNotification();
   }, []);
 
+  useEffect(() => {
+    if (showNotifications) {
+      document.addEventListener("mousedown", handleClickOutsideNotification);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutsideNotification);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideNotification);
+    };
+  } , [showNotifications]);
+  const handleClickOutsideNotification = (event) => {
+    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      setShowNotifications(false);
+    }
+  };
 
   const handleNotificationClick = () => {
     setShowNotifications(!showNotifications);
@@ -74,10 +90,12 @@ const Update = ({
           </button>
           <div className="h-0">
             {showNotifications && (
+              <div ref={notificationRef}>
               <NotificationPopup
                 notifications={notifications}
                 onClose={handleCloseNotification}
               />
+              </div>
             )}
           </div>
         </div>

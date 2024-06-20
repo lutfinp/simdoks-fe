@@ -18,6 +18,7 @@ const Updok = ({
   const [pilihActive, setPilihActive] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const searchRef = useRef();
+  const filterRef = useRef();
 
   const filterMappings = {
     Terlama: "asc",
@@ -160,6 +161,7 @@ const Updok = ({
             </button>
             {showFilterDropdown && (
               <div
+                ref={dropdownRef}
                 style={{
                   position: "absolute",
                   top: `${dropdownPosition.top}px`,
