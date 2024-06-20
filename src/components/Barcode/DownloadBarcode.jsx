@@ -31,10 +31,9 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
           const baseFileName = 'barcode.jpg';
           const whatsappNumber = "6281398970701"; // Ganti dengan nomor WhatsApp Anda dalam format internasional
           const whatsappMessage = `data:image/jpeg;base64,${base64Image}`;
-          const decodedFileUrl  = decodeURIComponent(fileUrlBarcode);
+          const encodedFileUrl = encodeURIComponent(fileUrlBarcode);
           
-          // Use the base64 image in the WhatsApp message
-          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${decodedFileUrl}`;
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedFileUrl}`;
           window.open(whatsappUrl, "_blank");
         })
         .catch(function (error) {
