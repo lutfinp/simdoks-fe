@@ -26,8 +26,14 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
     if (barcodeRef.current) {
       domtoimage.toJpeg(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 400, height: 400, style: { padding: '70px' } })
         .then(function (dataUrl) {
+          // Convert the data URL to a base64 string
+          const base64Image = dataUrl.split(',')[1];
+          const baseFileName = 'barcode.jpg';
           const whatsappNumber = "6281398970701"; // Ganti dengan nomor WhatsApp Anda dalam format internasional
-          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${fileName}`;
+          const whatsappMessage = `data:image/jpeg;base64,${base64Image}`;
+          
+          // Use the base64 image in the WhatsApp message
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
           window.open(whatsappUrl, "_blank");
         })
         .catch(function (error) {
@@ -35,6 +41,7 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
         });
     }
   };
+  
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center backdrop-blur-md">
