@@ -21,26 +21,20 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
     }
     onClose();
   };
-
   const onClickShareToWhatsApp = () => {
-    if (barcodeRef.current) {
-      domtoimage.toJpeg(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 400, height: 400, style: { padding: '70px' } })
-        .then(function (dataUrl) {
-          // Convert the data URL to a base64 string
-          const base64Image = dataUrl.split(',')[1];
-          const baseFileName = 'barcode.jpg';
-          const whatsappNumber = "6281398970701"; // Ganti dengan nomor WhatsApp Anda dalam format internasional
-          const whatsappMessage = `data:image/jpeg;base64,${base64Image}`;
-          const formattedFileUrl = fileUrlBarcode.replace(/ /g, '%20')
-          
-          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${formattedFileUrl}`;
-          window.open(whatsappUrl, "_blank");
-        })
-        .catch(function (error) {
-          console.error('Gagal mengonversi gambar:', error);
-        });
-    }
-  };
+
+    const lokal = fileUrlBarcode.replaceAll(" ", "%20");
+    const fileUrlBarcodeString = String(lokal);
+    const encodedFileUrl = encodeURIComponent(fileUrlBarcodeString);
+    const encodedFileName = encodeURIComponent(`*${fileName}*`);
+    
+    const whatsappUrl = `https://wa.me/?text=${encodedFileName}%0A${encodedFileUrl}`;
+    
+    window.open(whatsappUrl, "_blank");
+
+  };  
+
+
   
 
   return (
@@ -55,13 +49,13 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
             />
           </button>
         </div>
-        <div className="flex flex-col justify-center items-center w-[400px] h-[400px] bg-white p-4" ref={barcodeRef} >
+        <div className="flex flex-col justify-center items-center w-[400px] h-[400px] bg-white " ref={barcodeRef} >
           <QRCode value={fileUrlBarcode} size={256}/>
-          <p style={{ alignItems:'center', paddingLeft:'20px', fontSize: '30px', fontWeight: 'bold' }}>{fileName}</p>
+          <p style={{marginTop:'10px', alignItems:'center', fontSize: '30px', fontWeight: 'bold'}}>{fileName}</p>
         </div>
         <div className="flex justify-center space-x-4">
           <button
-            className="bg-blue-500 text-white py-2 px-10 rounded"
+            className="bg-blue-500 text-white  px-4 rounded"
             onClick={onClickDownloadBarcode}
           >
             Download Barcode
