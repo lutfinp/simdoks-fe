@@ -33,7 +33,7 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
           const whatsappMessage = `data:image/jpeg;base64,${base64Image}`;
           
           // Use the base64 image in the WhatsApp message
-          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${fileUrlBarcode}}`;
           window.open(whatsappUrl, "_blank");
         })
         .catch(function (error) {
