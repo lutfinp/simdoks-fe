@@ -27,7 +27,7 @@ const DownloadBarcode = ({ onClose, fileUrlBarcode, fileName }) => {
       domtoimage.toJpeg(barcodeRef.current, { quality: 0.95, bgcolor: '#FFFFFF', width: 400, height: 400, style: { padding: '70px' } })
         .then(function (dataUrl) {
           const whatsappNumber = "6281398970701"; // Ganti dengan nomor WhatsApp Anda dalam format internasional
-          const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${fileName}`;
           window.open(whatsappUrl, "_blank");
         })
         .catch(function (error) {
