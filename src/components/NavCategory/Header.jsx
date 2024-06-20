@@ -35,6 +35,7 @@ const Header = ({
   const searchRef = useRef();
   const router = useRouter();
   const dropdownRef = useRef(null);
+  const notificationRef = useRef(null); 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   let jwt;
@@ -77,6 +78,16 @@ const Header = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    if (showNotifications) {
+      document.addEventListener("mousedown", handleClickOutsideNotification);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutsideNotification);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideNotification);
+    };
+  }, [showNotifications]);
 
   const handleSearch = (event) => {
     const keyword = searchRef.current.value;
@@ -123,6 +134,11 @@ const Header = ({
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setShowFilterDropdown(false);
+    }
+  };
+  const handleClickOutsideNotification = (event) => {
+    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      handleCloseNotification();
     }
   };
 
@@ -221,6 +237,7 @@ const Header = ({
         ) : null}
         {showFilterDropdown && (
           <div
+          ref={dropdownRef}
             style={{
               position: "absolute",
               top: `${dropdownPosition.top}px`,
@@ -287,10 +304,12 @@ const Header = ({
           </button>
           <div className="h-0">
             {showNotifications && (
-              <NotificationPopup
-                notifications={notifications}
-                onClose={handleCloseNotification}
-              />
+                <div ref={notificationRef}>
+                  <NotificationPopup
+                    notifications={notifications}
+                    onClose={handleCloseNotification}
+                  />
+                </div>
             )}
           </div>
         </div>
